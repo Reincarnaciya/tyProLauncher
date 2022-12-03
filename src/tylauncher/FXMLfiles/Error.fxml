@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="198.0" prefWidth="492.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tylauncher.Controllers.ErrorController">
+   <children>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/TyMasunya.png" />
+         </image>
+      </ImageView>
+      <Pane layoutX="175.0" layoutY="8.0" prefHeight="184.0" prefWidth="307.0">
+         <children>
+            <VBox alignment="TOP_CENTER" layoutX="2.0" prefHeight="184.0" prefWidth="307.0" style="-fx-spacing: 10;">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ошибка" wrappingWidth="78.63671875" />
+                  <Label fx:id="Error_Text" alignment="TOP_CENTER" maxWidth="323.0" prefHeight="192.0" prefWidth="300.0" style="-fx-wrap-text: true; -fx-max-width: 300;" text="Label" />
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
