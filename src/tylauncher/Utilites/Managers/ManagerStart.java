@@ -15,6 +15,7 @@ import java.io.InputStream;
 import static tylauncher.Main.user;
 
 public class ManagerStart {
+    public static boolean gameIsStart = false;
     private static final String suffix = "[ManagerStart] ";
     public static PlayController playController;
     public static void StartMinecraft(Text text, String version) throws Exception {
@@ -57,7 +58,7 @@ public class ManagerStart {
 
                     playController.setTextOfDownload("Игра запущена");
 
-
+                    gameIsStart = true;
                     int i = 0;
                     while((i = is.read()) != -1) {
                         System.out.print((char)i);
@@ -65,6 +66,7 @@ public class ManagerStart {
 
                     p1.waitFor();
                     Platform.runLater(() ->{
+                        gameIsStart = false;
                         playController.PlayButtonEnabled(true);
                     });
 

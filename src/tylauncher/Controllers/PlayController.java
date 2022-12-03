@@ -77,10 +77,14 @@ public class PlayController {
         });
 
         Play_Button.setOnMouseClicked(mouseEvent ->{
+            if(ManagerStart.gameIsStart){
+                setTextOfDownload("Игра запущена");
+                return;
+            }
             try {
                 if(user.Auth()){
                     if(!HashCodeCheck.CheckHashWithServer()) ManagerUpdate.DownloadUpdate("TySci_1.16.5", Progressbar_Text, Download_ProgressBar, "https://www.typro.space/files/client_mc/client1165.zip");
-                    ManagerStart.StartMinecraft(Progressbar_Text, "TySci_1.16.5");
+                    else ManagerStart.StartMinecraft(Progressbar_Text, "TySci_1.16.5");
                 }
             } catch (Exception e) {
                 ErrorInterp.setMessageError("Необходимо авторизоваться, прежде чем начать играть", "play");
