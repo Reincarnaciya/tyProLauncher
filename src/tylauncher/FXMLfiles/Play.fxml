@@ -65,7 +65,7 @@
                 </ImageView>
             </children>
         </VBox>
-      <Pane layoutX="93.0" prefHeight="500.0" prefWidth="708.0" style="-fx-background-color: #424242;">
+      <Pane layoutX="93.0" prefHeight="500.0" prefWidth="708.0" style="-fx-background-color: #363636;">
          <children>
             <ProgressBar fx:id="Download_ProgressBar" layoutX="202.0" layoutY="387.0" prefHeight="77.0" prefWidth="243.0" progress="0.0" style="-fx-accent: black; -fx-control-inner-background: gray;" />
             <Text id="downloadText" fx:id="Progressbar_Text" layoutX="202.0" layoutY="430.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-origin: center;" styleClass="downloadText" text="Text" textAlignment="CENTER" wrappingWidth="243.0" />

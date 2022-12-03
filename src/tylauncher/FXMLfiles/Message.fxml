@@ -61,6 +61,6 @@
                 </ImageView>
             </children>
         </VBox>
-      <Pane layoutX="93.0" prefHeight="500.0" prefWidth="707.0" style="-fx-background-color: #424242;" />
+      <Pane layoutX="93.0" prefHeight="500.0" prefWidth="707.0" style="-fx-background-color: #363636;" />
     </children>
 </AnchorPane>

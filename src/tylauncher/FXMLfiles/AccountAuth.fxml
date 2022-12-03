@@ -67,7 +67,7 @@
             </ImageView>
          </children>
       </VBox>
-      <Pane layoutX="93.0" prefHeight="500.0" prefWidth="710.0" style="-fx-background-color: #424242;">
+      <Pane layoutX="93.0" prefHeight="500.0" prefWidth="710.0" style="-fx-background-color: #363636;">
          <children>
             <VBox layoutX="83.0" layoutY="111.0" prefHeight="170.0" prefWidth="400.0" style="-fx-spacing: 10; -fx-alignment: center-left;">
                <children>
