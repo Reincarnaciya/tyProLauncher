@@ -21,16 +21,6 @@ public class ManagerUpdate {
     public static PlayController playController;
     public static boolean downloading = false;
 
-    private static URL url;
-    private static HttpURLConnection updcon;
-    private static FileOutputStream fw;
-    private static int count = 0;
-    private static BufferedInputStream bis;
-    private static byte[] by;
-    private static File client;
-    private static long cll_web;
-    private static int need_to_end = 0;
-
     public static void DownloadUpdate(String version, Text text, ProgressBar pb, String urld){
         new Thread(() -> {
             try {
@@ -39,19 +29,19 @@ public class ManagerUpdate {
                     downloading = true;
                     playController.PlayButtonEnabled(false);
 
-                    url = new URL(urld);
-                    updcon = (HttpURLConnection) url.openConnection();
+                    URL url = new URL(urld);
+                    HttpURLConnection updcon = (HttpURLConnection) url.openConnection();
                     System.out.println(updcon);
-                    client = new File(Main.getClientDir().getAbsolutePath() + File.separator ,"client1165.zip");
-                    cll_web = updcon.getContentLength();
+                    File client = new File(Main.getClientDir().getAbsolutePath() + File.separator ,"client1165.zip");
+                    long cll_web = updcon.getContentLength();
 
 
                     if ((client.length() != cll_web) && cll_web > 1){
-                        bis = new BufferedInputStream(updcon.getInputStream());
-                        fw = new FileOutputStream(client);
+                        BufferedInputStream bis = new BufferedInputStream(updcon.getInputStream());
+                        FileOutputStream fw = new FileOutputStream(client);
 
-                        by = new byte[1024];
-
+                        byte[] by = new byte[1024];
+                        int count = 0;
 
                         while ((count = bis.read(by)) != -1){
                             fw.write(by, 0, count);
