@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 import sun.security.mscapi.CPublicKey;
+import tylauncher.Controllers.PlayController;
 import tylauncher.Main;
 import tylauncher.Utilites.ErrorInterp;
 
@@ -18,8 +19,19 @@ import java.util.zip.ZipInputStream;
 
 public class ManagerZip {
     public static boolean unzipping = false;
+    public static PlayController playController;
 
-    public static void Unzip(String zip, String pathToOut, Text text) throws IOException {
+    private static String fileName;
+
+    public static void Unzip(String zip, String pathToOut) throws IOException {
+        if(ManagerUpdate.downloading){
+            return;
+        }
+        if(unzipping){
+            updateInfo();
+            return;
+        }
+
         unzipping = true;
         try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zip))) {
             ZipEntry entry = zis.getNextEntry();
@@ -27,23 +39,9 @@ public class ManagerZip {
             while (entry != null) {
                 name = entry.getName().toString().split("/");
 
-                switch (name[0]) {
-                    case "assets":
-                        text.setText("Распаковываем штуки");
-                        break;
-                    case "launcher_libraries":
-                        text.setText("Распаковываем важные штуки");
-                        break;
-                    case "libraries":
-                        text.setText("Прогоняем Масюню..");
-                        break;
-                    case "runtime":
-                        text.setText("Прогнали!");
-                        break;
-                    case "versions":
-                        text.setText("Почти готово..");
-                        break;
-                }
+                fileName = name[0];
+
+                updateInfo();
 
                 File file = new File(pathToOut, entry.getName());
 
@@ -65,14 +63,14 @@ public class ManagerZip {
                 }
                 entry = zis.getNextEntry();
             }
-            text.setText("Готово! Масюня желает Вам приятной игры!");
+            playController.setTextOfDownload("Готово! Масюня желает Вам приятной игры!");
             zis.closeEntry();
             unzipping = false;
         }
         File file = new File (zip);
         file.delete();
         try {
-            ManagerStart.StartMinecraft(text, "TySci_1.16.5");
+            ManagerStart.StartMinecraft("TySci_1.16.5");
         }catch (Exception e){
             unzipping = false;
             ErrorInterp.setMessageError(e.getMessage(), "play");
@@ -85,10 +83,27 @@ public class ManagerZip {
     }
 
 
-
-
-
-
-
-
+    public static void updateInfo() {
+        if(ManagerUpdate.downloading){
+            return;
+        }
+        playController.udpateProgressBar(1);
+        switch (fileName) {
+            case "assets":
+                playController.setTextOfDownload("Распаковываем штуки");
+                break;
+            case "launcher_libraries":
+                playController.setTextOfDownload("Распаковываем важные штуки");
+                break;
+            case "libraries":
+                playController.setTextOfDownload("Прогоняем Масюню..");
+                break;
+            case "runtime":
+                playController.setTextOfDownload("Прогнали!");
+                break;
+            case "versions":
+                playController.setTextOfDownload("Почти готово..");
+                break;
+        }
+    }
 }

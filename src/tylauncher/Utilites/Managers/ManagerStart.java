@@ -18,12 +18,12 @@ public class ManagerStart {
     public static boolean gameIsStart = false;
     private static final String suffix = "[ManagerStart] ";
     public static PlayController playController;
-    public static void StartMinecraft(Text text, String version) throws Exception {
+    public static void StartMinecraft(String version) throws Exception {
         if(user.getSession().isEmpty() || user.getSession().equals("")){
             throw new Exception("Проблема с сессией, обратитесь в тех. поддержку");
         }
         new Thread(() -> {
-            text.setText("Игра запущена");
+            playController.setTextOfDownload("Игра запущена");
             try{
                 Runtime runtime = Runtime.getRuntime();
                 try {

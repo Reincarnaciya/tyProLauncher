@@ -11,6 +11,7 @@ import tylauncher.Utilites.ErrorInterp;
 import tylauncher.Utilites.HashCodeCheck;
 import tylauncher.Utilites.Managers.ManagerStart;
 import tylauncher.Utilites.Managers.ManagerUpdate;
+import tylauncher.Utilites.Managers.ManagerZip;
 
 import static tylauncher.Controllers.AccountAuthController.accountController;
 import static tylauncher.Main.user;
@@ -51,6 +52,7 @@ public class PlayController {
         ManagerUpdate.playController = this;
         ManagerStart.playController = this;
         ErrorInterp.playController = this;
+        ManagerZip.playController = this;
 
         News_Img.setOnMouseClicked(mouseEvent -> {
              Main.OpenNew("News.fxml", A1);
@@ -81,10 +83,14 @@ public class PlayController {
                 setTextOfDownload("Игра запущена");
                 return;
             }
+            if(ManagerZip.unzipping){
+                ManagerZip.updateInfo();
+                return;
+            }
             try {
                 if(user.Auth()){
-                    if(!HashCodeCheck.CheckHashWithServer()) ManagerUpdate.DownloadUpdate("TySci_1.16.5", Progressbar_Text, Download_ProgressBar, "https://www.typro.space/files/client_mc/client1165.zip");
-                    else ManagerStart.StartMinecraft(Progressbar_Text, "TySci_1.16.5");
+                    if(!HashCodeCheck.CheckHashWithServer()) ManagerUpdate.DownloadUpdate("TySci_1.16.5", "https://www.typro.space/files/client_mc/client1165.zip");
+                    else ManagerStart.StartMinecraft("TySci_1.16.5");
                 }
             } catch (Exception e) {
                 ErrorInterp.setMessageError("Необходимо авторизоваться, прежде чем начать играть", "play");
@@ -102,4 +108,7 @@ public class PlayController {
         Play_Button.setVisible(bool);
     }
 
+    public void udpateProgressBar(double progress) {
+        this.Download_ProgressBar.setProgress(progress);
+    }
 }
