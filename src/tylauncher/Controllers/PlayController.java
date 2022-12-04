@@ -12,6 +12,9 @@ import tylauncher.Utilites.HashCodeCheck;
 import tylauncher.Utilites.Managers.ManagerStart;
 import tylauncher.Utilites.Managers.ManagerUpdate;
 import tylauncher.Utilites.Managers.ManagerZip;
+import tylauncher.Utilites.Utils;
+
+import java.io.File;
 
 import static tylauncher.Controllers.AccountAuthController.accountController;
 import static tylauncher.Main.user;
@@ -79,6 +82,7 @@ public class PlayController {
         });
 
         Play_Button.setOnMouseClicked(mouseEvent ->{
+            setTextOfDownload("Инициализация..");
             if(ManagerStart.gameIsStart){
                 setTextOfDownload("Игра запущена");
                 return;
@@ -89,7 +93,11 @@ public class PlayController {
             }
             try {
                 if(user.Auth()){
-                    if(!HashCodeCheck.CheckHashWithServer()) ManagerUpdate.DownloadUpdate("TySci_1.16.5", "https://www.typro.space/files/client_mc/client1165.zip");
+                    if(!HashCodeCheck.CheckHashWithServer()){
+                        Utils.deleteFile(new File(Main.getClientDir() + File.separator + "TySci_1.16.5"));
+                        Utils.deleteFile(new File(Main.getClientDir() + File.separator + "client1165.zip"));
+                        ManagerUpdate.DownloadUpdate("TySci_1.16.5", "https://www.typro.space/files/client_mc/client1165.zip");
+                    }
                     else ManagerStart.StartMinecraft("TySci_1.16.5");
                 }
             } catch (Exception e) {

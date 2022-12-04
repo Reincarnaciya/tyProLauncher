@@ -1,5 +1,9 @@
 package tylauncher.Utilites;
 
+import tylauncher.Main;
+
+import java.io.File;
+
 public class Utils {
     private static final  String suffix = "[UTIL] ";
     //Поиск элемента в массиве
@@ -27,4 +31,16 @@ public class Utils {
         }
         return text;
     }
+
+
+    public static void deleteFile(File file){
+        if(file.isDirectory()){
+            for(File f : file.listFiles()){
+                deleteFile(f);
+            }
+        }
+        file.delete();
+    }
+
+
 }

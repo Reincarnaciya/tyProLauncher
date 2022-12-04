@@ -84,26 +84,30 @@ public class ManagerZip {
 
 
     public static void updateInfo() {
-        if(ManagerUpdate.downloading){
+        if(!unzipping){
             return;
         }
         playController.udpateProgressBar(1);
-        switch (fileName) {
-            case "assets":
-                playController.setTextOfDownload("Распаковываем штуки");
-                break;
-            case "launcher_libraries":
-                playController.setTextOfDownload("Распаковываем важные штуки");
-                break;
-            case "libraries":
-                playController.setTextOfDownload("Прогоняем Масюню..");
-                break;
-            case "runtime":
-                playController.setTextOfDownload("Прогнали!");
-                break;
-            case "versions":
-                playController.setTextOfDownload("Почти готово..");
-                break;
-        }
+        new Thread(() -> {
+            switch (fileName) {
+                case "assets":
+                    playController.setTextOfDownload("Распаковываем штуки");
+                    break;
+                case "launcher_libraries":
+                    playController.setTextOfDownload("Распаковываем важные штуки");
+                    break;
+                case "libraries":
+                    playController.setTextOfDownload("Прогоняем Масюню..");
+                    break;
+                case "runtime":
+                    playController.setTextOfDownload("Прогнали!");
+                    break;
+                case "versions":
+                    playController.setTextOfDownload("Почти готово..");
+                    break;
+            }
+        }).start();
+
+
     }
 }

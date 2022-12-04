@@ -25,6 +25,7 @@ public class ManagerUpdate {
     private static long cllweb = 0;
 
     public static void DownloadUpdate(String version, String urld) {
+
         if(downloading){
             updateInfo();
         }else {
