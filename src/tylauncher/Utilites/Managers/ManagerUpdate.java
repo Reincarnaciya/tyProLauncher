@@ -19,43 +19,60 @@ public class ManagerUpdate {
 
     private static final String suffix = "[ManagerUpdate] ";
     public static PlayController playController;
-    public static boolean downloaded = false;
+    public static boolean downloading = false;
+
+    private static URL url;
+    private static HttpURLConnection updcon;
+    private static FileOutputStream fw;
+    private static int count = 0;
+    private static BufferedInputStream bis;
+    private static byte[] by;
+    private static File client;
+    private static long cll_web;
+    private static int need_to_end = 0;
 
     public static void DownloadUpdate(String version, Text text, ProgressBar pb, String urld){
         new Thread(() -> {
             try {
-                text.setText("Начало загрузки");
-                playController.PlayButtonEnabled(false);
+                if (!downloading){
+                    text.setText("Начало загрузки");
+                    downloading = true;
+                    playController.PlayButtonEnabled(false);
 
-                URL url = new URL(urld);
-                HttpURLConnection updcon;
-                updcon = (HttpURLConnection) url.openConnection();
-                System.out.println(updcon);
-                File client = new File(Main.getClientDir().getAbsolutePath() + File.separator ,"client1165.zip");
-                long cll_web = updcon.getContentLength();
-                FileOutputStream fw;
+                    url = new URL(urld);
+                    updcon = (HttpURLConnection) url.openConnection();
+                    System.out.println(updcon);
+                    client = new File(Main.getClientDir().getAbsolutePath() + File.separator ,"client1165.zip");
+                    cll_web = updcon.getContentLength();
 
-                if ((client.length() != cll_web) && cll_web > 1){
-                    BufferedInputStream bis = new BufferedInputStream(updcon.getInputStream());
-                    fw = new FileOutputStream(client);
 
-                    byte[] by = new byte[1024];
-                    int count = 0;
+                    if ((client.length() != cll_web) && cll_web > 1){
+                        bis = new BufferedInputStream(updcon.getInputStream());
+                        fw = new FileOutputStream(client);
 
-                    while ((count = bis.read(by)) != -1){
-                        fw.write(by, 0, count);
-                        text.setText("Скачано " + ((int) client.length() / 1048576) + "Мбайт из " + (cll_web / 1048576) + "Мб");
+                        by = new byte[1024];
 
-                        pb.setProgress((double)((client.length()/10485)/(cll_web/1048576))/100);
 
+                        while ((count = bis.read(by)) != -1){
+                            fw.write(by, 0, count);
+                            text.setText("Скачано " + ((int) client.length() / 1048576) + "Мбайт из " + (cll_web / 1048576) + "Мб");
+
+                            pb.setProgress((double)((client.length()/10485)/(cll_web/1048576))/100);
+
+                        }
+                        fw.close();
+                        downloading = false;
+                        ManagerZip.Unzip(Main.getClientDir().getAbsolutePath() + File.separator + "client1165.zip", Main.getClientDir().getAbsolutePath() + File.separator  + version + File.separator, text);
                     }
-                    fw.close();
-                    downloaded = true;
-                    ManagerZip.Unzip(Main.getClientDir().getAbsolutePath() + File.separator + "client1165.zip", Main.getClientDir().getAbsolutePath() + File.separator  + version + File.separator, text);
+                }else {
+                    playController.PlayButtonEnabled(false);
                 }
+
+
+
             } catch (IOException e) {
                 text.setText("Ошибка");
-                downloaded = false;
+                downloading = false;
                 ErrorInterp.setMessageError(e.getMessage(), "play");
                 e.printStackTrace();
             }

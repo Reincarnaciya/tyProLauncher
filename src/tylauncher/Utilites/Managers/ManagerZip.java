@@ -3,6 +3,7 @@ package tylauncher.Utilites.Managers;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
+import sun.security.mscapi.CPublicKey;
 import tylauncher.Main;
 import tylauncher.Utilites.ErrorInterp;
 
@@ -16,8 +17,10 @@ import java.util.zip.ZipInputStream;
 
 
 public class ManagerZip {
-    public static void Unzip(String zip, String pathToOut, Text text) throws IOException {
+    public static boolean unzipping = false;
 
+    public static void Unzip(String zip, String pathToOut, Text text) throws IOException {
+        unzipping = true;
         try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zip))) {
             ZipEntry entry = zis.getNextEntry();
             String[] name;
@@ -64,12 +67,14 @@ public class ManagerZip {
             }
             text.setText("Готово! Масюня желает Вам приятной игры!");
             zis.closeEntry();
+            unzipping = false;
         }
         File file = new File (zip);
         file.delete();
         try {
             ManagerStart.StartMinecraft(text, "TySci_1.16.5");
         }catch (Exception e){
+            unzipping = false;
             ErrorInterp.setMessageError(e.getMessage(), "play");
             e.printStackTrace();
         }

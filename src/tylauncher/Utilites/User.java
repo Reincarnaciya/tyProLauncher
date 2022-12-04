@@ -1,11 +1,9 @@
 package tylauncher.Utilites;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import tylauncher.Main;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -13,7 +11,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.rmi.ServerError;
 import java.util.*;
 
 public class User {

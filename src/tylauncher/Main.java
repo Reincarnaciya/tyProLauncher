@@ -8,28 +8,19 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
-
-import sun.security.util.ArrayUtil;
-import tylauncher.Controllers.AccountAuthController;
-import tylauncher.Controllers.AccountController;
-import tylauncher.Controllers.SettingsController;
 import tylauncher.Utilites.DualStream;
-import tylauncher.Utilites.HashCodeCheck;
-import tylauncher.Utilites.Managers.ManagerZip;
+import tylauncher.Utilites.Managers.ManagerDirs;
 import tylauncher.Utilites.User;
 import tylauncher.Utilites.UserPC;
-import tylauncher.Utilites.Managers.ManagerDirs;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.lang.reflect.Array;
-import java.security.NoSuchAlgorithmException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.Date;
+import java.util.Objects;
 
 
 public class Main extends Application {
@@ -166,7 +157,6 @@ public class Main extends Application {
 
 
 private static void test(){
-
 }
 
 

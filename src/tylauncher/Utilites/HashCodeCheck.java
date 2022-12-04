@@ -2,14 +2,11 @@ package tylauncher.Utilites;
 
 import tylauncher.Main;
 
-import java.io.*;
-import java.net.*;
-import java.nio.charset.StandardCharsets;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.StringJoiner;
 
 public class HashCodeCheck {
     private static String hash = "";
