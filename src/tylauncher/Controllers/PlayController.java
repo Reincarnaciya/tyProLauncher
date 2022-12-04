@@ -57,6 +57,13 @@ public class PlayController {
         ErrorInterp.playController = this;
         ManagerZip.playController = this;
 
+        if(ManagerStart.gameIsStart){
+            setTextOfDownload("Игра запущена");
+        }
+        if(ManagerZip.unzipping){
+            ManagerZip.updateInfo();
+        }
+
         News_Img.setOnMouseClicked(mouseEvent -> {
              Main.OpenNew("News.fxml", A1);
         });
