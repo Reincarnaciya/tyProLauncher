@@ -21,20 +21,15 @@ public class ManagerZip {
             UpdateInfo();
             return;
         }
-
         unzipping = true;
         try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zip))) {
             ZipEntry entry = zis.getNextEntry();
             String[] name;
             while (entry != null) {
                 name = entry.getName().split("/");
-
                 fileName = name[0];
-
                 UpdateInfo();
-
                 File file = new File(pathToOut, entry.getName());
-
                 if (entry.isDirectory()) {
                     file.mkdirs();
                 } else {
@@ -73,7 +68,7 @@ public class ManagerZip {
         if (!unzipping) {
             return;
         }
-        playController.udpateProgressBar(1);
+        playController.UdpateProgressBar(1);
         new Thread(() -> {
             switch (fileName) {
                 case "assets":

@@ -16,12 +16,7 @@ public class ManagerAnimations {
     }
     public static void StartFadeAnim(Node whatToFade) {
         FadeTransition fader = ManagerAnimations.CreateFader(whatToFade);
-
-        SequentialTransition Fade = new SequentialTransition(
-                whatToFade,
-                fader
-        );
-
+        SequentialTransition Fade = new SequentialTransition(whatToFade, fader);
         Fade.play();
     }
 }

@@ -68,11 +68,9 @@ public class ManagerForJSON {
         File file = new File(pathToFile);
         //_numElement = numElement;
         if (!file.exists()) throw new Exception("Файл не найден");
-
         try (FileReader fileReader = new FileReader(file)) {
             int later;
             _fullText = new char[((int) file.length())];
-
             for (int i = 0; (later = fileReader.read()) != -1; ++i) {
                 _fullText[i] = (char) later;
             }
@@ -81,22 +79,15 @@ public class ManagerForJSON {
         }
         if (_fullText[0] != '{' || _fullText[(int) file.length() - 1] != '}')
             throw new Exception(suffix + "файл не джсон");
-
         String[] arrStr = String.valueOf(_fullText).replaceAll("[ {}\"'\n\r ]", "").split("[:,]");
-
         System.err.println(Arrays.toString(arrStr));
         _numElement = arrStr.length >> 1;
         _elementEndValue = new String[_numElement][2];
-
         for (short i = 0; i < arrStr.length; ++i) {
-            if (i % 2 != 0)
-                _elementEndValue[i >> 1][1] = arrStr[i];
-            else
-                _elementEndValue[i >> 1][0] = arrStr[i];
+            if (i % 2 != 0) _elementEndValue[i >> 1][1] = arrStr[i];
+            else _elementEndValue[i >> 1][0] = arrStr[i];
         }
-
         //_elementEndValue = new String[numElement][2];
-
     }
     public void WritingFile(String path) throws Exception {
         if (_elementEndValue.length < 1) {
@@ -106,12 +97,10 @@ public class ManagerForJSON {
         short i = 0;
         str.append("{\n");
         do {
-            str.append(String.format("    \"%s\":\"%s\"",
-                    _elementEndValue[i][0], _elementEndValue[i][1]));
+            str.append(String.format("    \"%s\":\"%s\"", _elementEndValue[i][0], _elementEndValue[i][1]));
             if (++i < _elementEndValue.length) str.append(",\n");
             else str.append("\n}");
         } while (i < _elementEndValue.length);
-
         File file = new File(path);
         try (FileWriter FileWriter = new FileWriter(file)) {
             FileWriter.write(str.toString());

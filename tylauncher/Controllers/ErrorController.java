@@ -8,13 +8,9 @@ public class ErrorController {
     @FXML
     private Label Error_Text;
 
-
-
-
     @FXML
-    void initialize(){
+    void initialize() {
         ErrorInterp.errorController = this;
     }
-
 
 }

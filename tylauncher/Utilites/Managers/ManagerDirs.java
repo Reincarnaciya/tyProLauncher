@@ -29,7 +29,6 @@ public class ManagerDirs {
         }
         if ((!workTempDir.exists()) && (!workTempDir.mkdir()))
             throw new RuntimeException("Рабочая директория не определена(" + workTempDir + ")");
-
         _workDir = workTempDir;
     }
     public static OS getPlatform() {
@@ -43,9 +42,6 @@ public class ManagerDirs {
     }
 
     public enum OS {
-        windows,
-        linux,
-        macos,
-        unknow
+        windows, linux, macos, unknow
     }
 }

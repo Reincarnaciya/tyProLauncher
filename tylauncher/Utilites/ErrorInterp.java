@@ -2,14 +2,12 @@ package tylauncher.Utilites;
 
 import tylauncher.Controllers.*;
 
-
 public class ErrorInterp {
     public static AccountAuthController accountAuthController;
     public static RegisterController registerController;
     public static ErrorController errorController;
     public static SettingsController settingsController;
     public static PlayController playController;
-
 
     //переписать всю эту поеботу из многооконности в другую поеботу, с которой ебанины будет меньше
     public static void setMessageError(String error, String where) {

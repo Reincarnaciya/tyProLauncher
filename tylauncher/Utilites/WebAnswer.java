@@ -52,10 +52,7 @@ public class WebAnswer {
     }
 
     public static void PrintAnswer() {
-        System.out.println("WebAnswer{\n" + "status: " + status + "\n"
-                + "type: " + type + "\n"
-                + "message: " + message + "\n"
-                + "fields: " + fields + "\n}");
+        System.out.println("WebAnswer{\n" + "status: " + status + "\n" + "type: " + type + "\n" + "message: " + message + "\n" + "fields: " + fields + "\n}");
     }
 
 }

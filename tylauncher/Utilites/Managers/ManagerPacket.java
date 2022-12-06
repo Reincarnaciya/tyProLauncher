@@ -6,6 +6,8 @@ import tylauncher.Main;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -14,28 +16,31 @@ public class ManagerPacket { // path: зачем это вообще нужно?
 
     public static void Unzip(String source, String out, Text text) throws IOException {
         text.setText("Начинаем распавковку");
-
-        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(source))) {
+        try (ZipInputStream zis = new ZipInputStream(Files.newInputStream(Paths.get(source)))) {
             text.setText("Начинаем распавковку");
             ZipEntry entry = zis.getNextEntry();
             String[] name;
             while (entry != null) {
                 name = entry.getName().split("/");
-                if (name[0].equals("assets")) {
-                    text.setText("Распаковываем штуки");
-                } else if (name[0].equals("launcher_libraries")) {
-                    text.setText("Распаковываем важные штуки");
-                } else if (name[0].equals("libraries")) {
-                    text.setText("Прогоняем Масюню..");
-                } else if (name[0].equals("runtime")) {
-                    text.setText("Прогнали!");
-                } else if (name[0].equals("versions")) {
-                    text.setText("Почти готово..");
+                switch (name[0]) {
+                    case "assets":
+                        text.setText("Распаковываем штуки");
+                        break;
+                    case "launcher_libraries":
+                        text.setText("Распаковываем важные штуки");
+                        break;
+                    case "libraries":
+                        text.setText("Прогоняем Масюню..");
+                        break;
+                    case "runtime":
+                        text.setText("Прогнали!");
+                        break;
+                    case "versions":
+                        text.setText("Почти готово..");
+                        break;
                 }
-
                 System.out.println(suffix + "name0 - " + name[0]);
                 File file = new File(out, entry.getName());
-
                 if (entry.isDirectory()) {
                     file.mkdirs();
                 } else {
@@ -43,7 +48,7 @@ public class ManagerPacket { // path: зачем это вообще нужно?
                     if (!parent.exists()) {
                         parent.mkdirs();
                     }
-                    try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file))) {
+                    try (BufferedOutputStream bos = new BufferedOutputStream(Files.newOutputStream(file.toPath()))) {
                         int bufferSize = Math.toIntExact(entry.getSize());
                         byte[] buffer = new byte[bufferSize > 0 ? bufferSize : 1];
                         int location;
@@ -77,15 +82,11 @@ public class ManagerPacket { // path: зачем это вообще нужно?
                 File client = new File(Main.getClientDir() + File.separator, "client1165.zip");
                 long cll_web = updcon.getContentLength();
                 FileOutputStream fileOutputStream;
-
                 if ((client.length() != cll_web) && cll_web > 1) {
                     BufferedInputStream bis = new BufferedInputStream(updcon.getInputStream());
-
                     fileOutputStream = new FileOutputStream(client);
-
                     byte[] by = new byte[1024];
-                    int count = 0;
-
+                    int count;
                     while ((count = bis.read(by)) != -1) {
                         fileOutputStream.write(by, 0, count);
                         System.out.println(suffix + "Скачано " + ((int) client.length() / 1048576) + "Мбайт из " + (cll_web / 1048576) + "Мб");
@@ -93,12 +94,9 @@ public class ManagerPacket { // path: зачем это вообще нужно?
                         //pt.setText("Скачано " + ((int) client.length() / 1048576) + "Мбайт из " + (cll_web / 1048576) + "Мб");
                     }
                     fileOutputStream.close();
-
                     //unzip(ManagerLauncher.GetClientDir().getAbsolutePath() + File.separator + "client1165.zip", ManagerLauncher.GetClientDir().getAbsolutePath() + File.separator,pt);
                 }
-
                 //start_m(pb, pbt);
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
