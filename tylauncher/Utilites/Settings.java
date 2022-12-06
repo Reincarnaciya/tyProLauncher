@@ -1,7 +1,7 @@
 package tylauncher.Utilites;
 
 public class Settings {
-    private int _ozu =  Math.round((float)UserPC.getOzu() / 1536) * 512;;
+    private int _ozu =  Math.round((float)UserPC.getOzu() / 1536) * 512;
     private int _x = 800;
     private int _y = 600;
     private boolean _fsc = false;
