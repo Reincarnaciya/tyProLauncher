@@ -47,24 +47,14 @@ public class PlayController {
         ManagerStart.playController = this;
         ErrorInterp.playController = this;
         ManagerZip.playController = this;
-        if (ManagerStart.gameIsStart) {
-            setTextOfDownload("Игра запущена");
-        }
-        if (ManagerZip.unzipping) {
-            ManagerZip.UpdateInfo();
-        }
-        News_Img.setOnMouseClicked(mouseEvent -> {
-            Main.OpenNew("News.fxml", A1);
-        });
-        Forum_Img.setOnMouseClicked(mouseEvent -> {
-            Main.OpenNew("Forum.fxml", A1);
-        });
-        Message_Img.setOnMouseClicked(mouseEvent -> {
-            Main.OpenNew("Message.fxml", A1);
-        });
-        Settings_Img.setOnMouseClicked(mouseEvent -> {
-            Main.OpenNew("Settings.fxml", A1);
-        });
+
+        if (ManagerStart.gameIsStart) setTextOfDownload("Игра запущена");
+        if (ManagerZip.unzipping) ManagerZip.UpdateInfo();
+
+        News_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("News.fxml", A1));
+        Forum_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Forum.fxml", A1));
+        Message_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Message.fxml", A1));
+        Settings_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Settings.fxml", A1));
         Account_Img.setOnMouseClicked(mouseEvent -> {
             try {
                 if (user.Auth()) {

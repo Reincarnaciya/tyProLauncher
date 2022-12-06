@@ -80,9 +80,7 @@ public class RegisterController {
             }
         });
         CheckPass_Text.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (ShowPass_CheckBox.isSelected()) {
-                Password_Field.setText(newValue);
-            }
+            if (ShowPass_CheckBox.isSelected()) Password_Field.setText(newValue);
         });
         Register_Button.setOnMouseClicked(mouseEvent -> {
             if (Username_Field.getText().equalsIgnoreCase("") || Password_Field.getText().equalsIgnoreCase("")) {

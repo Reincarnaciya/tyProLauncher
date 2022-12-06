@@ -4,7 +4,7 @@ import java.awt.*;
 import java.lang.management.ManagementFactory;
 
 public class UserPC {
-    private static final int _ozu = (int) (
+    private static final float _ozu = (float) (
             (((com.sun.management.OperatingSystemMXBean)
                     ManagementFactory.getOperatingSystemMXBean())
                     .getTotalPhysicalMemorySize()) / 1048576); // может лучше всеже оставить float чтобы лишьний раз не конвертировать?
@@ -30,7 +30,7 @@ public class UserPC {
         System.err.println("----------------USER PC----------------");
     }
 
-    public static int getOzu() {
+    public static float getOzu() {
         return _ozu;
     }
     public static int getWidth() {

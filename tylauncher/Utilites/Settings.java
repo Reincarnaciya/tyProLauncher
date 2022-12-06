@@ -1,7 +1,7 @@
 package tylauncher.Utilites;
 
 public class Settings {
-    private int _ozu = Math.round((float) UserPC.getOzu() / 1536) * 512;
+    private int _ozu = Math.round(UserPC.getOzu() / 1536) * 512;
     private int _x = 800;
     private int _y = 600;
     private boolean _fsc = false;
@@ -12,11 +12,7 @@ public class Settings {
 
     public void setOzu(int ozu) throws Exception {
         if (Math.round((float) ozu / 512) * 512 > UserPC.getOzu()) {
-            if((Math.floor((float) ozu / 512) * 512) <= UserPC.getOzu()){
-                this._ozu = (int)Math.floor((float) ozu / 512) * 512;
-                return;
-            }
-            this._ozu = Math.round((float) UserPC.getOzu() / 1536) * 512;
+            this._ozu = Math.round(UserPC.getOzu() / 1536) * 512;
             throw new Exception("Попытка выставить ОЗУ больше, чем имеешь на ПК может вызвать к синему экрану\nP.s Я проверяла");
         }
         this._ozu = Math.round((float) ozu / 512) * 512;

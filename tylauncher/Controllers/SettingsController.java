@@ -68,15 +68,16 @@ public class SettingsController {
         ErrorInterp.settingsController = this;
         if (settingsFile.exists()) {
             try {
-                settings.setOzu(Integer.parseInt(ReadParamsFromFile()[0]));
-                settings.setX(Integer.parseInt(ReadParamsFromFile()[1]));
-                settings.setY(Integer.parseInt(ReadParamsFromFile()[2]));
-                settings.setFsc(Boolean.parseBoolean(ReadParamsFromFile()[3]));
+                settingsJson.ReadJSONFile(settingsFile.getAbsolutePath());
+                settings.setOzu(Integer.parseInt(settingsJson.GetOfIndex(0,1)));
+                settings.setX(Integer.parseInt(settingsJson.GetOfIndex(1,1)));
+                settings.setY(Integer.parseInt(settingsJson.GetOfIndex(2,1)));
+                settings.setFsc(Boolean.parseBoolean(settingsJson.GetOfIndex(3,1)));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
-            Ozu_Slider.setMax((int)((float)UserPC.getOzu() / 512) * 512);
+            Ozu_Slider.setMax((int)(UserPC.getOzu()/512) * 512);
             Ozu_Slider.setValue(settings.getOzu());
             OzuCount_Label.setText(String.valueOf(settings.getOzu()));
         }
@@ -87,8 +88,14 @@ public class SettingsController {
             e.printStackTrace();
         }
         Ozu_Slider.valueProperty().addListener((obs, oldval, newval) -> {
-            int value = Math.round((float)newval.intValue() / 512) * 512;
-            OzuCount_Label.setText(String.valueOf(newval.intValue()));
+            int tempValue = Math.round(newval.floatValue() / 512) * 512;
+            int value;
+            if (tempValue > Ozu_Slider.getMax()) {
+                value = (int)(newval.floatValue() / 512) * 512;
+            } else{
+                value = Math.round(newval.floatValue() / 512) * 512;
+            }
+            OzuCount_Label.setText(String.valueOf(value));
             Ozu_Slider.setOnMouseReleased(mouseEvent -> {
                 Ozu_Slider.setValue(value);
                 OzuCount_Label.setText(String.valueOf(value));
@@ -167,15 +174,6 @@ public class SettingsController {
         settingsJson.setOfIndex("FullScreenMode", 3, 0);
         settingsJson.setOfIndex("false", 3, 1);
         settingsJson.WritingFile(Main.getLauncherDir() + File.separator + "settings.json");
-    }
-
-    public String[] ReadParamsFromFile() throws Exception {
-        settingsJson.ReadJSONFile(settingsFile.getAbsolutePath());
-        String ozu = settingsJson.GetOfIndex(0, 1);
-        String x = settingsJson.GetOfIndex(1, 1);
-        String y = settingsJson.GetOfIndex(2, 1);
-        String FullScreenMode = settingsJson.GetOfIndex(3, 1);
-        return new String[]{ozu, x, y, FullScreenMode};
     }
 
     public void setInfoText(String info) {
