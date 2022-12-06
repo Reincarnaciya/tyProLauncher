@@ -1,21 +1,13 @@
 package tylauncher.Utilites.Managers;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import javafx.scene.text.Text;
+import tylauncher.Main;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.text.Text;
-
-import tylauncher.Main;
 
 
 public class ManagerPacket {

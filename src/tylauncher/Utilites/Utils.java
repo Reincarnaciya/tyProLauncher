@@ -1,7 +1,5 @@
 package tylauncher.Utilites;
 
-import tylauncher.Main;
-
 import java.io.File;
 
 public class Utils {

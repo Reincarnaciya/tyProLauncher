@@ -1,9 +1,5 @@
 package tylauncher.Utilites.Managers;
 
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.text.Text;
-import tylauncher.Controllers.AccountController;
 import tylauncher.Controllers.PlayController;
 import tylauncher.Main;
 import tylauncher.Utilites.ErrorInterp;

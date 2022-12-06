@@ -1,13 +1,10 @@
 package tylauncher.Utilites.Managers;
 
 import javafx.application.Platform;
-import javafx.scene.text.Text;
 import tylauncher.Controllers.PlayController;
 import tylauncher.Controllers.SettingsController;
 import tylauncher.Main;
-import tylauncher.Utilites.UserPC;
 
-import javax.naming.ldap.Control;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;

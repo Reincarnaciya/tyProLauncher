@@ -6,8 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 
-import tylauncher.Main;
-
 /* менеджер по оброботки json. 
  * по идеии он должен обрабатывать не только файлы но и запросы
  * (не генерировать и не принимать, просто расшифровать для идеотов(нас))

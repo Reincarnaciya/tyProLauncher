@@ -1,9 +1,7 @@
 package tylauncher.Controllers;
 
-import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
@@ -17,9 +15,6 @@ import tylauncher.Utilites.ErrorInterp;
 import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.RegisterUser;
 import tylauncher.Utilites.WebAnswer;
-
-import javax.tools.Tool;
-import java.awt.*;
 
 public class RegisterController {
     @FXML

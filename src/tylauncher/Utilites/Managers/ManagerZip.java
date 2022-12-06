@@ -1,18 +1,9 @@
 package tylauncher.Utilites.Managers;
 
-import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.scene.text.Text;
-import sun.security.mscapi.CPublicKey;
 import tylauncher.Controllers.PlayController;
-import tylauncher.Main;
 import tylauncher.Utilites.ErrorInterp;
 
 import java.io.*;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.time.ZoneId;
-import java.util.Arrays;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
