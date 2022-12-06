@@ -121,67 +121,15 @@ public class Main extends Application {
                     }
                 }
             }
+        }
     }
-}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-private static void test() {
+    private static void test() {
         try {
             System.err.println( HashCodeCheck.getHash(Main.getClientDir() + File.separator + "TySci_1.16.5"));
         } catch (IOException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
+    
 }
