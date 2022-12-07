@@ -20,6 +20,7 @@ import tylauncher.Utilites.Settings;
 import tylauncher.Utilites.UserPC;
 
 import java.io.File;
+import java.io.IOException;
 
 import static tylauncher.Controllers.AccountAuthController.accountController;
 import static tylauncher.Main.user;
@@ -76,6 +77,7 @@ public class SettingsController {
                 settings.setY(Integer.parseInt(settingsJson.GetOfIndex(2,1)));
                 settings.setFsc(Boolean.parseBoolean(settingsJson.GetOfIndex(3,1)));
             } catch (Exception e) {
+                setInfoText("Файл с настройками поломался, пересоздаю..(больше информации в логах)");
                 e.printStackTrace();
             }
         }
@@ -89,6 +91,7 @@ public class SettingsController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         Ozu_Slider.valueProperty().addListener((obs, oldval, newval) -> {
             int tempValue = Math.round(newval.floatValue() / 512) * 512;
             int value;
@@ -131,10 +134,12 @@ public class SettingsController {
             SettingsSaved_Text.setVisible(true);
             ManagerAnimations.StartFadeAnim(SettingsSaved_Text);
         });
+
         News_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("News.fxml", A1));
         Forum_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Forum.fxml", A1));
         Message_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Message.fxml", A1));
         Play_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Play.fxml", A1));
+
         Account_Img.setOnMouseClicked(mouseEvent -> {
             try {
                 if (user.Auth()) {
@@ -143,6 +148,7 @@ public class SettingsController {
                 } else Main.OpenNew("AccountAuth.fxml", A1);
             } catch (Exception e) {
                 Main.OpenNew("AccountAuth.fxml", A1);
+                e.printStackTrace();
             }
         });
     }
@@ -166,6 +172,7 @@ public class SettingsController {
         settingsJson.WritingFile(Main.getLauncherDir() + File.separator + "settings.json");
     }
 
+    /*
     public void ResetSettings() throws Exception {
         settingsJson.setOfIndex("ozu", 0, 0);
         settingsJson.setOfIndex("512", 0, 1);
@@ -177,6 +184,7 @@ public class SettingsController {
         settingsJson.setOfIndex("false", 3, 1);
         settingsJson.WritingFile(Main.getLauncherDir() + File.separator + "settings.json");
     }
+     */
 
     public void setInfoText(String info) {
         infoTextPane.setVisible(true);

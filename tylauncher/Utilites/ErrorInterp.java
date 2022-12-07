@@ -5,7 +5,6 @@ import tylauncher.Controllers.*;
 public class ErrorInterp {
     public static AccountAuthController accountAuthController;
     public static RegisterController registerController;
-    public static ErrorController errorController;
     public static SettingsController settingsController;
     public static PlayController playController;
 
