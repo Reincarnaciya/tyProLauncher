@@ -8,8 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import tylauncher.Utilites.DualStream;
 import tylauncher.Utilites.HashCodeCheck;
+import tylauncher.Utilites.DualStream;
 import tylauncher.Utilites.Managers.ManagerDirs;
 import tylauncher.Utilites.User;
 import tylauncher.Utilites.UserPC;
@@ -26,7 +26,7 @@ import java.util.Objects;
 
 public class Main extends Application {
 
-    public static final String launcher_version = "tylaucnher1";
+    public static final String launcher_version = "tyLauncher1";
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyLauncher");
     private static final ManagerDirs _clientDir = new ManagerDirs("TyPro");
     public static User user = new User();
