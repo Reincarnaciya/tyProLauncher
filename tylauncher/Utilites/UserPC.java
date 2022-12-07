@@ -1,6 +1,6 @@
 package tylauncher.Utilites;
 
-import java.awt.*;
+import java.awt.GraphicsEnvironment;
 import java.lang.management.ManagementFactory;
 
 public class UserPC {
@@ -19,14 +19,15 @@ public class UserPC {
             .getDisplayMode()
             .getHeight();
     private static final String _os = System.getProperty("os.name").toLowerCase();
+    private static final String _javaVersion = System.getProperty("java.version");
+    ;
 
     public static void Show() {
         System.err.println("----------------USER PC----------------");
         System.err.println("RAM: " + _ozu);
         System.err.println("OS: " + _os);
-        System.err.println("Resolution: ");
-        System.err.println("width: " + _width);
-        System.err.println("height: " + _height);
+        System.err.println("Resolution: " + _width + "x" + _height);
+        System.err.println("Java Version: " + _javaVersion);
         System.err.println("----------------USER PC----------------");
     }
 
