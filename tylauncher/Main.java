@@ -27,6 +27,7 @@ public class Main extends Application {
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyLauncher");
     private static final ManagerDirs _clientDir = new ManagerDirs("TyPro");
     public static User user = new User();
+
     public static File getLauncherDir() {
         return _launcherDir.getWorkDir();
     }
