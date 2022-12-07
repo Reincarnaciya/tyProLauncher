@@ -1,7 +1,7 @@
 package tylauncher.Utilites;
 
 public class Settings {
-    private int _ozu = Math.round(UserPC.getOzu() / 1536) * 512;
+    private int _ozu = Math.round(UserPC._ozu / 1536) * 512;
     private int _x = 800;
     private int _y = 600;
     private boolean _fsc = false;
@@ -11,8 +11,8 @@ public class Settings {
     }
 
     public void setOzu(int ozu) throws Exception {
-        if (Math.round((float) ozu / 512) * 512 > UserPC.getOzu()) {
-            this._ozu = Math.round(UserPC.getOzu() / 1536) * 512;
+        if (Math.round((float) ozu / 512) * 512 > UserPC._ozu) {
+            this._ozu = Math.round(UserPC._ozu / 1536) * 512;
             throw new Exception("Попытка выставить ОЗУ больше, чем имеешь на ПК может вызвать к синему экрану\nP.s Я проверяла");
         }
         this._ozu = Math.round((float) ozu / 512) * 512;
@@ -23,7 +23,7 @@ public class Settings {
     }
 
     public void setX(int x) throws Exception {
-        if (x > UserPC.getWidth()) {
+        if (x > UserPC._width) {
             this._x = 800;
             throw new Exception("Попытка выставить х больше, чем разрешение вашего экрана");
         } else this._x = x;
@@ -34,7 +34,7 @@ public class Settings {
     }
 
     public void setY(int y) throws Exception {
-        if (y > UserPC.getWidth()) {
+        if (y > UserPC._height) {
             this._y = 600;
             throw new Exception("Попытка выставить y больше, чем разрешение вашего экрана");
         } else this._y = y;

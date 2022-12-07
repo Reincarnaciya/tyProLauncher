@@ -32,9 +32,9 @@ public class ManagerDirs {
         _workDir = workTempDir;
     }
     public static OS getPlatform() {
-        if (UserPC.getOS().contains("win")) return OS.windows;
-        else if (UserPC.getOS().contains("linux") || UserPC.getOS().contains("unix")) return OS.linux;
-        else if (UserPC.getOS().contains("macos")) return OS.macos;
+        if (UserPC._os.contains("win")) return OS.windows;
+        else if (UserPC._os.contains("linux") || UserPC._os.contains("unix")) return OS.linux;
+        else if (UserPC._os.contains("macos")) return OS.macos;
         else return OS.unknow;
     }
     public File getWorkDir() {

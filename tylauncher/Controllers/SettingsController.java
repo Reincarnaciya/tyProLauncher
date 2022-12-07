@@ -81,7 +81,7 @@ public class SettingsController {
                 e.printStackTrace();
             }
         }
-        Ozu_Slider.setMax((int)(UserPC.getOzu()/512) * 512);
+        Ozu_Slider.setMax((int)(UserPC._ozu/512) * 512);
         Ozu_Slider.setValue(settings.getOzu());
         OzuCount_Label.setText(String.valueOf(settings.getOzu()));
 
