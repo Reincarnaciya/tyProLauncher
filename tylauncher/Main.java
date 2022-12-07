@@ -8,11 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import tylauncher.Utilites.HashCodeCheck;
-import tylauncher.Utilites.DualStream;
+import tylauncher.Utilites.*;
 import tylauncher.Utilites.Managers.ManagerDirs;
-import tylauncher.Utilites.User;
-import tylauncher.Utilites.UserPC;
 
 import java.io.File;
 import java.io.IOException;

@@ -16,6 +16,7 @@ import tylauncher.Main;
 import tylauncher.Utilites.ErrorInterp;
 import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Managers.ManagerForJSON;
+import tylauncher.Utilites.Managers.ManagerStart;
 import tylauncher.Utilites.Settings;
 import tylauncher.Utilites.UserPC;
 
@@ -81,8 +82,8 @@ public class SettingsController {
                 e.printStackTrace();
             }
         }
-        if(UserPC._javaBit.equalsIgnoreCase("32") && UserPC._ozu > 4096) Ozu_Slider.setMax(4096);
-        else Ozu_Slider.setMax((int)(UserPC._ozu/512) * 512);
+
+        Ozu_Slider.setMax((int)(UserPC.getOzu()/512) * 512);
 
         Ozu_Slider.setValue(settings.getOzu());
         OzuCount_Label.setText(String.valueOf(settings.getOzu()));
@@ -191,6 +192,7 @@ public class SettingsController {
     public void setInfoText(String info) {
         infoTextPane.setVisible(true);
         infoText.setText(info);
+        ManagerAnimations.StartFadeAnim(infoTextPane);
     }
 
 }
