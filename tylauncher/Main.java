@@ -62,7 +62,7 @@ public class Main extends Application {
         String logfile = now.toString().replace(":", "-")
                 .replace("]", "").replace("[", "").replace(".", "").replace("/", "-") + ".log";
         // лог файл
-        File log = new File(getLauncherDir() + File.separator + "logs" + File.separator + "LogFile_" + logfile);
+        File log = new File(dir_logs + File.separator + "LogFile_" + logfile);
         if (!log.exists()) {
             log.createNewFile();
         }

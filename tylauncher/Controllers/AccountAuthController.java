@@ -17,9 +17,7 @@ import java.io.File;
 import static tylauncher.Main.user;
 
 public class AccountAuthController {
-    public static AccountController accountController;
-    private final File AuthFile = new File((Main.getLauncherDir() + File.separator + "auth.json"));
-    public ManagerForJSON Auth = new ManagerForJSON(2);
+
     @FXML
     protected Text infoText;
     @FXML
@@ -54,6 +52,11 @@ public class AccountAuthController {
     private CheckBox ShowPass_CheckBox;
     @FXML
     private TextField ShowPassText;
+
+    public static AccountController accountController;
+    private final File AuthFile = new File((Main.getLauncherDir() + File.separator + "auth.json"));
+    public ManagerForJSON Auth = new ManagerForJSON(2);
+
     @FXML
     void initialize() {
         RegisterController.accountAuthController = this;
