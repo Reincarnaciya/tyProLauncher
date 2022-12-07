@@ -43,16 +43,16 @@ public class SettingsController {
     private ImageView Message_Img;
     @FXML
     private ImageView News_Img;
-    @FXML
-    private Text OzuCount_Text;
+    /*@FXML
+    private Text OzuCount_Text;*/
     @FXML
     private Slider Ozu_Slider;
     @FXML
     private ImageView Play_Img;
     @FXML
     private Button Save_Button;
-    @FXML
-    private ImageView Settings_Img;
+    /*@FXML
+    private ImageView Settings_Img;*/
     @FXML
     private TextField X_Label;
     @FXML
