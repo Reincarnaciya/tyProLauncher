@@ -55,7 +55,7 @@
         </ImageView>
     </VBox>
     <Pane layoutX="93.0" prefHeight="500.0" prefWidth="712.0" style="-fx-background-color: #363636;">
-        <VBox fx:id="Fullscrean_CheckBox" alignment="CENTER" layoutX="7.0" layoutY="66.0" prefHeight="97.0"
+        <VBox alignment="CENTER" layoutX="7.0" layoutY="66.0" prefHeight="97.0"
               prefWidth="165.0" style="-fx-spacing: 5;">
             <HBox alignment="CENTER" prefHeight="27.0" prefWidth="275.0" style="-fx-spacing: 10;">
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="X"/>
@@ -71,8 +71,7 @@
         <Button fx:id="Save_Button" layoutX="155.0" layoutY="116.0" mnemonicParsing="false" prefHeight="27.0"
                 prefWidth="136.0" text="сохранить"/>
         <Slider fx:id="Ozu_Slider" blockIncrement="512.0" layoutX="33.0" layoutY="20.0" majorTickUnit="512.0"
-                max="16322.0" min="1024.0" minorTickCount="512" prefHeight="25.0" prefWidth="546.0"
-                showTickLabels="true" showTickMarks="true"/>
+                min="1024" max="4096" minorTickCount="0" prefHeight="25.0" prefWidth="548.0" showTickLabels="true" showTickMarks="true"/>
         <TextField fx:id="OzuCount_Label" layoutX="576.0" layoutY="15.0" prefHeight="25.0" prefWidth="87.0"
                    style="-fx-background-color: #363636; -fx-text-fill: white;"/>
         <Pane fx:id="infoTextPane" layoutX="60.0" layoutY="338.0" prefHeight="148.0" prefWidth="404.0"
