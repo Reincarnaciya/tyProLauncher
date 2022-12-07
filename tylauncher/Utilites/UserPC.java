@@ -20,6 +20,7 @@ public class UserPC {
             .getHeight();
     public static final String _os = System.getProperty("os.name").toLowerCase();
     public static final String _javaVersion = System.getProperty("java.version");
+    public static final String _javaBit = System.getProperty("sun.arch.data.model");
 
     public static void Show() {
         System.err.println("----------------USER PC----------------");
@@ -27,6 +28,7 @@ public class UserPC {
         System.err.println("OS: " + _os);
         System.err.println("Resolution: " + _width + "x" + _height);
         System.err.println("Java Version: " + _javaVersion);
+        System.err.println("Bit Java: " + _javaBit);
         System.err.println("----------------USER PC----------------");
     }
 }

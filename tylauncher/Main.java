@@ -76,7 +76,6 @@ public class Main extends Application {
 
         UserPC.Show();
         launch(args);
-
     }
 
     public static void CheckLogs() {

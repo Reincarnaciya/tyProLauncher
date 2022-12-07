@@ -11,6 +11,11 @@ public class Settings {
     }
 
     public void setOzu(int ozu) throws Exception {
+        if(UserPC._javaBit.equalsIgnoreCase("32")){
+            if(ozu > 4096){
+                throw new Exception("На 32-х битной версии джавы лучше не ставить больше 4 гб оперативы, иначе вашему ПК пизда");
+            }
+        }
         if (Math.round((float) ozu / 512) * 512 > UserPC._ozu) {
             this._ozu = Math.round(UserPC._ozu / 1536) * 512;
             throw new Exception("Попытка выставить ОЗУ больше, чем имеешь на ПК может вызвать к синему экрану\nP.s Я проверяла");

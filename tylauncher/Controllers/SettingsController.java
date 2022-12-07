@@ -77,11 +77,13 @@ public class SettingsController {
                 settings.setY(Integer.parseInt(settingsJson.GetOfIndex(2,1)));
                 settings.setFsc(Boolean.parseBoolean(settingsJson.GetOfIndex(3,1)));
             } catch (Exception e) {
-                setInfoText("Файл с настройками поломался, пересоздаю..(больше информации в логах)");
+                setInfoText(e.toString());
                 e.printStackTrace();
             }
         }
-        Ozu_Slider.setMax((int)(UserPC._ozu/512) * 512);
+        if(UserPC._javaBit.equalsIgnoreCase("32") && UserPC._ozu > 4096) Ozu_Slider.setMax(4096);
+        else Ozu_Slider.setMax((int)(UserPC._ozu/512) * 512);
+
         Ozu_Slider.setValue(settings.getOzu());
         OzuCount_Label.setText(String.valueOf(settings.getOzu()));
 
