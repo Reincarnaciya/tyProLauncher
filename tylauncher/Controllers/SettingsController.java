@@ -1,7 +1,5 @@
 package tylauncher.Controllers;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -10,7 +8,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import tylauncher.Main;
 import tylauncher.Utilites.ErrorInterp;
@@ -20,14 +17,12 @@ import tylauncher.Utilites.Settings;
 import tylauncher.Utilites.UserPC;
 
 import java.io.File;
-import java.io.IOException;
 
 import static tylauncher.Controllers.AccountAuthController.accountController;
 import static tylauncher.Main.user;
 
 public class SettingsController {
     public static Settings settings = new Settings();
-
     @FXML
     protected Text infoText;
     @FXML
@@ -93,13 +88,7 @@ public class SettingsController {
         }
 
         Ozu_Slider.valueProperty().addListener((obs, oldval, newval) -> {
-            int tempValue = Math.round(newval.floatValue() / 512) * 512;
-            int value;
-            if (tempValue > Ozu_Slider.getMax()) {
-                value = (int)(newval.floatValue() / 512) * 512;
-            } else{
-                value = Math.round(newval.floatValue() / 512) * 512;
-            }
+            int value = Math.round(newval.floatValue() / 512) * 512;
             OzuCount_Label.setText(String.valueOf(value));
             Ozu_Slider.setOnMouseReleased(mouseEvent -> {
                 Ozu_Slider.setValue(value);
@@ -171,20 +160,6 @@ public class SettingsController {
         settingsJson.setOfIndex(String.valueOf(settings.getFsc()), 3, 1);
         settingsJson.WritingFile(Main.getLauncherDir() + File.separator + "settings.json");
     }
-
-    /*
-    public void ResetSettings() throws Exception {
-        settingsJson.setOfIndex("ozu", 0, 0);
-        settingsJson.setOfIndex("512", 0, 1);
-        settingsJson.setOfIndex("x", 1, 0);
-        settingsJson.setOfIndex("800", 1, 1);
-        settingsJson.setOfIndex("y", 2, 0);
-        settingsJson.setOfIndex("600", 2, 1);
-        settingsJson.setOfIndex("FullScreenMode", 3, 0);
-        settingsJson.setOfIndex("false", 3, 1);
-        settingsJson.WritingFile(Main.getLauncherDir() + File.separator + "settings.json");
-    }
-     */
 
     public void setInfoText(String info) {
         infoTextPane.setVisible(true);
