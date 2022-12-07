@@ -7,12 +7,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
-import tylauncher.Utilites.ErrorInterp;
-import tylauncher.Utilites.HashCodeCheck;
+import tylauncher.Utilites.*;
 import tylauncher.Utilites.Managers.ManagerStart;
 import tylauncher.Utilites.Managers.ManagerUpdate;
 import tylauncher.Utilites.Managers.ManagerZip;
-import tylauncher.Utilites.Utils;
 
 import java.io.File;
 
@@ -67,6 +65,7 @@ public class PlayController {
         });
         Play_Button.setOnMouseClicked(mouseEvent -> {
             setTextOfDownload("Инициализация..");
+
             if (ManagerStart.gameIsStart) {
                 setTextOfDownload("Игра запущена");
                 return;

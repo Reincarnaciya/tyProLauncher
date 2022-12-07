@@ -13,6 +13,7 @@ import tylauncher.Main;
 import tylauncher.Utilites.ErrorInterp;
 import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Managers.ManagerForJSON;
+import tylauncher.Utilites.Managers.ManagerStart;
 import tylauncher.Utilites.Settings;
 import tylauncher.Utilites.UserPC;
 
@@ -72,11 +73,13 @@ public class SettingsController {
                 settings.setY(Integer.parseInt(settingsJson.GetOfIndex(2,1)));
                 settings.setFsc(Boolean.parseBoolean(settingsJson.GetOfIndex(3,1)));
             } catch (Exception e) {
-                setInfoText("Файл с настройками поломался, пересоздаю..(больше информации в логах)");
+                setInfoText(e.toString());
                 e.printStackTrace();
             }
         }
-        Ozu_Slider.setMax((int)(UserPC._ozu/512) * 512);
+
+        Ozu_Slider.setMax((int)(UserPC.getOzu()/512) * 512);
+
         Ozu_Slider.setValue(settings.getOzu());
         OzuCount_Label.setText(String.valueOf(settings.getOzu()));
 
@@ -164,6 +167,7 @@ public class SettingsController {
     public void setInfoText(String info) {
         infoTextPane.setVisible(true);
         infoText.setText(info);
+        ManagerAnimations.StartFadeAnim(infoTextPane);
     }
 
 }

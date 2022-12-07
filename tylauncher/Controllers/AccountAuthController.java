@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
 import tylauncher.Utilites.ErrorInterp;
+import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Managers.ManagerForJSON;
 import tylauncher.Utilites.WebAnswer;
 
@@ -123,6 +124,7 @@ public class AccountAuthController {
     public void setInfoText(String text) {
         infoTextPane.setVisible(true);
         infoText.setText(text);
+        ManagerAnimations.StartFadeAnim(infoTextPane);
     }
 
     void SavePass() throws Exception {

@@ -111,6 +111,7 @@ public class RegisterController {
     public void setInfoText(String info) {
         infoTextPane.setVisible(true);
         infoText.setText(info);
+        ManagerAnimations.StartFadeAnim(infoTextPane);
     }
 
 }

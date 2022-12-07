@@ -8,11 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import tylauncher.Utilites.HashCodeCheck;
-import tylauncher.Utilites.DualStream;
+import tylauncher.Utilites.*;
 import tylauncher.Utilites.Managers.ManagerDirs;
-import tylauncher.Utilites.User;
-import tylauncher.Utilites.UserPC;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,10 +46,13 @@ public class Main extends Application {
         }
     }
 
-    public static int main() throws IOException {
+    public static void main(String[] args) throws IOException {
         Test();
 
         File dir_logs = new File(getLauncherDir() + File.separator + "logs");
+        if (!dir_logs.exists()) {
+            dir_logs.mkdirs();
+        }
         // время для логов
         ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Europe/Moscow")); // Europe/Moscow
         // очищаем от говна
@@ -60,6 +60,9 @@ public class Main extends Application {
                 .replace("]", "").replace("[", "").replace(".", "").replace("/", "-") + ".log";
         // лог файл
         File log = new File(dir_logs + File.separator + "LogFile_" + logfile);
+        if (!log.exists()) {
+            log.createNewFile();
+        }
         // запись в файл и вывод в консоль
         PrintStream out = new PrintStream(Files.newOutputStream(log.toPath()));
         PrintStream dual = new DualStream(System.out, out);
@@ -69,8 +72,7 @@ public class Main extends Application {
         CheckLogs();
 
         UserPC.Show();
-
-        return 0;
+        launch(args);
     }
 
     public static void CheckLogs() {
