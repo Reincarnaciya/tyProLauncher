@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import tylauncher.Main;
 import tylauncher.Utilites.ErrorInterp;
@@ -25,6 +26,7 @@ import static tylauncher.Main.user;
 
 public class SettingsController {
     public static Settings settings = new Settings();
+
     @FXML
     protected Text infoText;
     @FXML
@@ -76,11 +78,11 @@ public class SettingsController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else {
-            Ozu_Slider.setMax((int)(UserPC.getOzu()/512) * 512);
-            Ozu_Slider.setValue(settings.getOzu());
-            OzuCount_Label.setText(String.valueOf(settings.getOzu()));
         }
+        Ozu_Slider.setMax((int)(UserPC.getOzu()/512) * 512);
+        Ozu_Slider.setValue(settings.getOzu());
+        OzuCount_Label.setText(String.valueOf(settings.getOzu()));
+
         try {
             WriteSettingToFile();
             UpdateSettings();
