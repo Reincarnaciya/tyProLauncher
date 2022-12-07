@@ -14,6 +14,7 @@ import tylauncher.Utilites.Managers.ManagerDirs;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.security.NoSuchAlgorithmException;
 import java.time.ZoneId;
@@ -22,8 +23,7 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Main extends Application {
-
-    public static final String launcher_version = "tyLauncher1";
+    public static final String launcher_version = "0.0";
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyLauncher");
     private static final ManagerDirs _clientDir = new ManagerDirs("TyPro");
     public static User user = new User();
@@ -48,7 +48,9 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws IOException {
-        Test();
+
+
+        //Test();
 
         File dir_logs = new File(getLauncherDir() + File.separator + "logs");
         if (!dir_logs.exists()) {
@@ -71,6 +73,11 @@ public class Main extends Application {
         dual = new DualStream(System.err, out);
         System.setErr(dual);
         CheckLogs();
+
+
+
+
+        UpdateLauncher.checkUpdate();
 
         UserPC.Show();
         launch(args);
