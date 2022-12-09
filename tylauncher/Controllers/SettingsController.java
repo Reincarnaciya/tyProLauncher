@@ -16,6 +16,7 @@ import tylauncher.Utilites.Managers.ManagerForJSON;
 import tylauncher.Utilites.Managers.ManagerStart;
 
 import java.io.File;
+import java.io.IOException;
 
 import static tylauncher.Controllers.AccountAuthController.accountController;
 import static tylauncher.Main.user;
@@ -54,6 +55,13 @@ public class SettingsController {
     private TextField Y_Label;
     @FXML
     private TextField OzuCount_Label;
+
+    @FXML
+    private Pane updateAvailablePane;
+
+    @FXML
+    private Button updateButton;
+
     @FXML
     private Text SettingsSaved_Text;
     private final ManagerForJSON settingsJson = new ManagerForJSON(4);
@@ -84,6 +92,13 @@ public class SettingsController {
                 e.printStackTrace();
             }
         }
+        if(UpdaterController.updateAvailable){
+            updateAvailablePane.setDisable(false);
+            updateAvailablePane.setVisible(true);
+        }
+        updateButton.setOnMouseClicked(mouseEvent ->{
+            UpdaterLauncher.UpdateLauncher();
+        });
 
         Ozu_Slider.setMax((int)(UserPC.getOzu()/512) * 512);
 
@@ -147,7 +162,6 @@ public class SettingsController {
                 } else Main.OpenNew("AccountAuth.fxml", A1);
             } catch (Exception e) {
                 Main.OpenNew("AccountAuth.fxml", A1);
-                e.printStackTrace();
             }
         });
     }

@@ -71,6 +71,9 @@ public class UpdaterLauncher {
                 HttpURLConnection updcon = (HttpURLConnection) url.openConnection();
                 System.out.println(updcon);
                 File client = new File(Main.getClientDir().getAbsolutePath() + File.separator, "TyUpdaterLauncher.jar");
+                if(client.exists()){
+                    client.delete();
+                }
                 long cll_web = updcon.getContentLength();
                 if ((client.length() != cll_web) && cll_web > 1) {
                     BufferedInputStream bis = new BufferedInputStream(updcon.getInputStream());
@@ -84,10 +87,9 @@ public class UpdaterLauncher {
                     }
                     fw.close();
                     Runtime.getRuntime().exec(new String[]{"cmd","/c","start","cmd","/k","java -jar \"" + client.getAbsolutePath() + "\" " + "\"" + UserPC.pathToLauncher + "\"" +  " " + "\"" + Main.getLauncherDir().getAbsolutePath()+ "\""});
-                    Thread.sleep(50);
                     System.exit(0);
                 }
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 ErrorInterp.setMessageError(e.getMessage(), "play");
                 e.printStackTrace();
             }

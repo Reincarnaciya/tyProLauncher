@@ -10,7 +10,7 @@
    <children>
       <Pane fx:id="UpdatingPane" prefHeight="68.0" prefWidth="367.0" style="-fx-background-color: #363636;">
          <children>
-            <ProgressIndicator fx:id="IndicatorUpdater" layoutX="301.0" layoutY="17.0" prefHeight="34.0" prefWidth="52.0" />
+            <ProgressIndicator fx:id="IndicatorUpdater" layoutX="216.0" layoutY="16.0" prefHeight="34.0" prefWidth="52.0" />
             <Text fx:id="TextUpdater" fill="WHITE" layoutX="14.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Поиск обновлений" wrappingWidth="228.1171875" />
          </children>
       </Pane>

@@ -75,5 +75,11 @@
         </Pane>
         <Text fx:id="OzuCount_Text" layoutX="663.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mb" />
         <Text id="SettingsSaved_Text" fx:id="SettingsSaved_Text" layoutX="161.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Настройки были сохранены!" visible="false" />
+      <Pane fx:id="updateAvailablePane" disable="true" layoutX="427.0" layoutY="93.0" prefHeight="125.0" prefWidth="200.0" visible="false">
+         <children>
+            <Text layoutX="39.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Доступно обновление" />
+            <Button fx:id="updateButton" layoutX="66.0" layoutY="63.0" mnemonicParsing="false" text="обновить" />
+         </children>
+      </Pane>
     </Pane>
 </AnchorPane>
