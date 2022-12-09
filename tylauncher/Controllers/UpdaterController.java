@@ -46,6 +46,7 @@ public class UpdaterController {
         UpdateButton.setOnMouseClicked(mouseEvent ->{
             System.err.println("Update");
             UpdaterLauncher.UpdateLauncher();
+            updateAvailable = false;
         });
     }
     public void setUpdateAvailable(boolean available){
@@ -60,6 +61,7 @@ public class UpdaterController {
             UpdatingPane.setDisable(true);
             UpdateOrNoPane.setVisible(true);
             UpdateOrNoPane.setDisable(false);
+
         }
     }
 

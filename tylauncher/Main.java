@@ -23,7 +23,7 @@ import java.util.Objects;
 
 public class Main extends Application {
 
-    public static final String launcher_version = "0.1";
+    public static final String launcher_version = "0.10";
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyLauncher");
     private static final ManagerDirs _clientDir = new ManagerDirs("TyPro");
     public static User user = new User();

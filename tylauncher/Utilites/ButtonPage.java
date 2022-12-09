@@ -3,6 +3,7 @@ package tylauncher.Utilites;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import tylauncher.Controllers.UpdaterController;
 import tylauncher.Main;
 
 public class ButtonPage {
@@ -33,6 +34,11 @@ public class ButtonPage {
                     buttonFx.setImage(new Image(String.valueOf(Main.class.getResource("assets/picked/message.png"))));
                     break;
                 case 5:
+                    System.err.println(UpdaterController.updateAvailable);
+                    if (UpdaterController.updateAvailable){
+                        buttonFx.setImage(new Image(String.valueOf(Main.class.getResource("assets/ico.png"))));
+                        break;
+                    }
                     buttonFx.setImage(new Image(String.valueOf(Main.class.getResource("assets/picked/settings.png"))));
                     break;
                 case 6:
@@ -40,6 +46,15 @@ public class ButtonPage {
                     break;
             }
 
+        }else {
+            switch (_buttonNum){
+                case 5:
+                    System.err.println(UpdaterController.updateAvailable);
+                    if (UpdaterController.updateAvailable){
+                        buttonFx.setImage(new Image(String.valueOf(Main.class.getResource("assets/ico.png"))));
+                    }
+                    break;
+            }
         }
     }
     public ImageView getButtonFX(){

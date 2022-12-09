@@ -1,6 +1,7 @@
 package tylauncher.Utilites;
 
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import tylauncher.Controllers.PlayController;
 import tylauncher.Controllers.UpdaterController;
 import tylauncher.Main;
@@ -16,9 +17,11 @@ import java.util.StringJoiner;
 public class UpdaterLauncher {
     private static boolean upd = false;
     public static UpdaterController updaterController;
+    @FXML
     public static void checkUpdate() throws IOException {
         new Thread (()->{
             try {
+                System.err.println(Thread.currentThread().getName());
                 InputStreamReader inputStreamReader;
                 BufferedReader bufferedReader;
                 URL url = new URL("https://typro.space/vendor/launcher/CheckingVersion.php");
