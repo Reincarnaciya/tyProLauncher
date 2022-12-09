@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="A1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tylauncher.Controllers.SettingsController">
+<AnchorPane fx:id="A1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tylauncher.Controllers.SettingsController">
     <VBox alignment="TOP_CENTER" fillWidth="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="500.0" prefWidth="93.0" style="-fx-background-color: black; -fx-alignment: center; -fx-spacing: 4;">
         <ImageView fx:id="Account_Img" fitWidth="75.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
             <cursor>
@@ -75,10 +75,10 @@
         </Pane>
         <Text fx:id="OzuCount_Text" layoutX="663.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mb" />
         <Text id="SettingsSaved_Text" fx:id="SettingsSaved_Text" layoutX="161.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Настройки были сохранены!" visible="false" />
-      <Pane fx:id="updateAvailablePane" disable="true" layoutX="380.0" layoutY="101.0" prefHeight="125.0" prefWidth="200.0" visible="false">
+      <Pane fx:id="updateAvailablePane" disable="true" layoutX="33.0" layoutY="172.0" prefHeight="125.0" prefWidth="200.0" visible="false">
          <children>
             <Text layoutX="39.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Доступно обновление" />
-            <Button fx:id="updateButton" layoutX="66.0" layoutY="63.0" mnemonicParsing="false" text="обновить" />
+            <Button fx:id="updateButton" layoutX="66.0" layoutY="50.0" mnemonicParsing="false" text="обновить" />
          </children>
       </Pane>
     </Pane>

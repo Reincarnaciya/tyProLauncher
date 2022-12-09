@@ -25,7 +25,7 @@ import java.util.Objects;
 
 public class Main extends Application {
 
-    public static final String launcher_version = "0.10";
+    public static final String launcher_version = "0.1";
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyLauncher");
     private static final ManagerDirs _clientDir = new ManagerDirs("TyPro");
     public static User user = new User();
@@ -50,8 +50,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws IOException {
-        System.setProperty("glass.win.uiScale", "100%");
-        System.setProperty("prism.dirtopts", "false");
         if(args.length > 0 && args[0].equals("deleteUpdater")){
             Utils.DeleteFile(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar"));
         }

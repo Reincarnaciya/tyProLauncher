@@ -34,7 +34,6 @@ public class ButtonPage {
                     buttonFx.setImage(new Image(String.valueOf(Main.class.getResource("assets/picked/message.png"))));
                     break;
                 case 5:
-                    System.err.println(UpdaterController.updateAvailable);
                     if (UpdaterController.updateAvailable){
                         buttonFx.setImage(new Image(String.valueOf(Main.class.getResource("assets/picked/settings.png"))));
                         break;
