@@ -1,6 +1,8 @@
 package tylauncher;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -48,6 +50,8 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws IOException {
+        System.setProperty("glass.win.uiScale", "100%");
+        System.setProperty("prism.dirtopts", "false");
         if(args.length > 0 && args[0].equals("deleteUpdater")){
             Utils.DeleteFile(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar"));
         }
@@ -123,7 +127,10 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
         primaryStage.getScene().getWindow().centerOnScreen();
-        primaryStage.getScene().getWindow().setOnCloseRequest(Even -> System.exit(0));
+        primaryStage.getScene().getWindow().setOnCloseRequest(Even ->{
+            primaryStage.close();
+            System.exit(0);
+        });
 
 
         UpdaterLauncher.checkUpdate();

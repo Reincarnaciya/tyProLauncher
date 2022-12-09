@@ -12,6 +12,7 @@ import tylauncher.Utilites.*;
 import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Managers.ManagerForJSON;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 
@@ -73,8 +74,7 @@ public class AccountAuthController {
         BooleanPageController.addButton(Play_Img);
         Platform.runLater(()->{
             A1.getScene().getWindow().setWidth(800);
-            A1.getScene().getWindow().setHeight(535);
-            A1.getScene().getWindow().centerOnScreen();
+            A1.getScene().getWindow().setHeight(530);
         });
 
 
@@ -135,7 +135,9 @@ public class AccountAuthController {
         Message_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Message.fxml", A1));
         Settings_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Settings.fxml", A1));
         Play_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Play.fxml", A1));
+
     }
+
 
     public void setInfoText(String text) {
         infoTextPane.setVisible(true);

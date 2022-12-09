@@ -52,7 +52,7 @@ public class UpdaterLauncher {
                 }
                 System.err.println(line);
                 if(line.equalsIgnoreCase("0")){
-                    updaterController.setUpdateAvailable(true);
+                    Platform.runLater(()-> updaterController.setUpdateAvailable(true));
                 }else Platform.runLater(() ->{
                     updaterController.getA1().getScene().getWindow().setWidth(800);
                     updaterController.getA1().getScene().getWindow().setHeight(535);
