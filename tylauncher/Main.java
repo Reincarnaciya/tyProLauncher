@@ -122,7 +122,10 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
+        primaryStage.getScene().getWindow().centerOnScreen();
         primaryStage.getScene().getWindow().setOnCloseRequest(Even -> System.exit(0));
+
+
         UpdaterLauncher.checkUpdate();
 
     }

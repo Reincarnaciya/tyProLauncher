@@ -8,6 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import tylauncher.Main;
 import tylauncher.Utilites.UpdaterLauncher;
 
 public class UpdaterController {
@@ -40,6 +41,7 @@ public class UpdaterController {
 
         LaterButton.setOnMouseClicked(mouseEvent -> {
             System.err.println("Later");
+            Main.OpenNew("AccountAuth.fxml", A1);
         });
         UpdateButton.setOnMouseClicked(mouseEvent ->{
             System.err.println("Update");

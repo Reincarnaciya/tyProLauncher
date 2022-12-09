@@ -60,6 +60,15 @@ public class AccountAuthController {
 
     @FXML
     void initialize() {
+        Platform.runLater(()->{
+            A1.getScene().getWindow().setWidth(800);
+            A1.getScene().getWindow().setHeight(535);
+            A1.getScene().getWindow().centerOnScreen();
+        });
+
+        RegisterController.accountAuthController = this;
+        ErrorInterp.accountAuthController = this;
+
         ButtonPage.reset();
         ButtonPage.setPressedNum(1);
         BooleanPageController.addButton(Account_Img);
@@ -69,8 +78,7 @@ public class AccountAuthController {
         BooleanPageController.addButton(Settings_Img);
         BooleanPageController.addButton(Play_Img);
 
-        RegisterController.accountAuthController = this;
-        ErrorInterp.accountAuthController = this;
+
         if (AuthFile.exists()) {
             try {
                 Auth.ReadJSONFile(AuthFile.getAbsolutePath());
