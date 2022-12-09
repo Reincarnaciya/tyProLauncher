@@ -60,12 +60,6 @@ public class AccountAuthController {
 
     @FXML
     void initialize() {
-        Platform.runLater(()->{
-            A1.getScene().getWindow().setWidth(800);
-            A1.getScene().getWindow().setHeight(535);
-            A1.getScene().getWindow().centerOnScreen();
-        });
-
         RegisterController.accountAuthController = this;
         ErrorInterp.accountAuthController = this;
 
@@ -77,6 +71,11 @@ public class AccountAuthController {
         BooleanPageController.addButton(Message_Img);
         BooleanPageController.addButton(Settings_Img);
         BooleanPageController.addButton(Play_Img);
+        Platform.runLater(()->{
+            A1.getScene().getWindow().setWidth(800);
+            A1.getScene().getWindow().setHeight(535);
+            A1.getScene().getWindow().centerOnScreen();
+        });
 
 
         if (AuthFile.exists()) {

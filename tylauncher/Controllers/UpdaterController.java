@@ -53,8 +53,6 @@ public class UpdaterController {
         updateAvailable = available;
         TextUpdater.setText("Найдено обновление!");
         if(available){
-            TextUpdater.getScene().getWindow().setWidth(500);
-            TextUpdater.getScene().getWindow().setHeight(200);
             Stage stage = (Stage) TextUpdater.getScene().getWindow();
             Platform.runLater(() -> stage.setTitle("Найдено обновление"));
             UpdatingPane.setVisible(false);

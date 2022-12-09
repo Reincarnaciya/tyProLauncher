@@ -65,7 +65,7 @@
         </VBox>
         <CheckBox fx:id="Fullscrean_Checkbox" layoutX="155.0" layoutY="87.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="225.0" text="Полноэкранный режим" />
         <Button fx:id="Save_Button" layoutX="155.0" layoutY="116.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="сохранить" />
-        <Slider fx:id="Ozu_Slider" blockIncrement="512.0" layoutX="33.0" layoutY="20.0" majorTickUnit="512.0" max="4096" min="1024" minorTickCount="0" prefHeight="25.0" prefWidth="548.0" showTickLabels="true" showTickMarks="true" />
+        <Slider fx:id="Ozu_Slider" blockIncrement="512.0" layoutX="33.0" layoutY="20.0" majorTickUnit="512.0" max="4096" min="1024" minorTickCount="0" prefHeight="37.0" prefWidth="538.0" showTickLabels="true" showTickMarks="true" />
         <TextField fx:id="OzuCount_Label" layoutX="583.0" layoutY="15.0" prefHeight="25.0" prefWidth="87.0" style="-fx-background-color: #363636; -fx-text-fill: white;" />
         <Pane fx:id="infoTextPane" layoutX="60.0" layoutY="338.0" prefHeight="148.0" prefWidth="404.0" style="-fx-border-color: white; -fx-background-color: black;" visible="false">
             <Text fx:id="infoText" layoutX="133.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-origin: center;" text="ты не должен этого видетьты не должен этого видетьты не должен этого видетьты не должен этого видетьты не должен этого видетьты не должен этого видетьты не должен этого видеть" textAlignment="CENTER" wrappingWidth="260.0" />
@@ -75,7 +75,7 @@
         </Pane>
         <Text fx:id="OzuCount_Text" layoutX="663.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mb" />
         <Text id="SettingsSaved_Text" fx:id="SettingsSaved_Text" layoutX="161.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Настройки были сохранены!" visible="false" />
-      <Pane fx:id="updateAvailablePane" disable="true" layoutX="427.0" layoutY="93.0" prefHeight="125.0" prefWidth="200.0" visible="false">
+      <Pane fx:id="updateAvailablePane" disable="true" layoutX="380.0" layoutY="101.0" prefHeight="125.0" prefWidth="200.0" visible="false">
          <children>
             <Text layoutX="39.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Доступно обновление" />
             <Button fx:id="updateButton" layoutX="66.0" layoutY="63.0" mnemonicParsing="false" text="обновить" />

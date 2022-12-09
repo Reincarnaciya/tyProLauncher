@@ -115,7 +115,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Font.loadFont(getClass().getResourceAsStream("Minecraft.ttf"), 16);
         Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("FXMLfiles/Updater.fxml")));
-        Scene scene = new Scene(root, 300, 65);
+        Scene scene = new Scene(root);
         primaryStage.setTitle("Updater");
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("StyleSheets/font.css")).toExternalForm());
         primaryStage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("assets/ico.png"))));
