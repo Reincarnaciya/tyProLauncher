@@ -41,6 +41,15 @@ public class PlayController {
 
     @FXML
     void initialize() {
+        ButtonPage.reset();
+        ButtonPage.setPressedNum(6);
+        BooleanPageController.addButton(Account_Img);
+        BooleanPageController.addButton(News_Img);
+        BooleanPageController.addButton(Forum_Img);
+        BooleanPageController.addButton(Message_Img);
+        BooleanPageController.addButton(Settings_Img);
+        BooleanPageController.addButton(Play_Img);
+
         ManagerUpdate.playController = this;
         ManagerStart.playController = this;
         ErrorInterp.playController = this;

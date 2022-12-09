@@ -8,12 +8,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
-import tylauncher.Utilites.ErrorInterp;
+import tylauncher.Utilites.*;
 import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Managers.ManagerForJSON;
-import tylauncher.Utilites.WebAnswer;
 
 import java.io.File;
+import java.io.IOException;
 
 import static tylauncher.Main.user;
 
@@ -60,6 +60,21 @@ public class AccountAuthController {
 
     @FXML
     void initialize() {
+        ButtonPage.reset();
+        ButtonPage.setPressedNum(1);
+        BooleanPageController.addButton(Account_Img);
+        BooleanPageController.addButton(News_Img);
+        BooleanPageController.addButton(Forum_Img);
+        BooleanPageController.addButton(Message_Img);
+        BooleanPageController.addButton(Settings_Img);
+        BooleanPageController.addButton(Play_Img);
+        try {
+            UpdaterLauncher.checkUpdate();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         RegisterController.accountAuthController = this;
         ErrorInterp.accountAuthController = this;
         if (AuthFile.exists()) {
@@ -137,6 +152,7 @@ public class AccountAuthController {
     }
 
     public void StartAuth() throws Exception {
+
         WebAnswer.Reset();
         if (user.Auth()) {
             Main.OpenNew("Account.fxml", A1);

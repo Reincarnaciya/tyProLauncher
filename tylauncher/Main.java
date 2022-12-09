@@ -14,7 +14,6 @@ import tylauncher.Utilites.Managers.ManagerDirs;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.net.URL;
 import java.nio.file.Files;
 import java.security.NoSuchAlgorithmException;
 import java.time.ZoneId;
@@ -23,6 +22,7 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Main extends Application {
+
     public static final String launcher_version = "0.0";
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyLauncher");
     private static final ManagerDirs _clientDir = new ManagerDirs("TyPro");
@@ -48,6 +48,10 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws IOException {
+        if(args.length > 0 && args[0].equals("deleteUpdater")){
+            Utils.DeleteFile(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar"));
+        }
+
 
 
         //Test();
@@ -72,12 +76,11 @@ public class Main extends Application {
         System.setOut(dual);
         dual = new DualStream(System.err, out);
         System.setErr(dual);
+
+
         CheckLogs();
 
 
-
-
-        UpdateLauncher.checkUpdate();
 
         UserPC.Show();
         launch(args);
@@ -117,15 +120,17 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Font.loadFont(getClass().getResourceAsStream("Minecraft.ttf"), 16);
-        Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("FXMLfiles/AccountAuth.fxml")));
-        Scene scene = new Scene(root, 800, 500);
-        primaryStage.setTitle("Typical Launcher");
+        Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("FXMLfiles/Updater.fxml")));
+        Scene scene = new Scene(root, 300, 65);
+        primaryStage.setTitle("Updater");
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("StyleSheets/font.css")).toExternalForm());
         primaryStage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("assets/ico.png"))));
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
         primaryStage.getScene().getWindow().setOnCloseRequest(Even -> System.exit(0));
+        UpdaterLauncher.checkUpdate();
+
     }
 
 }

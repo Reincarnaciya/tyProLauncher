@@ -6,6 +6,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
+import tylauncher.Utilites.BooleanPageController;
+import tylauncher.Utilites.ButtonPage;
 
 import java.io.File;
 
@@ -38,6 +40,16 @@ public class AccountController {
     private Button Exit_Button;
     @FXML
     void initialize() {
+        ButtonPage.reset();
+        ButtonPage.setPressedNum(1);
+        BooleanPageController.addButton(Account_Img);
+        BooleanPageController.addButton(News_Img);
+        BooleanPageController.addButton(Forum_Img);
+        BooleanPageController.addButton(Message_Img);
+        BooleanPageController.addButton(Settings_Img);
+        BooleanPageController.addButton(Play_Img);
+
+
         AccountAuthController.accountController = this;
         News_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("News.fxml", A1));
         Forum_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Forum.fxml", A1));

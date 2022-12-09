@@ -1,7 +1,10 @@
 package tylauncher.Utilites;
 
+import tylauncher.Main;
+
 import java.awt.GraphicsEnvironment;
 import java.lang.management.ManagementFactory;
+import java.net.URISyntaxException;
 
 public class UserPC {
     private static final float _ozu = (float) (
@@ -21,6 +24,16 @@ public class UserPC {
     public static final String _os = System.getProperty("os.name").toLowerCase();
     public static final String _javaVersion = System.getProperty("java.version");
     public static final String _javaBit = System.getProperty("sun.arch.data.model");
+    public static String pathToLauncher = null;
+
+    static {
+        try {
+            pathToLauncher = Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            pathToLauncher = new StringBuilder(pathToLauncher).deleteCharAt(0).toString();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void Show() {
         System.err.println("----------------USER PC----------------");
@@ -29,6 +42,7 @@ public class UserPC {
         System.err.println("Resolution: " + _width + "x" + _height);
         System.err.println("Java Version: " + _javaVersion);
         System.err.println("Bit Java: " + _javaBit);
+        System.err.println("PathToLauncher: " + pathToLauncher);
         System.err.println("----------------USER PC----------------");
     }
 

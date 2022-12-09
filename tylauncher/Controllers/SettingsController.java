@@ -10,12 +10,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
-import tylauncher.Utilites.ErrorInterp;
+import tylauncher.Utilites.*;
 import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Managers.ManagerForJSON;
 import tylauncher.Utilites.Managers.ManagerStart;
-import tylauncher.Utilites.Settings;
-import tylauncher.Utilites.UserPC;
 
 import java.io.File;
 
@@ -48,8 +46,8 @@ public class SettingsController {
     private ImageView Play_Img;
     @FXML
     private Button Save_Button;
-    /*@FXML
-    private ImageView Settings_Img;*/
+    @FXML
+    private ImageView Settings_Img;
     @FXML
     private TextField X_Label;
     @FXML
@@ -64,6 +62,15 @@ public class SettingsController {
 
     @FXML
     void initialize() {
+        ButtonPage.reset();
+        ButtonPage.setPressedNum(5);
+        BooleanPageController.addButton(Account_Img);
+        BooleanPageController.addButton(News_Img);
+        BooleanPageController.addButton(Forum_Img);
+        BooleanPageController.addButton(Message_Img);
+        BooleanPageController.addButton(Settings_Img);
+        BooleanPageController.addButton(Play_Img);
+
         ErrorInterp.settingsController = this;
         if (settingsFile.exists()) {
             try {

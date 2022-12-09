@@ -11,10 +11,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
-import tylauncher.Utilites.ErrorInterp;
+import tylauncher.Utilites.*;
 import tylauncher.Utilites.Managers.ManagerAnimations;
-import tylauncher.Utilites.RegisterUser;
-import tylauncher.Utilites.WebAnswer;
 
 public class RegisterController {
     public static AccountAuthController accountAuthController;
@@ -55,6 +53,15 @@ public class RegisterController {
 
     @FXML
     void initialize() {
+        ButtonPage.reset();
+        ButtonPage.setPressedNum(1);
+        BooleanPageController.addButton(Account_Img);
+        BooleanPageController.addButton(News_Img);
+        BooleanPageController.addButton(Forum_Img);
+        BooleanPageController.addButton(Message_Img);
+        BooleanPageController.addButton(Settings_Img);
+        BooleanPageController.addButton(Play_Img);
+
         ErrorInterp.registerController = this;
         Cancel_Button.setOnMouseClicked(mouseEvent -> {
             Main.OpenNew("AccountAuth.fxml", A1);
