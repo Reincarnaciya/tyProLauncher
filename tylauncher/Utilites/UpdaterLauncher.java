@@ -50,7 +50,12 @@ public class UpdaterLauncher {
                 System.err.println(line);
                 if(line.equalsIgnoreCase("0")){
                     updaterController.setUpdateAvailable(true);
-                }
+                }else Platform.runLater(() ->{
+                    updaterController.getA1().getScene().getWindow().setWidth(800);
+                    updaterController.getA1().getScene().getWindow().setHeight(535);
+                    updaterController.getA1().getScene().getWindow().centerOnScreen();
+                    Main.OpenNew("AccountAuth.fxml", updaterController.getA1());
+                });
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -75,7 +80,7 @@ public class UpdaterLauncher {
                         System.err.println("Скачка: " + cll_web + "/" + client.length());
                     }
                     fw.close();
-                    Runtime.getRuntime().exec(new String[]{"cmd","/c","start","cmd","/k","java -jar \"" + client.getAbsolutePath() + "\" " + UserPC.pathToLauncher + " " + Main.getLauncherDir().getAbsolutePath()});
+                    Runtime.getRuntime().exec(new String[]{"cmd","/c","start","cmd","/k","java -jar \"" + client.getAbsolutePath() + "\" " + "\"" + UserPC.pathToLauncher + "\"" +  " " + "\"" + Main.getLauncherDir().getAbsolutePath()+ "\""});
                     Thread.sleep(50);
                     System.exit(0);
                 }

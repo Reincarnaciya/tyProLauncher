@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -15,6 +16,9 @@ public class UpdaterController {
 
     @FXML
     private Text TextUpdater;
+
+    @FXML
+    protected AnchorPane A1;
 
     @FXML
     private Pane UpdateOrNoPane;
@@ -55,5 +59,9 @@ public class UpdaterController {
             UpdateOrNoPane.setVisible(true);
             UpdateOrNoPane.setDisable(false);
         }
+    }
+
+    public AnchorPane getA1(){
+        return this.A1;
     }
 }

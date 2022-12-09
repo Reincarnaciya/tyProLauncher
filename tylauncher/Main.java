@@ -23,7 +23,7 @@ import java.util.Objects;
 
 public class Main extends Application {
 
-    public static final String launcher_version = "0.0";
+    public static final String launcher_version = "0.1";
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyLauncher");
     private static final ManagerDirs _clientDir = new ManagerDirs("TyPro");
     public static User user = new User();
@@ -51,9 +51,6 @@ public class Main extends Application {
         if(args.length > 0 && args[0].equals("deleteUpdater")){
             Utils.DeleteFile(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar"));
         }
-
-
-
         //Test();
 
         File dir_logs = new File(getLauncherDir() + File.separator + "logs");
@@ -77,10 +74,7 @@ public class Main extends Application {
         dual = new DualStream(System.err, out);
         System.setErr(dual);
 
-
         CheckLogs();
-
-
 
         UserPC.Show();
         launch(args);

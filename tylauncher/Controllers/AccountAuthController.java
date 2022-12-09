@@ -68,12 +68,6 @@ public class AccountAuthController {
         BooleanPageController.addButton(Message_Img);
         BooleanPageController.addButton(Settings_Img);
         BooleanPageController.addButton(Play_Img);
-        try {
-            UpdaterLauncher.checkUpdate();
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-
 
         RegisterController.accountAuthController = this;
         ErrorInterp.accountAuthController = this;

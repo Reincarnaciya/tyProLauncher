@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="65.0" prefWidth="367.0" style="-fx-background-color: #363636;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tylauncher.Controllers.UpdaterController">
+<AnchorPane fx:id="A1" prefHeight="65.0" prefWidth="367.0" style="-fx-background-color: #363636;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tylauncher.Controllers.UpdaterController">
    <children>
       <Pane fx:id="UpdatingPane" prefHeight="68.0" prefWidth="367.0" style="-fx-background-color: #363636;">
          <children>
