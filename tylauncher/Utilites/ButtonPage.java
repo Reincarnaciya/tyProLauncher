@@ -48,7 +48,6 @@ public class ButtonPage {
         }else {
             switch (_buttonNum){
                 case 5:
-                    System.err.println(UpdaterController.updateAvailable);
                     if (UpdaterController.updateAvailable){
                         buttonFx.setImage(new Image(String.valueOf(Main.class.getResource("assets/notpick/settingsUpdate.png"))));
                     }

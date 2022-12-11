@@ -50,6 +50,15 @@ public class RegisterController {
     private Pane infoTextPane;
     @FXML
     private Text infoText;
+    @FXML
+    private Text RepeatPasswordText;
+    @FXML
+    private Text EmailText;
+    @FXML
+    private Text PasswordText;
+    @FXML
+    private Text LoginText;
+
 
     @FXML
     void initialize() {
@@ -90,8 +99,8 @@ public class RegisterController {
             if (ShowPass_CheckBox.isSelected()) Password_Field.setText(newValue);
         });
         Register_Button.setOnMouseClicked(mouseEvent -> {
-            if (Username_Field.getText().equalsIgnoreCase("") || Password_Field.getText().equalsIgnoreCase("")) {
-                ErrorInterp.setMessageError("Логин или пароль не введены", "register");
+            if (Username_Field.getText().equalsIgnoreCase("") || Password_Field.getText().equalsIgnoreCase("") || RepeatPassword_Field.getText().equalsIgnoreCase("") || Email_Field.getText().equalsIgnoreCase("")) {
+                ErrorInterp.setMessageError("Заполин все поля!", "register");
                 return;
             }
             WebAnswer.Reset();
@@ -101,10 +110,24 @@ public class RegisterController {
                 accountAuthController.infoTextPane.setVisible(true);
                 accountAuthController.setInfoText(WebAnswer.getMessage());
                 ManagerAnimations.StartFadeAnim(accountAuthController.infoTextPane);
-
             } else {
+                if(WebAnswer.getFields().contains("email"))EmailText.setText("Электронная почта*");
+                else EmailText.setText("Электронная почта");
+
+                if(WebAnswer.getFields().contains("login"))LoginText.setText("Логин*");
+                else LoginText.setText("Логин");
+
+                if(WebAnswer.getFields().contains("password")){
+                    PasswordText.setText("Пароль*");
+                    RepeatPasswordText.setText("Повтор пароля*");
+                }else {
+                    PasswordText.setText("Пароль");
+                    RepeatPasswordText.setText("Повтор пароля");
+                }
                 ErrorInterp.setMessageError(WebAnswer.getMessage(), "register");
             }
+
+
 
         });
         News_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("News.fxml", A1));

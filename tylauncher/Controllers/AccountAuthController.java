@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import tylauncher.Main;
 import tylauncher.Utilites.*;
 import tylauncher.Utilites.Managers.ManagerAnimations;
@@ -58,7 +59,7 @@ public class AccountAuthController {
     public static AccountController accountController;
     private final File AuthFile = new File((Main.getLauncherDir() + File.separator + "auth.json"));
     public ManagerForJSON Auth = new ManagerForJSON(2);
-
+    private static boolean firstOpen = true;
     @FXML
     void initialize() {
         RegisterController.accountAuthController = this;
@@ -74,8 +75,13 @@ public class AccountAuthController {
         BooleanPageController.addButton(Play_Img);
         Platform.runLater(()->{
             A1.getScene().getWindow().setWidth(800);
-            A1.getScene().getWindow().setHeight(530);
+            A1.getScene().getWindow().setHeight(535);
+            Stage stage = (Stage) A1.getScene().getWindow();
+            if(firstOpen) A1.getScene().getWindow().centerOnScreen();
+            firstOpen = false;
+            stage.setTitle("Typical Launcher");
         });
+
 
 
         if (AuthFile.exists()) {

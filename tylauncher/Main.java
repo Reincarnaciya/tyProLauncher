@@ -1,6 +1,7 @@
 package tylauncher;
 
 import javafx.application.Application;
+import javafx.application.HostServices;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,6 +38,7 @@ public class Main extends Application {
     public static File getClientDir() {
         return _clientDir.getWorkDir();
     }
+
 
     public static void OpenNew(String fxml, AnchorPane pane) {
         AnchorPane pane1;
@@ -134,5 +136,6 @@ public class Main extends Application {
         UpdaterLauncher.checkUpdate();
 
     }
+
 
 }

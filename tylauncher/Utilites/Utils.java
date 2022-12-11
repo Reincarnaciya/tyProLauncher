@@ -1,6 +1,9 @@
 package tylauncher.Utilites;
 
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 
 public class Utils {
     private static final String suffix = "[UTIL] ";
@@ -36,6 +39,9 @@ public class Utils {
             }
         }
         file.delete();
+    }
+    public static void openUrl(String url) throws IOException {
+        Desktop.getDesktop().browse(URI.create(url));
     }
 
 }

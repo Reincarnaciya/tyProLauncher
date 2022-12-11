@@ -11,7 +11,7 @@ public class ManagerAnimations {
 
     public static FadeTransition CreateFader(Node node) {
 
-        FadeTransition fade = new FadeTransition(Duration.seconds(6), node);
+        FadeTransition fade = new FadeTransition(Duration.seconds(5), node);
         fade.setFromValue(1);
         fade.setToValue(0);
         return fade;

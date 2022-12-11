@@ -32,3 +32,8 @@ HyperLink{
 #RegText{
  -fx-font-size: 24;
 }
+.inDeveloping{
+    -fx-font-size: 32;
+    -fx-text-alignment: center;
+    -fx-text-origin: center;
+}
