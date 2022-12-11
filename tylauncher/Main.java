@@ -18,7 +18,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
-import java.security.NoSuchAlgorithmException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -26,7 +25,7 @@ import java.util.Objects;
 
 public class Main extends Application {
 
-    public static final String launcher_version = "0.1";
+    public static final String launcher_version = "0.01";
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyLauncher");
     private static final ManagerDirs _clientDir = new ManagerDirs("TyPro");
     public static User user = new User();
@@ -55,7 +54,7 @@ public class Main extends Application {
         if(args.length > 0 && args[0].equals("deleteUpdater")){
             Utils.DeleteFile(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar"));
         }
-        //Test();
+        Test();
 
         File dir_logs = new File(getLauncherDir() + File.separator + "logs");
         if (!dir_logs.exists()) {
@@ -108,11 +107,7 @@ public class Main extends Application {
     }
 
     private static void Test() {
-        try {
-            System.err.println(HashCodeCheck.getHash(Main.getClientDir() + File.separator + "TySci_1.16.5"));
-        } catch (IOException | NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override

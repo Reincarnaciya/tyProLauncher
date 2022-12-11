@@ -79,7 +79,9 @@ public class AccountAuthController {
             Stage stage = (Stage) A1.getScene().getWindow();
             if(firstOpen) A1.getScene().getWindow().centerOnScreen();
             firstOpen = false;
-            stage.setTitle("Typical Launcher");
+            if(UpdaterController.updateAvailable) stage.setTitle("Typical Launcher (Доступно обновление)");
+            else stage.setTitle("Typical Launcher");
+
         });
 
 

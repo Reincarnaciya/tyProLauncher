@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.StringJoiner;
 
 public class UpdaterLauncher {
-    private static boolean upd = false;
     public static UpdaterController updaterController;
     @FXML
     public static void checkUpdate() throws IOException {
