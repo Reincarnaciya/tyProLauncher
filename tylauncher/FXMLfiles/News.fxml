@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -50,5 +51,6 @@
     <Pane layoutX="93.0" prefHeight="500.0" prefWidth="709.0" style="-fx-background-color: #363636;">
       <children>
          <Text fx:id="inDevText" layoutX="14.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="inDeveloping" text="Раздел в разработке" textAlignment="CENTER" wrappingWidth="691.080078125" />
+         <Button fx:id="donateButton" disable="true" layoutX="208.0" layoutY="206.0" mnemonicParsing="false" prefHeight="88.0" prefWidth="266.0" text="ЗАДОНАТИТЬ" visible="false" />
       </children></Pane>
 </AnchorPane>

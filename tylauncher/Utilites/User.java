@@ -11,6 +11,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
 import java.util.*;
 
 public class User {
@@ -22,6 +23,7 @@ public class User {
     private String _balance;
     private String _group;
     private Image _image;
+    public boolean wasAuth = false;
 
     public User() {
         this._id = -1;
@@ -34,24 +36,8 @@ public class User {
         this._image = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("assets/picked/steve.png")));
     }
 
-    public User(String login, String password) {
-        this._password = password.trim().toLowerCase();
-        this._login = login.trim().toLowerCase();
-        this._group = "[Игрок]";
-        this._id = 0;
-        this._balance = "0";
-        this._email = "ty.pro";
-        this._session = null;
-        this._image = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("assets/picked/steve.png")));
-    }
-
-    public User(String login, String password, String session) {
-        this._password = password;
-        this._login = login;
-        this._session = session;
-    }
-
     public boolean Auth() throws Exception {
+
         WebAnswer.Reset();
         if (_login.isEmpty() || _password.isEmpty()) throw new Exception("Логин или пароль не введены");
         InputStreamReader inputStreamReader;
@@ -69,7 +55,6 @@ public class User {
         for (Map.Entry<String, String> entry : param.entrySet())
             stringJoiner.add(URLEncoder.encode(entry.getKey(), "UTF-8") + "=" + URLEncoder.encode(entry.getValue(), "UTF-8"));
         byte[] out = stringJoiner.toString().getBytes(StandardCharsets.UTF_8);
-        //int length = out.length;
         httpURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
         httpURLConnection.setConnectTimeout(1000);
         httpURLConnection.connect();
@@ -85,15 +70,27 @@ public class User {
                 System.out.println("Ответ с сервера массивом: " + Arrays.toString(answer));
                 WebAnswer.Reset();
                 if (answer[0].equals("status")) WebAnswer.setStatus(answer[1]);
+
                 if (answer[2].equals("type")) WebAnswer.setType(answer[3]);
                 if (answer[4].equals("message")) WebAnswer.setMessage(answer[5]);
                 if (answer[2].equals("user") && answer[3].equals("id")) this._id = Integer.parseInt(answer[4]);
                 if (answer[5].equals("login")) this._login = answer[6];
                 if (answer.length > 7) {
                     if (answer[7].equals("email")) this._email = answer[8];
-                    if (answer[9].equals("session")) this._session = answer[10];
                     if (answer[11].equals("coin")) this._balance = answer[12];
+                    if(wasAuth && !WebAnswer.getStatus()){
+                        System.err.println(this);
+                        throw new Exception("Данные авторизации поломались. Авторизуйтесь заново.");
+                    }
+
+                    if (!wasAuth && WebAnswer.getStatus()){
+                        if (answer[9].equals("session")) this._session = answer[10];
+                        System.err.println(this);
+                        wasAuth = true;
+                        return WebAnswer.getStatus();
+                    }
                 }
+                System.err.println(this);
                 return WebAnswer.getStatus();
 
             } else throw new Exception(String.valueOf(httpURLConnection.getResponseMessage()));

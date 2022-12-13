@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="A1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="tylauncher.Controllers.ForumController">
+<AnchorPane fx:id="A1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tylauncher.Controllers.ForumController">
     <VBox alignment="TOP_CENTER" fillWidth="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="500.0" prefWidth="93.0" style="-fx-background-color: black; -fx-alignment: center; -fx-spacing: 4;">
         <ImageView fx:id="Account_Img" fitWidth="75.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
             <cursor>
@@ -49,6 +49,6 @@
     </VBox>
     <Pane layoutX="93.0" prefHeight="500.0" prefWidth="708.0" style="-fx-background-color: #363636;">
       <children>
-         <Text layoutX="14.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="inDeveloping" text="Раздел в разработке" textAlignment="CENTER" wrappingWidth="691.080078125" />
+         <Text fx:id="inDevText" layoutX="14.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="inDeveloping" text="Раздел в разработке" textAlignment="CENTER" wrappingWidth="691.080078125" />
       </children></Pane>
 </AnchorPane>

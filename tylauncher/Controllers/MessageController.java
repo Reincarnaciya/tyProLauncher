@@ -3,6 +3,7 @@ package tylauncher.Controllers;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import tylauncher.Main;
 import tylauncher.Utilites.BooleanPageController;
 import tylauncher.Utilites.ButtonPage;
@@ -25,6 +26,8 @@ public class MessageController {
     private ImageView Play_Img;
     @FXML
     private ImageView Settings_Img;
+    @FXML
+    private Text inDevText;
 
     @FXML
     void initialize() {
@@ -36,6 +39,9 @@ public class MessageController {
         BooleanPageController.addButton(Message_Img);
         BooleanPageController.addButton(Settings_Img);
         BooleanPageController.addButton(Play_Img);
+
+        inDevText.setOnMouseClicked(mouseEvent -> {
+        });
 
         News_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("News.fxml", A1));
         Forum_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Forum.fxml", A1));

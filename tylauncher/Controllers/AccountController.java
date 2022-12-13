@@ -70,6 +70,7 @@ public class AccountController {
         File f = new File(Main.getLauncherDir() + File.separator + "auth.json");
         f.delete();
         user.Reset();
+        user.wasAuth = false;
         Main.OpenNew("AccountAuth.fxml", A1);
     }
 

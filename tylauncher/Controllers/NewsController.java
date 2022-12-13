@@ -1,21 +1,19 @@
 package tylauncher.Controllers;
 
-import javafx.application.HostServices;
-import javafx.application.Platform;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import tylauncher.Main;
 import tylauncher.Utilites.BooleanPageController;
 import tylauncher.Utilites.ButtonPage;
-import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Utils;
 
-import java.awt.*;
 import java.io.IOException;
-import java.net.URI;
 
 import static tylauncher.Controllers.AccountAuthController.accountController;
 import static tylauncher.Main.user;
@@ -37,6 +35,8 @@ public class NewsController {
     private ImageView Settings_Img;
     @FXML
     private Text inDevText;
+    @FXML
+    private Button donateButton;
 
     private int clicks = 0;
     @FXML
@@ -49,27 +49,37 @@ public class NewsController {
         BooleanPageController.addButton(Message_Img);
         BooleanPageController.addButton(Settings_Img);
         BooleanPageController.addButton(Play_Img);
+        inDevText.setOnMouseEntered(mouseEvent ->{
+            if (clicks > 1){
+                inDevText.setCursor(Cursor.HAND);
+            }
+        });
+
+        inDevText.setOnMouseExited(mouseEvent ->{
+            inDevText.setCursor(Cursor.DEFAULT);
+        });
+
 
         inDevText.setOnMouseClicked(mouseEvent -> {
             clicks++;
             System.err.println(clicks);
             switch (clicks){
-                case 1:
+                case 2:
                     inDevText.setText("Ай   ಥ﹏ಥ");
                     break;
-                case 2:
+                case 3:
                     inDevText.setText("Ой..Он меня заметил? ._.");
                     break;
-                case 3:
+                case 4:
                     inDevText.setText(".");
                     break;
-                case 4:
+                case 5:
                     inDevText.setText("..");
                     break;
-                case 5:
+                case 6:
                     inDevText.setText("...");
                     break;
-                case 6:
+                case 7:
                     inDevText.setText("*Делает вид что его тут нет* \n\n\n(〃＞＿＜;〃)");
                     break;
                 case 10:
@@ -113,18 +123,21 @@ public class NewsController {
                     inDevText.setText("(ｏ・_・)ノ”(ノ_");
                     break;
                 case 130:
-                    inDevText.setText("(×_×)⌒☆");
-                    break;
-                case 150:
                     inDevText.setText("СУКА ХВАТИТ, ЛУЧШЕ БЫ ДОНАТ ТАК ПОКУПАЛИ, КАК НА МЕНЯ КЛИКАЮТ.. \n\n\n凸(￣ヘ￣)");
                     inDevText.setStyle("-fx-fill: ff0000; -fx-font-size: 42px;");
                     break;
-                case 160:
-                    inDevText.setText("Да ну нахуй.");
-                    inDevText.setStyle("");
+                case 150:
+                    donateButton.setVisible(true);
+                    donateButton.setDisable(false);
+                    inDevText.setY(inDevText.getY() + 120);
+                    inDevText.setText("ПОПАЛСЯ! \n}:->");
                     break;
-                case 170:
-                    inDevText.setText("}:->");
+                case 160:
+                    donateButton.setVisible(false);
+                    donateButton.setDisable(true);
+                    inDevText.setY(inDevText.getY() - 120);
+                    inDevText.setText("Задонатил? \n:)");
+                    inDevText.setStyle("");
                     break;
                 case 180:
                     try {
@@ -136,6 +149,7 @@ public class NewsController {
                     break;
                 case 190:
                     inDevText.setText("(・`ω´・)");
+                    break;
                 case 200:
                     inDevText.setText("Как ты за.. 200 раз уже.. Я так не могу..");
                     break;
@@ -152,7 +166,13 @@ public class NewsController {
 
         });
 
-
+        donateButton.setOnMouseClicked(mouseEvent -> {
+            try {
+                Utils.openUrl("https://typro.space/vendor/donate/script_donate.php");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         Forum_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Forum.fxml", A1));
         Message_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Message.fxml", A1));

@@ -26,14 +26,15 @@ import java.util.Objects;
 public class Main extends Application {
 
     public static final String launcher_version = "0.0";
+
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyLauncher");
     private static final ManagerDirs _clientDir = new ManagerDirs("TyPro");
+
     public static User user = new User();
 
     public static File getLauncherDir() {
         return _launcherDir.getWorkDir();
     }
-
     public static File getClientDir() {
         return _clientDir.getWorkDir();
     }
@@ -80,7 +81,26 @@ public class Main extends Application {
         CheckLogs();
 
         UserPC.Show();
-        launch(args);
+        launch();
+    }
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Font.loadFont(getClass().getResourceAsStream("Minecraft.ttf"), 16);
+        Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("FXMLfiles/Updater.fxml")));
+        Scene scene = new Scene(root);
+        primaryStage.setTitle("Updater");
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("StyleSheets/font.css")).toExternalForm());
+        primaryStage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("assets/ico.png"))));
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
+        primaryStage.getScene().getWindow().centerOnScreen();
+        primaryStage.getScene().getWindow().setOnCloseRequest(Even ->{
+            primaryStage.close();
+            System.exit(0);
+        });
+        UpdaterLauncher.checkUpdate();
+
     }
 
     public static void CheckLogs() {
@@ -110,27 +130,7 @@ public class Main extends Application {
 
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        Font.loadFont(getClass().getResourceAsStream("Minecraft.ttf"), 16);
-        Parent root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("FXMLfiles/Updater.fxml")));
-        Scene scene = new Scene(root);
-        primaryStage.setTitle("Updater");
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("StyleSheets/font.css")).toExternalForm());
-        primaryStage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("assets/ico.png"))));
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-        primaryStage.getScene().getWindow().centerOnScreen();
-        primaryStage.getScene().getWindow().setOnCloseRequest(Even ->{
-            primaryStage.close();
-            System.exit(0);
-        });
 
-
-        UpdaterLauncher.checkUpdate();
-
-    }
 
 
 }

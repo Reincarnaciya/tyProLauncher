@@ -163,8 +163,6 @@ public class AccountAuthController {
     }
 
     public void StartAuth() throws Exception {
-
-        WebAnswer.Reset();
         if (user.Auth()) {
             Main.OpenNew("Account.fxml", A1);
             accountController.UpdateData();
