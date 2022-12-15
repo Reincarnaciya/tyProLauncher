@@ -85,7 +85,7 @@ public class UpdaterLauncher {
                         System.err.println("Скачка: " + cll_web + "/" + client.length());
                     }
                     fw.close();
-                    Runtime.getRuntime().exec(new String[]{"cmd","/c","start","cmd","/k","java -jar \"" + client.getAbsolutePath() + "\" " + "\"" + UserPC.pathToLauncher + "\"" +  " " + "\"" + Main.getLauncherDir().getAbsolutePath()+ "\""});
+                    Runtime.getRuntime().exec(new String[]{"cmd","/c","start","cmd","/k","java -jar \"" + client.getAbsolutePath() + "\" " + "\"" + UserPC._pathToLauncher + "\"" +  " " + "\"" + Main.getLauncherDir().getAbsolutePath()+ "\""});
                     System.exit(0);
                 }
             } catch (IOException e) {

@@ -24,16 +24,17 @@ public class UserPC {
     public static final String _os = System.getProperty("os.name").toLowerCase();
     public static final String _javaVersion = System.getProperty("java.version");
     public static final String _javaBit = System.getProperty("sun.arch.data.model");
-    public static String pathToLauncher = null;
+    public static String _pathToLauncher = null;
 
     static {
         try {
-            pathToLauncher = Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
-            pathToLauncher = new StringBuilder(pathToLauncher).deleteCharAt(0).toString();
+            _pathToLauncher = Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            _pathToLauncher = new StringBuilder(_pathToLauncher).deleteCharAt(0).toString();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }
+    public static String _javaFXVersion = com.sun.javafx.runtime.VersionInfo.getVersion();
 
     public static void Show() {
         System.err.println("----------------USER PC----------------");
@@ -42,7 +43,8 @@ public class UserPC {
         System.err.println("Resolution: " + _width + "x" + _height);
         System.err.println("Java Version: " + _javaVersion);
         System.err.println("Bit Java: " + _javaBit);
-        System.err.println("PathToLauncher: " + pathToLauncher);
+        System.err.println("PathToLauncher: " + _pathToLauncher);
+        System.err.println("JavaFXVersion: " + _javaFXVersion);
         System.err.println("----------------USER PC----------------");
     }
 
