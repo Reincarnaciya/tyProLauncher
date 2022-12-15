@@ -1,7 +1,7 @@
 # TyLauncher
-Типичный лаунчер типичного Minecraft [проекта](https://www.typro.space) от типичного говно-кодера
-
-Проект сделан на javafx-8, компиллировать так же следует на javafx-8
-
+Типичный лаунчер типичного Minecraft [*проекта*](https://www.typro.space) от типичного ~~говно-~~кодера
+#### SDK - corretto-1.8
+####*JavaFX-8*
+####*Java Version - 1.8.0_352*
 
  
