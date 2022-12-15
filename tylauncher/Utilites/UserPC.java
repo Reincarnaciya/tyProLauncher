@@ -42,9 +42,9 @@ public class UserPC {
         System.err.println("OS: " + _os);
         System.err.println("Resolution: " + _width + "x" + _height);
         System.err.println("Java Version: " + _javaVersion);
+        System.err.println("JavaFXVersion: " + _javaFXVersion);
         System.err.println("Bit Java: " + _javaBit);
         System.err.println("PathToLauncher: " + _pathToLauncher);
-        System.err.println("JavaFXVersion: " + _javaFXVersion);
         System.err.println("----------------USER PC----------------");
     }
 
