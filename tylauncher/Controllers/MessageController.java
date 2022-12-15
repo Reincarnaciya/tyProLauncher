@@ -40,9 +40,6 @@ public class MessageController {
         BooleanPageController.addButton(Settings_Img);
         BooleanPageController.addButton(Play_Img);
 
-        inDevText.setOnMouseClicked(mouseEvent -> {
-        });
-
         News_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("News.fxml", A1));
         Forum_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Forum.fxml", A1));
         Settings_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Settings.fxml", A1));
