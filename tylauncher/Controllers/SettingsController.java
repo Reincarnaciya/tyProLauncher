@@ -1,14 +1,16 @@
 package tylauncher.Controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.Cursor;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import jdk.nashorn.internal.objects.Global;
 import tylauncher.Main;
 import tylauncher.Utilites.*;
 import tylauncher.Utilites.Managers.ManagerAnimations;
@@ -17,6 +19,8 @@ import tylauncher.Utilites.Managers.ManagerStart;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Observable;
 
 import static tylauncher.Controllers.AccountAuthController.accountController;
 import static tylauncher.Main.user;
@@ -64,9 +68,17 @@ public class SettingsController {
 
     @FXML
     private Text SettingsSaved_Text;
+
+    @FXML
+    private Pane SettingsPane;
+
+    @FXML
+
     private final ManagerForJSON settingsJson = new ManagerForJSON(4);
 
     private final File settingsFile = new File(Main.getLauncherDir() + File.separator + "settings.json");
+
+    private static boolean hellishTheme = false;
 
     @FXML
     void initialize() {
@@ -80,6 +92,9 @@ public class SettingsController {
         BooleanPageController.addButton(Play_Img);
 
         ErrorInterp.settingsController = this;
+        if(hellishTheme) SettingsPane.setStyle("-fx-background-color:  ff0000;");
+
+
         if (settingsFile.exists()) {
             try {
                 settingsJson.ReadJSONFile(settingsFile.getAbsolutePath());
@@ -121,6 +136,20 @@ public class SettingsController {
             });
         });
         OzuCount_Label.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.trim().equalsIgnoreCase(String.valueOf(666))){
+                SettingsPane.setStyle("-fx-background-color:  ff0000;");
+                OzuCount_Label.setStyle("-fx-background-color: ff0000;");
+                ErrorInterp.setMessageError("Зря..", "settings");
+                A1.getScene().setCursor(Cursor.cursor(String.valueOf(Main.class.getResource("assets/HellTyMasunya.png"))));
+                hellishTheme = true;
+            }
+            if(newValue.trim().equalsIgnoreCase("999")){
+                SettingsPane.setStyle("-fx-background-color: #363636;");
+                OzuCount_Label.setStyle("-fx-background-color: #363636;");
+                ErrorInterp.setMessageError("Умничка :)", "settings");
+                A1.getScene().setCursor(Cursor.DEFAULT);
+                hellishTheme = false;
+            }
             if (!newValue.matches("\\d*")) OzuCount_Label.setText(oldValue);
         });
         X_Label.textProperty().addListener((observable, oldValue, newValue) -> {

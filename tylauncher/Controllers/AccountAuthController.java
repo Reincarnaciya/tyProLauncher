@@ -148,6 +148,7 @@ public class AccountAuthController {
 
 
     public void setInfoText(String text) {
+
         infoTextPane.setVisible(true);
         infoText.setText(text);
         ManagerAnimations.StartFadeAnim(infoTextPane);

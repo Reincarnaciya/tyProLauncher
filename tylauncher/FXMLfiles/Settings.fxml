@@ -52,7 +52,7 @@
             <Image url="@../assets/notpick/play.png" />
         </ImageView>
     </VBox>
-    <Pane layoutX="93.0" prefHeight="500.0" prefWidth="712.0" style="-fx-background-color: #363636;">
+    <Pane fx:id="SettingsPane" layoutX="93.0" prefHeight="500.0" prefWidth="712.0" style="-fx-background-color: #363636;">
         <VBox alignment="CENTER" layoutX="7.0" layoutY="66.0" prefHeight="97.0" prefWidth="165.0" style="-fx-spacing: 5;">
             <HBox alignment="CENTER" prefHeight="27.0" prefWidth="275.0" style="-fx-spacing: 10;">
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="X" />
