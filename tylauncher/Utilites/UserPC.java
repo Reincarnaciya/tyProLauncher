@@ -10,7 +10,7 @@ public class UserPC {
     private static final float _ozu = (float) (
             (((com.sun.management.OperatingSystemMXBean)
                     ManagementFactory.getOperatingSystemMXBean())
-                    .getTotalPhysicalMemorySize()) / 1048576); // может лучше всеже оставить float чтобы лишьний раз не конвертировать?
+                    .getTotalPhysicalMemorySize()) / 1048576);
     public static final int _width = GraphicsEnvironment
             .getLocalGraphicsEnvironment()
             .getDefaultScreenDevice()
@@ -49,9 +49,7 @@ public class UserPC {
     }
 
     public static float getOzu(){
-        if(_javaBit.equalsIgnoreCase("32") && _ozu > 4096.0){
-            return 4096;
-        }
+        if(_javaBit.equalsIgnoreCase("32") && _ozu > 4096.0) return 4096;
         return _ozu;
     }
 

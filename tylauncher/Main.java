@@ -20,6 +20,7 @@ import java.io.PrintStream;
 import java.nio.file.Files;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
@@ -65,7 +66,9 @@ public class Main extends Application {
         ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Europe/Moscow")); // Europe/Moscow
         // очищаем от говна
         String logfile = now.toString().replace(":", "-")
-                .replace("]", "").replace("[", "").replace(".", "").replace("/", "-") + ".log";
+                .replace("]", "").replace("[", "")
+                .replace(".", "").replace("/", "-")
+                + ".log";
         // лог файл
         File log = new File(dir_logs + File.separator + "LogFile_" + logfile);
         if (!log.exists()) {
