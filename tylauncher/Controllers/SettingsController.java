@@ -82,6 +82,7 @@ public class SettingsController {
 
     @FXML
     void initialize() {
+        //все кнопки в 1 массив!
         ButtonPage.reset();
         ButtonPage.setPressedNum(5);
         BooleanPageController.addButton(Account_Img);
@@ -90,23 +91,27 @@ public class SettingsController {
         BooleanPageController.addButton(Message_Img);
         BooleanPageController.addButton(Settings_Img);
         BooleanPageController.addButton(Play_Img);
-
+        //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
         ErrorInterp.settingsController = this;
-        if(hellishTheme) SettingsPane.setStyle("-fx-background-color:  ff0000;");
+        if(hellishTheme) SettingsPane.setStyle("-fx-background-color:  ff0000;");//Пасхалка тип
 
-
+        // берем файл настроек
         if (settingsFile.exists()) {
             try {
+                //Считываем файл
                 settingsJson.ReadJSONFile(settingsFile.getAbsolutePath());
+                //Берем нужное
                 settings.setOzu(Integer.parseInt(settingsJson.GetOfIndex(0,1)));
                 settings.setX(Integer.parseInt(settingsJson.GetOfIndex(1,1)));
                 settings.setY(Integer.parseInt(settingsJson.GetOfIndex(2,1)));
                 settings.setFsc(Boolean.parseBoolean(settingsJson.GetOfIndex(3,1)));
             } catch (Exception e) {
+                //пошло по пизде? хуево
                 setInfoText(e.toString());
                 e.printStackTrace();
             }
         }
+        //Включаем апдейт пэйн, если есть апдейт
         if(UpdaterController.updateAvailable){
             updateAvailablePane.setDisable(false);
             updateAvailablePane.setVisible(true);
@@ -114,21 +119,22 @@ public class SettingsController {
         updateButton.setOnMouseClicked(mouseEvent ->{
             UpdaterLauncher.UpdateLauncher();
         });
-
+        //Выставляем максимальное значение слайдера в зависимости от установленной на пк ОЗУ
         Ozu_Slider.setMax((int)(UserPC.getOzu()/512) * 512);
-
+        //Ставим слайдер по умолчанию и устанавливаем текст
         Ozu_Slider.setValue(settings.getOzu());
         OzuCount_Label.setText(String.valueOf(settings.getOzu()));
 
         try {
+            //Инфа в комментариях функций
             WriteSettingToFile();
             UpdateSettings();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        //Листенер изменения слайдера Озу
         Ozu_Slider.valueProperty().addListener((obs, oldval, newval) -> {
-            int value = Math.round(newval.floatValue() / 512) * 512;
+            int value = Math.round(newval.floatValue() / 512) * 512;//округляем до числа кратного 512(Джава так любит)
             OzuCount_Label.setText(String.valueOf(value));
             Ozu_Slider.setOnMouseReleased(mouseEvent -> {
                 Ozu_Slider.setValue(value);
@@ -177,7 +183,7 @@ public class SettingsController {
             SettingsSaved_Text.setVisible(true);
             ManagerAnimations.StartFadeAnim(SettingsSaved_Text);
         });
-
+        //Ивенты клика на картинки
         News_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("News.fxml", A1));
         Forum_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Forum.fxml", A1));
         Message_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Message.fxml", A1));

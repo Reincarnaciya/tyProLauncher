@@ -40,6 +40,10 @@ public class AccountController {
     private Button Exit_Button;
     @FXML
     void initialize() {
+        //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
+        AccountAuthController.accountController = this;
+
+        //все кнопки в 1 массив!
         ButtonPage.reset();
         ButtonPage.setPressedNum(1);
         BooleanPageController.addButton(Account_Img);
@@ -50,7 +54,7 @@ public class AccountController {
         BooleanPageController.addButton(Play_Img);
 
 
-        AccountAuthController.accountController = this;
+        //Ивенты клика на картинки
         News_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("News.fxml", A1));
         Forum_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Forum.fxml", A1));
         Message_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Message.fxml", A1));
@@ -58,20 +62,20 @@ public class AccountController {
         Play_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Play.fxml", A1));
         Exit_Button.setOnMouseClicked(mouseEvent -> Exit());
     }
-
+    //Обновление информации о юзере
     public void UpdateData() {
         Username_Text.setText(user.GetLogin());
         Balance_Text.setText(user.GetBalance());
         Group_Text.setText(user.GetGroup());
         Skin_Image.setImage(user.GetImage());
     }
-
+    //Функция выхода из аккаунта
     void Exit() {
-        File f = new File(Main.getLauncherDir() + File.separator + "auth.json");
-        f.delete();
-        user.Reset();
-        user.wasAuth = false;
-        Main.OpenNew("AccountAuth.fxml", A1);
+        File f = new File(Main.getLauncherDir() + File.separator + "auth.json");//Файл настроек
+        f.delete();//Удалить нахуй
+        user.Reset();//Ресетнуть всё
+        user.wasAuth = false;//Флаг авторизации - не авторизовавылся
+        Main.OpenNew("AccountAuth.fxml", A1);// Выкинуть в авторизацию
     }
 
 }

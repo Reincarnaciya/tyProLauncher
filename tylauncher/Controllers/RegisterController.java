@@ -62,6 +62,7 @@ public class RegisterController {
 
     @FXML
     void initialize() {
+        // ЛОГИКА КАК В АВТОРИЗАЦИИ, Я ЗАЕБАЛСЯ КОММЕНТАРИИ ОДНОТИПНЫЕ ПИСАТЬ
         ButtonPage.reset();
         ButtonPage.setPressedNum(1);
         BooleanPageController.addButton(Account_Img);
@@ -130,6 +131,7 @@ public class RegisterController {
 
 
         });
+        //Ивенты клика на картинки
         News_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("News.fxml", A1));
         Forum_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Forum.fxml", A1));
         Message_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Message.fxml", A1));

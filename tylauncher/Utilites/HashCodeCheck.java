@@ -49,7 +49,7 @@ public class HashCodeCheck {
         }
         byte[] mdbytes = md.digest();
         //convert the byte to hex format
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (byte mdbyte : mdbytes) {
             sb.append(Integer.toString((mdbyte & 0xff) + 0x100, 16).substring(1));
         }

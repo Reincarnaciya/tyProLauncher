@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ManagerUpdate {
 
@@ -23,41 +24,52 @@ public class ManagerUpdate {
     public static void DownloadUpdate(String version, String urld) {
         if (downloading) {
             UpdateInfo();
-        } else {
-            new Thread(() -> {
-                try {
-                    playController.setTextOfDownload("Инициализация загрузки");
-                    downloading = true;
-                    playController.PlayButtonEnabled(false);
-                    URL url = new URL(urld);
-                    HttpURLConnection updcon = (HttpURLConnection) url.openConnection();
-                    System.out.println(updcon);
-                    File client = new File(Main.getClientDir().getAbsolutePath() + File.separator, "client1165.zip");
-                    long cll_web = updcon.getContentLength();
-                    if ((client.length() != cll_web) && cll_web > 1) {
-                        BufferedInputStream bis = new BufferedInputStream(updcon.getInputStream());
-                        FileOutputStream fw = new FileOutputStream(client);
-                        byte[] by = new byte[1024];
-                        int count = 0;
-                        while ((count = bis.read(by)) != -1) {
-                            fw.write(by, 0, count);
-                            clientLength = client.length();
-                            cllweb = cll_web;
-                            UpdateInfo();
-                        }
-                        fw.close();
-                        downloading = false;
-                        ManagerZip.Unzip(Main.getClientDir().getAbsolutePath() + File.separator + "client1165.zip", Main.getClientDir().getAbsolutePath() + File.separator + version + File.separator);
-                    }
-
-                } catch (IOException e) {
-                    downloading = false;
-                    ErrorInterp.setMessageError(e.getMessage(), "play");
-                    e.printStackTrace();
-                }
-            }).start();
+            return;
         }
+        new Thread(() -> {
+            try {
+                playController.setTextOfDownload("Инициализация загрузки");
+                downloading = true;
+                playController.PlayButtonEnabled(false);
+                URL url = new URL(urld);
+                HttpURLConnection updcon = (HttpURLConnection) url.openConnection();
+                System.out.println(updcon);
+                File client = new File(Main.getClientDir().getAbsolutePath() + File.separator, "client1165.zip");
+                long cll_web = updcon.getContentLength();
+                if ((client.length() != cll_web) && cll_web > 1) {
+                    BufferedInputStream bis = new BufferedInputStream(updcon.getInputStream());
+                    FileOutputStream fw = new FileOutputStream(client);
+                    playController.getA1().getScene().getWindow().setOnCloseRequest(event -> {
+                        try {
+                            fw.close();
+                            bis.close();
+                            Main.exit();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                    byte[] by = new byte[1024];
+                    int count = 0;
+
+                    while ((count = bis.read(by)) != -1) {
+                        fw.write(by, 0, count);
+                        clientLength = client.length();
+                        cllweb = cll_web;
+                        UpdateInfo();
+                    }
+                    fw.close();
+                    downloading = false;
+                    ManagerZip.Unzip(Main.getClientDir().getAbsolutePath() + File.separator + "client1165.zip", Main.getClientDir().getAbsolutePath() + File.separator + version + File.separator);
+                }
+
+            } catch (IOException e) {
+                downloading = false;
+                ErrorInterp.setMessageError(e.getMessage(), "play");
+                e.printStackTrace();
+            }
+        }).start();
     }
+
     public static void UpdateInfo() {
         new Thread(() -> {
             if (!downloading) {

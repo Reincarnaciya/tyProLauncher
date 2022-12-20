@@ -7,6 +7,7 @@ import javafx.scene.text.Text;
 import tylauncher.Main;
 import tylauncher.Utilites.BooleanPageController;
 import tylauncher.Utilites.ButtonPage;
+import tylauncher.Utilites.ErrorInterp;
 
 import static tylauncher.Controllers.AccountAuthController.accountController;
 import static tylauncher.Main.user;
@@ -31,6 +32,7 @@ public class ForumController {
 
     @FXML
     void initialize() {
+        //все кнопки в 1 массив!
         ButtonPage.reset();
         ButtonPage.setPressedNum(3);
         BooleanPageController.addButton(Account_Img);
@@ -40,12 +42,13 @@ public class ForumController {
         BooleanPageController.addButton(Settings_Img);
         BooleanPageController.addButton(Play_Img);
 
-        
 
+        //Ивенты клика на картинки
         News_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("News.fxml", A1));
         Message_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Message.fxml", A1));
         Settings_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Settings.fxml", A1));
         Play_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Play.fxml", A1));
+        //В зависимости от того возможно ли авторизовать юзера кидаем его или в аккаунт или в авторизацию
         Account_Img.setOnMouseClicked(mouseEvent -> {
             try {
                 if (user.Auth()) {
@@ -55,6 +58,7 @@ public class ForumController {
 
             } catch (Exception e) {
                 Main.OpenNew("AccountAuth.fxml", A1);
+                ErrorInterp.setMessageError(e.getMessage(), "accauntauth");
             }
         });
     }

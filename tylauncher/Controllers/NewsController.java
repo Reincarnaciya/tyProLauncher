@@ -41,6 +41,7 @@ public class NewsController {
     private int clicks = 0;
     @FXML
     void initialize() {
+        //все кнопки в 1 массив!
         ButtonPage.reset();
         ButtonPage.setPressedNum(2);
         BooleanPageController.addButton(Account_Img);
@@ -49,17 +50,15 @@ public class NewsController {
         BooleanPageController.addButton(Message_Img);
         BooleanPageController.addButton(Settings_Img);
         BooleanPageController.addButton(Play_Img);
+        //Можно я не буду комментировать всё, что ниже..Это же элементарно..
         inDevText.setOnMouseEntered(mouseEvent ->{
             if (clicks > 1){
                 inDevText.setCursor(Cursor.HAND);
             }
         });
-
         inDevText.setOnMouseExited(mouseEvent ->{
             inDevText.setCursor(Cursor.DEFAULT);
         });
-
-
         inDevText.setOnMouseClicked(mouseEvent -> {
             clicks++;
             System.err.println(clicks);
@@ -162,10 +161,7 @@ public class NewsController {
                     }
                     System.exit(-1);
             }
-
-
         });
-
         donateButton.setOnMouseClicked(mouseEvent -> {
             try {
                 Utils.openUrl("https://typro.space/vendor/donate/script_donate.php");
@@ -174,10 +170,12 @@ public class NewsController {
             }
         });
 
+        //Ивенты клика на картинки
         Forum_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Forum.fxml", A1));
         Message_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Message.fxml", A1));
         Settings_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Settings.fxml", A1));
         Play_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Play.fxml", A1));
+        //В зависимости от того возможно ли авторизовать юзера кидаем его или в аккаунт или в авторизацию
         Account_Img.setOnMouseClicked(mouseEvent -> {
             try {
                 if (user.Auth()) {

@@ -41,6 +41,7 @@ public class PlayController {
 
     @FXML
     void initialize() {
+        //все кнопки в 1 массив!
         ButtonPage.reset();
         ButtonPage.setPressedNum(6);
         BooleanPageController.addButton(Account_Img);
@@ -49,19 +50,20 @@ public class PlayController {
         BooleanPageController.addButton(Message_Img);
         BooleanPageController.addButton(Settings_Img);
         BooleanPageController.addButton(Play_Img);
-
+        //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
         ManagerUpdate.playController = this;
         ManagerStart.playController = this;
         ErrorInterp.playController = this;
         ManagerZip.playController = this;
-
+        //Проверка на статус.. Чего? а, на статус того, что вообще происходит в лаунчере
         if (ManagerStart.gameIsStart) setTextOfDownload("Игра запущена");
         if (ManagerZip.unzipping) ManagerZip.UpdateInfo();
-
+        //Ивенты клика на картинки
         News_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("News.fxml", A1));
         Forum_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Forum.fxml", A1));
         Message_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Message.fxml", A1));
         Settings_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Settings.fxml", A1));
+        //В зависимости от того возможно ли авторизовать юзера кидаем его или в аккаунт или в авторизацию
         Account_Img.setOnMouseClicked(mouseEvent -> {
             try {
                 if (user.Auth()) {
@@ -72,6 +74,7 @@ public class PlayController {
                 Main.OpenNew("AccountAuth.fxml", A1);
             }
         });
+        //Улавливаем ивент нажатия на кнопку "Играть"
         Play_Button.setOnMouseClicked(mouseEvent -> {
             setTextOfDownload("Инициализация..");
             if (ManagerStart.gameIsStart) {
@@ -84,20 +87,15 @@ public class PlayController {
             }
             try {
                 if (user.Auth()) {
-                    /*
                     if (!HashCodeCheck.CheckHashWithServer()) {
                         Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "TySci_1.16.5"));
                         Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "client1165.zip"));
                         ManagerUpdate.DownloadUpdate("TySci_1.16.5", "https://www.typro.space/files/client_mc/client1165.zip");
                     } else ManagerStart.StartMinecraft("TySci_1.16.5");
-
-                     */
-                    ManagerStart.StartMinecraft("TySci_1.16.5");
                 }
             } catch (Exception e) {
                 ErrorInterp.setMessageError("Необходимо авторизоваться, прежде чем начать играть", "play");
             }
-
         });
     }
 
@@ -112,5 +110,9 @@ public class PlayController {
 
     public void UdpateProgressBar(double progress) {
         this.Download_ProgressBar.setProgress(progress);
+    }
+
+    public AnchorPane getA1(){
+        return A1;
     }
 }

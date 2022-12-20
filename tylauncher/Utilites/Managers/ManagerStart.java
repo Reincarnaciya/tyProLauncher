@@ -31,11 +31,15 @@ public class ManagerStart {
                     String y;
                     if (SettingsController.settings.getFsc()) {
                         fsc = "--fullscreen";
+                        x = "";
+                        y = "";
+                    }else {
+                        int X = SettingsController.settings.getX();
+                        int Y = SettingsController.settings.getY();
+                        x = " --width " + X + " ";
+                        y = " --height " + Y;
                     }
-                    int X = SettingsController.settings.getX();
-                    int Y = SettingsController.settings.getY();
-                    x = " --width " + X + " ";
-                    y = " --height " + Y;
+
                     Process p1 = null;
                     System.out.println(suffix + "sess - " + user.getSession());
                     if(UserPC._os.contains("linux") || UserPC._os.contains("unix")){

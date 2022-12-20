@@ -13,6 +13,9 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import tylauncher.Utilites.*;
 import tylauncher.Utilites.Managers.ManagerDirs;
+import tylauncher.Utilites.Managers.ManagerStart;
+import tylauncher.Utilites.Managers.ManagerUpdate;
+import tylauncher.Utilites.Managers.ManagerZip;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +28,7 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Main extends Application {
+    public static Stage mainStage = null;
 
     public static final String launcher_version = "0.0";
 
@@ -86,6 +90,18 @@ public class Main extends Application {
         UserPC.Show();
         launch();
     }
+
+    public static void exit() {
+        System.err.println("exit");
+        File f = new File(getClientDir() + File.separator + "client1165.zip");
+        f.delete();
+        if(ManagerStart.gameIsStart){
+            return;
+        }
+        mainStage.close();
+        System.exit(0);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         Font.loadFont(getClass().getResourceAsStream("Minecraft.ttf"), 16);
@@ -98,10 +114,8 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
         primaryStage.getScene().getWindow().centerOnScreen();
-        primaryStage.getScene().getWindow().setOnCloseRequest(Even ->{
-            primaryStage.close();
-            System.exit(0);
-        });
+        mainStage = primaryStage;
+
         UpdaterLauncher.checkUpdate();
 
     }
