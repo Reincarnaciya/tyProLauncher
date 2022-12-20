@@ -12,14 +12,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import tylauncher.Utilites.*;
-import tylauncher.Utilites.Managers.ManagerDirs;
-import tylauncher.Utilites.Managers.ManagerStart;
-import tylauncher.Utilites.Managers.ManagerUpdate;
-import tylauncher.Utilites.Managers.ManagerZip;
+import tylauncher.Utilites.Managers.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -30,7 +28,7 @@ import java.util.Objects;
 public class Main extends Application {
     public static Stage mainStage = null;
 
-    public static final String launcher_version = "0.0";
+    public static final String launcher_version = "02.0";
 
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyLauncher");
     private static final ManagerDirs _clientDir = new ManagerDirs("TyPro");
@@ -57,8 +55,12 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws IOException {
+
         if(args.length > 0 && args[0].equals("deleteUpdater")){
             Utils.DeleteFile(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar"));
+        }
+        if(UserPC._usableDiskSpace < 1500){
+            ManagerFlags.lowDiskSpace = true;
         }
         Test();
 
@@ -117,7 +119,6 @@ public class Main extends Application {
         mainStage = primaryStage;
 
         UpdaterLauncher.checkUpdate();
-
     }
 
     public static void CheckLogs() {
@@ -131,7 +132,6 @@ public class Main extends Application {
         if (fList != null) {
             for (File file : fList) {
                 if (file.isFile()) {
-
                     long diff = new Date().getTime() - file.lastModified();
                     long cutoff = (numDays * 24 * 60 * 60 * 1000);
 

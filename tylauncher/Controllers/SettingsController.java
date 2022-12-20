@@ -14,6 +14,7 @@ import jdk.nashorn.internal.objects.Global;
 import tylauncher.Main;
 import tylauncher.Utilites.*;
 import tylauncher.Utilites.Managers.ManagerAnimations;
+import tylauncher.Utilites.Managers.ManagerFlags;
 import tylauncher.Utilites.Managers.ManagerForJSON;
 import tylauncher.Utilites.Managers.ManagerStart;
 
@@ -73,6 +74,10 @@ public class SettingsController {
     private Pane SettingsPane;
 
     @FXML
+    private Text warningText;
+
+    @FXML
+    private Pane warningPane;
 
     private final ManagerForJSON settingsJson = new ManagerForJSON(4);
 
@@ -112,13 +117,21 @@ public class SettingsController {
             }
         }
         //Включаем апдейт пэйн, если есть апдейт
-        if(UpdaterController.updateAvailable){
+        if(ManagerFlags.updateAvailable){
             updateAvailablePane.setDisable(false);
             updateAvailablePane.setVisible(true);
         }
         updateButton.setOnMouseClicked(mouseEvent ->{
             UpdaterLauncher.UpdateLauncher();
         });
+        if(ManagerFlags.lowDiskSpace){
+            warningPane.setVisible(true);
+            warningText.setText("Обнаружено критически малое количество свободного места на диске." +
+                    " Освободите место на диске!\n" + "\n" +
+                    "Свободно " + UserPC._usableDiskSpace + "Mb\n" +
+                    "Требуется минимум 1500Mb");
+            warningText.setVisible(true);
+        }
         //Выставляем максимальное значение слайдера в зависимости от установленной на пк ОЗУ
         Ozu_Slider.setMax((int)(UserPC.getOzu()/512) * 512);
         //Ставим слайдер по умолчанию и устанавливаем текст

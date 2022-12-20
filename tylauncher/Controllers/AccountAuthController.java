@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import tylauncher.Main;
 import tylauncher.Utilites.*;
 import tylauncher.Utilites.Managers.ManagerAnimations;
+import tylauncher.Utilites.Managers.ManagerFlags;
 import tylauncher.Utilites.Managers.ManagerForJSON;
 
 import javax.annotation.PostConstruct;
@@ -83,7 +84,7 @@ public class AccountAuthController {
             Stage stage = (Stage) A1.getScene().getWindow();
             if(firstOpen) A1.getScene().getWindow().centerOnScreen();
             firstOpen = false;
-            if(UpdaterController.updateAvailable) stage.setTitle("Typical Launcher (Доступно обновление)");
+            if(ManagerFlags.updateAvailable) stage.setTitle("Typical Launcher (Доступно обновление)");
             else stage.setTitle("Typical Launcher");
 
         });

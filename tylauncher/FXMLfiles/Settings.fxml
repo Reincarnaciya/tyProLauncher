@@ -81,5 +81,10 @@
             <Button fx:id="updateButton" layoutX="66.0" layoutY="50.0" mnemonicParsing="false" text="обновить" />
          </children>
       </Pane>
+      <Pane fx:id="warningPane" layoutX="262.0" layoutY="176.0" prefHeight="118.0" prefWidth="448.0" visible="false">
+         <children>
+            <Text fx:id="warningText" layoutX="22.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-origin: center; -fx-text-alignment: center;" text="бнаружено критически малое количество свободного места на диске.бнаружено критически малое количество свободного места на диске." textAlignment="CENTER" wrappingWidth="404.0" />
+         </children>
+      </Pane>
     </Pane>
 </AnchorPane>

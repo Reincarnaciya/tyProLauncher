@@ -3,6 +3,7 @@ package tylauncher.Utilites;
 import tylauncher.Main;
 
 import java.awt.GraphicsEnvironment;
+import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.net.URISyntaxException;
 
@@ -23,6 +24,8 @@ public class UserPC {
             .getHeight();
     public static final String _os = System.getProperty("os.name").toLowerCase();
     public static final String _javaVersion = System.getProperty("java.version");
+
+    public static final int _usableDiskSpace = (int) (new File(File.separator).getUsableSpace()/1048576);
     public static final String _javaBit = System.getProperty("sun.arch.data.model");
     public static String _pathToLauncher = null;
 
@@ -39,10 +42,11 @@ public class UserPC {
     public static void Show() {
         System.err.println("----------------USER PC----------------");
         System.err.println("RAM: " + _ozu);
+        System.err.println("Available Disk Space: " + _usableDiskSpace+ "Mb");
         System.err.println("OS: " + _os);
         System.err.println("Resolution: " + _width + "x" + _height);
         System.err.println("Java Version: " + _javaVersion);
-        System.err.println("JavaFXVersion: " + _javaFXVersion);
+        System.err.println("JavaFX Version: " + _javaFXVersion);
         System.err.println("Bit Java: " + _javaBit);
         System.err.println("PathToLauncher: " + _pathToLauncher);
         System.err.println("----------------USER PC----------------");

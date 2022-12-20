@@ -5,6 +5,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import tylauncher.Controllers.UpdaterController;
 import tylauncher.Main;
+import tylauncher.Utilites.Managers.ManagerAnimations;
+import tylauncher.Utilites.Managers.ManagerFlags;
 
 public class ButtonPage {
     private ImageView _buttonFx;
@@ -34,7 +36,7 @@ public class ButtonPage {
                     buttonFx.setImage(new Image(String.valueOf(Main.class.getResource("assets/picked/message.png"))));
                     break;
                 case 5:
-                    if (UpdaterController.updateAvailable){
+                    if (ManagerFlags.updateAvailable || ManagerFlags.lowDiskSpace){
                         buttonFx.setImage(new Image(String.valueOf(Main.class.getResource("assets/picked/settings.png"))));
                         break;
                     }
@@ -48,7 +50,7 @@ public class ButtonPage {
         }else {
             switch (_buttonNum){
                 case 5:
-                    if (UpdaterController.updateAvailable){
+                    if (ManagerFlags.updateAvailable || ManagerFlags.lowDiskSpace){
                         buttonFx.setImage(new Image(String.valueOf(Main.class.getResource("assets/notpick/settingsUpdate.png"))));
                     }
                     break;
