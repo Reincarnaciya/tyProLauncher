@@ -37,8 +37,8 @@ public class Main extends Application {
 
     public static final String launcher_version = "0.0";
 
-    private static final ManagerDirs _launcherDir = new ManagerDirs("TyLauncher");
-    private static final ManagerDirs _clientDir = new ManagerDirs("TyPro");
+    private static final ManagerDirs _launcherDir = new ManagerDirs("TyPro");
+    private static final ManagerDirs _clientDir = new ManagerDirs("TyPro/clients/");
 
     public static User user = new User();
 

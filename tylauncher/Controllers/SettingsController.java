@@ -3,6 +3,8 @@ package tylauncher.Controllers;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -16,7 +18,9 @@ import tylauncher.Utilites.Managers.ManagerForJSON;
 import tylauncher.Utilites.Managers.ManagerWindow;
 import tylauncher.Utilites.Settings;
 
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 
 import static tylauncher.Controllers.AccountAuthController.accountController;
 import static tylauncher.Main.user;
@@ -69,6 +73,8 @@ public class SettingsController extends BaseController {
 
     @FXML
     private Text warningText;
+    @FXML
+    private Button openLauncherDirButton;
 
     @FXML
     private Pane warningPane;
@@ -201,6 +207,14 @@ public class SettingsController extends BaseController {
         Forum_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Forum.fxml", A1));
         Message_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Message.fxml", A1));
         Play_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Play.fxml", A1));
+
+        openLauncherDirButton.setOnMouseClicked(event -> {
+            try {
+                Desktop.getDesktop().open(new File(Main.getLauncherDir().getAbsolutePath()));
+            } catch (IOException e) {
+                ManagerWindow.currentController.setInfoText(e.toString());
+            }
+        });
 
         Account_Img.setOnMouseClicked(mouseEvent -> {
             try {

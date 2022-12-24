@@ -21,7 +21,6 @@ import static tylauncher.Main.user;
 public class AccountController extends BaseController{
     @FXML
     private Button donateButton;
-
     @FXML
     private AnchorPane A1;
     @FXML

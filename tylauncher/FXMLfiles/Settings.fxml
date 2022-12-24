@@ -87,5 +87,6 @@
          </children>
       </Pane>
       <CheckBox fx:id="hideLauncherCheckBox" layoutX="380.0" layoutY="87.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="355.0" text="Сворачивать лаунчер при запуске" />
+      <Button fx:id="openLauncherDirButton" layoutX="380.0" layoutY="117.0" mnemonicParsing="false" text="открыть папку лаунчера" />
     </Pane>
 </AnchorPane>

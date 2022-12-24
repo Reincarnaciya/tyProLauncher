@@ -5,7 +5,6 @@ public class Settings {
     private static int _x = 925;
     private static int _y = 530;
     private static boolean _fsc = false;
-
     private static boolean hide = false;
 
     public static void setHide(boolean bool){

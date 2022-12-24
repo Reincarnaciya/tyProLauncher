@@ -75,7 +75,7 @@ public class ManagerUpdate {
             if (!downloading) {
                 return;
             }
-            ManagerWindow.currentController.setInfoText(("Скачано " + ((int) clientLength / 1048576) + "Мбайт из " + (cllweb / 1048576) + "Мб"));
+            playController.setInfoText(("Скачано " + ((int) clientLength / 1048576) + "Мбайт из " + (cllweb / 1048576) + "Мб"));
             playController.UdpateProgressBar((double) ((clientLength / 10485) / (cllweb / 1048576)) / 100);
             ManagerZip.UpdateInfo();
         }).start();
