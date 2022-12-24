@@ -49,14 +49,4 @@ public class Utils {
     public static void openUrl(String url) throws IOException {
         Desktop.getDesktop().browse(URI.create(url));
     }
-
-    public static void buttonsUpdate(){
-        List<Node> buttons = ManagerWindow.currentController.getA1().getChildrenUnmodifiable()
-                .stream().filter(node -> node instanceof javafx.scene.control.Button).collect(Collectors.toList());
-        for (Node button : buttons){
-            javafx.scene.control.Button btn = (Button) button;
-            btn.setOnMousePressed(event -> btn.setStyle("-fx-background-color: #444"));
-            btn.setOnMouseReleased(event -> btn.setStyle(" "));
-        }
-    }
 }

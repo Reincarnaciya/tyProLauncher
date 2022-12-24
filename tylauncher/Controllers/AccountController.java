@@ -11,12 +11,16 @@ import tylauncher.Utilites.BooleanPageController;
 import tylauncher.Utilites.ButtonPage;
 import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Managers.ManagerWindow;
+import tylauncher.Utilites.Utils;
 
 import java.io.File;
+import java.io.IOException;
 
 import static tylauncher.Main.user;
 
 public class AccountController extends BaseController{
+    @FXML
+    private Button donateButton;
 
     @FXML
     private AnchorPane A1;
@@ -44,8 +48,8 @@ public class AccountController extends BaseController{
     private Button Exit_Button;
     @FXML
     void initialize() {
-        AccountAuthController.accountController = this;
         //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
+        AccountAuthController.accountController = this;
         ManagerWindow.currentController = this;
         //все кнопки в 1 массив!
         ButtonPage.reset();
@@ -57,14 +61,23 @@ public class AccountController extends BaseController{
         BooleanPageController.addButton(Settings_Img);
         BooleanPageController.addButton(Play_Img);
 
+        Exit_Button.setOnMouseClicked(mouseEvent -> Exit());
 
+        donateButton.setOnMouseClicked(event ->{
+            try {
+                Utils.openUrl("https://typro.space/markup/donate.php");
+            } catch (Exception e) {
+                ManagerWindow.currentController.setInfoText("Невозможно открыть ссылку:  " + e.getMessage());
+                e.printStackTrace();
+            }
+        });
         //Ивенты клика на картинки
         News_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("News.fxml", A1));
         Forum_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Forum.fxml", A1));
         Message_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Message.fxml", A1));
         Settings_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Settings.fxml", A1));
         Play_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Play.fxml", A1));
-        Exit_Button.setOnMouseClicked(mouseEvent -> Exit());
+
     }
     //Обновление информации о юзере
     public void UpdateData() {
@@ -73,6 +86,7 @@ public class AccountController extends BaseController{
         Group_Text.setText(user.GetGroup());
         Skin_Image.setImage(user.GetImage());
     }
+
     //Функция выхода из аккаунта
     void Exit() {
         File f = new File(Main.getLauncherDir() + File.separator + "auth.json");//Файл настроек

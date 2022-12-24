@@ -59,7 +59,7 @@
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Профиль" />
         </HBox>
         <Pane layoutX="63.0" layoutY="125.0" prefHeight="189.0" prefWidth="364.0">
-            <VBox alignment="CENTER" layoutY="61.0" prefHeight="114.0" prefWidth="364.0" style="-fx-spacing: 20;">
+            <VBox alignment="CENTER" layoutY="61.0" prefHeight="114.0" prefWidth="109.0" style="-fx-spacing: 20;">
                 <HBox prefHeight="10.0" prefWidth="75.0" style="-fx-spacing: 20;">
                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Баланс:" />
                     <Text fx:id="Balance_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
@@ -72,6 +72,7 @@
             <HBox alignment="TOP_CENTER" prefHeight="26.0" prefWidth="364.0">
                 <Text fx:id="Username_Text" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-alignment: center;" text="Reincarnaciya" wrappingWidth="236.228515625" />
             </HBox>
+         <Button fx:id="donateButton" layoutX="122.0" layoutY="85.0" mnemonicParsing="false" text="пополнить" />
         </Pane>
         <Button fx:id="Exit_Button" layoutX="603.0" layoutY="16.0" mnemonicParsing="false" text="Выйти" />
     </Pane>
