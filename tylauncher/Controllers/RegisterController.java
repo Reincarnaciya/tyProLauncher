@@ -13,8 +13,9 @@ import javafx.scene.text.Text;
 import tylauncher.Main;
 import tylauncher.Utilites.*;
 import tylauncher.Utilites.Managers.ManagerAnimations;
+import tylauncher.Utilites.Managers.ManagerWindow;
 
-public class RegisterController {
+public class RegisterController extends BaseController{
     public static AccountAuthController accountAuthController;
     @FXML
     private AnchorPane A1;
@@ -62,6 +63,7 @@ public class RegisterController {
 
     @FXML
     void initialize() {
+        ManagerWindow.currentController = this;
         // ЛОГИКА КАК В АВТОРИЗАЦИИ, Я ЗАЕБАЛСЯ КОММЕНТАРИИ ОДНОТИПНЫЕ ПИСАТЬ
         ButtonPage.reset();
         ButtonPage.setPressedNum(1);
@@ -72,7 +74,6 @@ public class RegisterController {
         BooleanPageController.addButton(Settings_Img);
         BooleanPageController.addButton(Play_Img);
 
-        ErrorInterp.registerController = this;
         Cancel_Button.setOnMouseClicked(mouseEvent -> {
             Main.OpenNew("AccountAuth.fxml", A1);
         });
@@ -101,7 +102,7 @@ public class RegisterController {
         });
         Register_Button.setOnMouseClicked(mouseEvent -> {
             if (Username_Field.getText().equalsIgnoreCase("") || Password_Field.getText().equalsIgnoreCase("") || RepeatPassword_Field.getText().equalsIgnoreCase("") || Email_Field.getText().equalsIgnoreCase("")) {
-                ErrorInterp.setMessageError("Заполин все поля!", "register");
+                ErrorInterp.setMessageError("Заполин все поля!");
                 return;
             }
             WebAnswer.Reset();
@@ -125,7 +126,7 @@ public class RegisterController {
                     PasswordText.setText("Пароль");
                     RepeatPasswordText.setText("Повтор пароля");
                 }
-                ErrorInterp.setMessageError(WebAnswer.getMessage(), "register");
+                ErrorInterp.setMessageError(WebAnswer.getMessage());
             }
 
 

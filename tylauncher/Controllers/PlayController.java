@@ -10,6 +10,7 @@ import tylauncher.Main;
 import tylauncher.Utilites.*;
 import tylauncher.Utilites.Managers.ManagerStart;
 import tylauncher.Utilites.Managers.ManagerUpdate;
+import tylauncher.Utilites.Managers.ManagerWindow;
 import tylauncher.Utilites.Managers.ManagerZip;
 
 import java.io.File;
@@ -17,7 +18,7 @@ import java.io.File;
 import static tylauncher.Controllers.AccountAuthController.accountController;
 import static tylauncher.Main.user;
 
-public class PlayController {
+public class PlayController extends BaseController{
     @FXML
     private AnchorPane A1;
     @FXML
@@ -41,6 +42,10 @@ public class PlayController {
 
     @FXML
     void initialize() {
+        ManagerZip.playController = this;
+        ManagerWindow.currentController = this;
+        ManagerStart.playController = this;
+        ManagerUpdate.playController = this;
         //все кнопки в 1 массив!
         ButtonPage.reset();
         ButtonPage.setPressedNum(6);
@@ -50,13 +55,9 @@ public class PlayController {
         BooleanPageController.addButton(Message_Img);
         BooleanPageController.addButton(Settings_Img);
         BooleanPageController.addButton(Play_Img);
-        //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
-        ManagerUpdate.playController = this;
-        ManagerStart.playController = this;
-        ErrorInterp.playController = this;
-        ManagerZip.playController = this;
+
         //Проверка на статус.. Чего? а, на статус того, что вообще происходит в лаунчере
-        if (ManagerStart.gameIsStart) setTextOfDownload("Игра запущена");
+        if (ManagerStart.gameIsStart) ManagerWindow.currentController.setInfoText("Игра запущена");
         if (ManagerZip.unzipping) ManagerZip.UpdateInfo();
         //Ивенты клика на картинки
         News_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("News.fxml", A1));
@@ -76,9 +77,9 @@ public class PlayController {
         });
         //Улавливаем ивент нажатия на кнопку "Играть"
         Play_Button.setOnMouseClicked(mouseEvent -> {
-            setTextOfDownload("Инициализация..");
+            ManagerWindow.currentController.setInfoText("Инициализация..");
             if (ManagerStart.gameIsStart) {
-                setTextOfDownload("Игра запущена");
+                ManagerWindow.currentController.setInfoText("Игра запущена");
                 return;
             }
             if (ManagerZip.unzipping) {
@@ -91,15 +92,25 @@ public class PlayController {
                         Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "TySci_1.16.5"));
                         Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "client1165.zip"));
                         ManagerUpdate.DownloadUpdate("TySci_1.16.5", "https://www.typro.space/files/client_mc/client1165.zip");
-                    } else ManagerStart.StartMinecraft("TySci_1.16.5");
+                    } else {
+                        new Thread(()->{
+                            System.err.println(Settings.show());
+                            try {
+                                ManagerStart.StartMinecraft("TySci_1.16.5");
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }).start();
+
+                    }
                 }
             } catch (Exception e) {
-                ErrorInterp.setMessageError("Необходимо авторизоваться, прежде чем начать играть", "play");
+                ErrorInterp.setMessageError("Необходимо авторизоваться, прежде чем начать играть");
             }
         });
     }
-
-    public void setTextOfDownload(String text) {
+    @Override
+    public void setInfoText(String text) {
         Play_Button.setVisible(false);
         Progressbar_Text.setText(text);
     }

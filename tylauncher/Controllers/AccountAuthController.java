@@ -13,14 +13,13 @@ import tylauncher.Utilites.*;
 import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Managers.ManagerFlags;
 import tylauncher.Utilites.Managers.ManagerForJSON;
+import tylauncher.Utilites.Managers.ManagerWindow;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
-import java.io.IOException;
 
 import static tylauncher.Main.user;
 
-public class AccountAuthController {
+public class AccountAuthController extends BaseController{
 
     @FXML
     protected Text infoText;//Текст информации
@@ -64,9 +63,9 @@ public class AccountAuthController {
     //Инициализация сцены
     @FXML
     void initialize() {
+
         //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
-        RegisterController.accountAuthController = this;
-        ErrorInterp.accountAuthController = this;
+        ManagerWindow.currentController = this;
         //все кнопки в 1 массив!
         ButtonPage.reset();
         ButtonPage.setPressedNum(1);//какая панель открыта
@@ -86,9 +85,7 @@ public class AccountAuthController {
             firstOpen = false;
             if(ManagerFlags.updateAvailable) stage.setTitle("Typical Launcher (Доступно обновление)");
             else stage.setTitle("Typical Launcher");
-
         });
-
 
         //Проверка на существование файла авторизации и последующая попытка авторизации
         if (AuthFile.exists()) {
@@ -100,7 +97,7 @@ public class AccountAuthController {
                 user.setPassword(password);
                 StartAuth();//Отдельная функция авторизации
             } catch (Exception e) {
-                ErrorInterp.setMessageError("Файл с логином и паролем поломался :( Удаляю..", "accountAuth");
+                ErrorInterp.setMessageError("Файл с логином и паролем поломался :( Удаляю..");
                 AuthFile.delete();
             }
         }
@@ -114,7 +111,7 @@ public class AccountAuthController {
                 if (AutoAuth_CheckBox.isSelected() && user.Auth()) SavePass(); //При успешной авторизации и с поставленной галочкой
                 // на запоминании пароля вызываем функцию сейва данных в файл и пропускаем юзера дальше в лаунчер
             } catch (Exception e) {
-                ErrorInterp.setMessageError(e.getMessage(), "accountauth");
+                ErrorInterp.setMessageError(e.getMessage());
             }
         });
         //Улавливаем событие изменение чекбокса Просмотра пароля
@@ -189,7 +186,7 @@ public class AccountAuthController {
             WebAnswer.PrintAnswer();
             System.err.println(user.toString());
         } else {
-            ErrorInterp.setMessageError(WebAnswer.getMessage(), "accountauth");
+            ErrorInterp.setMessageError(WebAnswer.getMessage());
         }
     }
 

@@ -7,11 +7,12 @@ import javafx.scene.text.Text;
 import tylauncher.Main;
 import tylauncher.Utilites.BooleanPageController;
 import tylauncher.Utilites.ButtonPage;
+import tylauncher.Utilites.Managers.ManagerWindow;
 
 import static tylauncher.Controllers.AccountAuthController.accountController;
 import static tylauncher.Main.user;
 
-public class MessageController {
+public class MessageController extends BaseController{
     @FXML
     private AnchorPane A1;
     @FXML
@@ -31,6 +32,7 @@ public class MessageController {
 
     @FXML
     void initialize() {
+        ManagerWindow.currentController = this;
         //все кнопки в 1 массив!
         ButtonPage.reset();
         ButtonPage.setPressedNum(4);

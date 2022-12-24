@@ -2,10 +2,9 @@ package tylauncher.Utilites;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import tylauncher.Controllers.PlayController;
 import tylauncher.Controllers.UpdaterController;
 import tylauncher.Main;
-import tylauncher.Utilites.Managers.ManagerZip;
+import tylauncher.Utilites.Managers.ManagerWindow;
 
 import java.io.*;
 import java.net.*;
@@ -53,10 +52,10 @@ public class UpdaterLauncher {
                 if(line.equalsIgnoreCase("0")){
                     Platform.runLater(()-> updaterController.setUpdateAvailable(true));
                 }else Platform.runLater(() ->{
-                    updaterController.getA1().getScene().getWindow().setWidth(800);
-                    updaterController.getA1().getScene().getWindow().setHeight(535);
-                    updaterController.getA1().getScene().getWindow().centerOnScreen();
-                    Main.OpenNew("AccountAuth.fxml", updaterController.getA1());
+                    ManagerWindow.currentController.getA1().getScene().getWindow().setWidth(800);
+                    ManagerWindow.currentController.getA1().getScene().getWindow().setHeight(535);
+                    ManagerWindow.currentController.getA1().getScene().getWindow().centerOnScreen();
+                    Main.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1());
                 });
             } catch (IOException e) {
                 e.printStackTrace();
@@ -89,7 +88,7 @@ public class UpdaterLauncher {
                     System.exit(0);
                 }
             } catch (IOException e) {
-                ErrorInterp.setMessageError(e.getMessage(), "play");
+                ErrorInterp.setMessageError(e.getMessage());
                 e.printStackTrace();
             }
         }).start();

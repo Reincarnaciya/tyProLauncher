@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 import tylauncher.Main;
 import tylauncher.Utilites.BooleanPageController;
 import tylauncher.Utilites.ButtonPage;
+import tylauncher.Utilites.Managers.ManagerWindow;
 import tylauncher.Utilites.Utils;
 
 import java.io.IOException;
@@ -18,7 +19,7 @@ import java.io.IOException;
 import static tylauncher.Controllers.AccountAuthController.accountController;
 import static tylauncher.Main.user;
 
-public class NewsController {
+public class NewsController extends BaseController{
     @FXML
     private AnchorPane A1;
     @FXML
@@ -41,6 +42,7 @@ public class NewsController {
     private int clicks = 0;
     @FXML
     void initialize() {
+        ManagerWindow.currentController = this;
         //все кнопки в 1 массив!
         ButtonPage.reset();
         ButtonPage.setPressedNum(2);

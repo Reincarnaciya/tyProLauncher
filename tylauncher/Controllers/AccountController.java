@@ -4,16 +4,20 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
 import tylauncher.Utilites.BooleanPageController;
 import tylauncher.Utilites.ButtonPage;
+import tylauncher.Utilites.Managers.ManagerAnimations;
+import tylauncher.Utilites.Managers.ManagerWindow;
 
 import java.io.File;
 
 import static tylauncher.Main.user;
 
-public class AccountController {
+public class AccountController extends BaseController{
+
     @FXML
     private AnchorPane A1;
     @FXML
@@ -40,9 +44,9 @@ public class AccountController {
     private Button Exit_Button;
     @FXML
     void initialize() {
-        //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
         AccountAuthController.accountController = this;
-
+        //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
+        ManagerWindow.currentController = this;
         //все кнопки в 1 массив!
         ButtonPage.reset();
         ButtonPage.setPressedNum(1);
@@ -77,5 +81,12 @@ public class AccountController {
         user.wasAuth = false;//Флаг авторизации - не авторизовавылся
         Main.OpenNew("AccountAuth.fxml", A1);// Выкинуть в авторизацию
     }
+    //@Override
+   // public void setInfoText(String info) {
+   //     infoTextPane.setVisible(true);
+   //     infoText.setText(info);
+   //     ManagerAnimations.StartFadeAnim(infoTextPane);
+   // }
+
 
 }

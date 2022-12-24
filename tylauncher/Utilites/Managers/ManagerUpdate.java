@@ -10,7 +10,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ManagerUpdate {
 
@@ -22,13 +21,14 @@ public class ManagerUpdate {
     private static long cllweb = 0;
 
     public static void DownloadUpdate(String version, String urld) {
+
         if (downloading) {
             UpdateInfo();
             return;
         }
         new Thread(() -> {
             try {
-                playController.setTextOfDownload("Инициализация загрузки");
+                ManagerWindow.currentController.setInfoText("Инициализация загрузки");
                 downloading = true;
                 playController.PlayButtonEnabled(false);
                 URL url = new URL(urld);
@@ -64,7 +64,7 @@ public class ManagerUpdate {
 
             } catch (IOException e) {
                 downloading = false;
-                ErrorInterp.setMessageError(e.getMessage(), "play");
+                ErrorInterp.setMessageError(e.getMessage());
                 e.printStackTrace();
             }
         }).start();
@@ -75,7 +75,7 @@ public class ManagerUpdate {
             if (!downloading) {
                 return;
             }
-            playController.setTextOfDownload(("Скачано " + ((int) clientLength / 1048576) + "Мбайт из " + (cllweb / 1048576) + "Мб"));
+            ManagerWindow.currentController.setInfoText(("Скачано " + ((int) clientLength / 1048576) + "Мбайт из " + (cllweb / 1048576) + "Мб"));
             playController.UdpateProgressBar((double) ((clientLength / 10485) / (cllweb / 1048576)) / 100);
             ManagerZip.UpdateInfo();
         }).start();

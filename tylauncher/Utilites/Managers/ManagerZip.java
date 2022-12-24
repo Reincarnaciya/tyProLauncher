@@ -48,7 +48,7 @@ public class ManagerZip {
                 }
                 entry = zis.getNextEntry();
             }
-            playController.setTextOfDownload("Готово! Масюня желает Вам приятной игры!");
+            ManagerWindow.currentController.setInfoText("Готово! Масюня желает Вам приятной игры!");
             zis.closeEntry();
             unzipping = false;
         }
@@ -58,7 +58,7 @@ public class ManagerZip {
             ManagerStart.StartMinecraft("TySci_1.16.5");
         } catch (Exception e) {
             unzipping = false;
-            ErrorInterp.setMessageError(e.getMessage(), "play");
+            ErrorInterp.setMessageError(e.getMessage());
             e.printStackTrace();
         }
 
@@ -72,19 +72,19 @@ public class ManagerZip {
         new Thread(() -> {
             switch (fileName) {
                 case "assets":
-                    playController.setTextOfDownload("Распаковываем штуки");
+                    ManagerWindow.currentController.setInfoText("Распаковываем штуки");
                     break;
                 case "launcher_libraries":
-                    playController.setTextOfDownload("Распаковываем важные штуки");
+                    ManagerWindow.currentController.setInfoText("Распаковываем важные штуки");
                     break;
                 case "libraries":
-                    playController.setTextOfDownload("Прогоняем Масюню..");
+                    ManagerWindow.currentController.setInfoText("Прогоняем Масюню..");
                     break;
                 case "runtime":
-                    playController.setTextOfDownload("Прогнали!");
+                    ManagerWindow.currentController.setInfoText("Прогнали!");
                     break;
                 case "versions":
-                    playController.setTextOfDownload("Почти готово..");
+                    ManagerWindow.currentController.setInfoText("Почти готово..");
                     break;
             }
         }).start();

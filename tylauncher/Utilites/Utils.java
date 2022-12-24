@@ -1,9 +1,15 @@
 package tylauncher.Utilites;
 
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import tylauncher.Utilites.Managers.ManagerWindow;
+
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Utils {
     private static final String suffix = "[UTIL] ";
@@ -44,4 +50,13 @@ public class Utils {
         Desktop.getDesktop().browse(URI.create(url));
     }
 
+    public static void buttonsUpdate(){
+        List<Node> buttons = ManagerWindow.currentController.getA1().getChildrenUnmodifiable()
+                .stream().filter(node -> node instanceof javafx.scene.control.Button).collect(Collectors.toList());
+        for (Node button : buttons){
+            javafx.scene.control.Button btn = (Button) button;
+            btn.setOnMousePressed(event -> btn.setStyle("-fx-background-color: #444"));
+            btn.setOnMouseReleased(event -> btn.setStyle(" "));
+        }
+    }
 }

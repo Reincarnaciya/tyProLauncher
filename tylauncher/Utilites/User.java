@@ -66,6 +66,9 @@ public class User {
                 String line;
                 line = bufferedReader.readLine().replace("\"", "").replace("}", "").replace("{", "").replace("]", "").replace("[", "");
                 System.out.println("Ответ с сервера после обработки: " + line);
+                if(line.contains("<br />")){
+                    throw new Exception("Базы данных упали. Обратитесь к администрации!");
+                }
                 String[] answer = line.split("[,:]");
                 System.out.println("Ответ с сервера массивом: " + Arrays.toString(answer));
                 WebAnswer.Reset();

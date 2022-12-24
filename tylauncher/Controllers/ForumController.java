@@ -8,11 +8,12 @@ import tylauncher.Main;
 import tylauncher.Utilites.BooleanPageController;
 import tylauncher.Utilites.ButtonPage;
 import tylauncher.Utilites.ErrorInterp;
+import tylauncher.Utilites.Managers.ManagerWindow;
 
 import static tylauncher.Controllers.AccountAuthController.accountController;
 import static tylauncher.Main.user;
 
-public class ForumController {
+public class ForumController extends BaseController{
     @FXML
     private AnchorPane A1;
     @FXML
@@ -32,6 +33,7 @@ public class ForumController {
 
     @FXML
     void initialize() {
+        ManagerWindow.currentController = this;
         //все кнопки в 1 массив!
         ButtonPage.reset();
         ButtonPage.setPressedNum(3);
@@ -58,7 +60,7 @@ public class ForumController {
 
             } catch (Exception e) {
                 Main.OpenNew("AccountAuth.fxml", A1);
-                ErrorInterp.setMessageError(e.getMessage(), "accauntauth");
+                ErrorInterp.setMessageError(e.getMessage());
             }
         });
     }

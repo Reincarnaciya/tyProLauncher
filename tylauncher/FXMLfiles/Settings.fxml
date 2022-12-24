@@ -86,5 +86,6 @@
             <Text fx:id="warningText" layoutX="22.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-origin: center; -fx-text-alignment: center;" text="бнаружено критически малое количество свободного места на диске.бнаружено критически малое количество свободного места на диске." textAlignment="CENTER" wrappingWidth="404.0" />
          </children>
       </Pane>
+      <CheckBox fx:id="hideLauncherCheckBox" layoutX="380.0" layoutY="87.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="355.0" text="Сворачивать лаунчер при запуске" />
     </Pane>
 </AnchorPane>

@@ -11,9 +11,10 @@ import javafx.stage.Stage;
 import tylauncher.Main;
 import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Managers.ManagerFlags;
+import tylauncher.Utilites.Managers.ManagerWindow;
 import tylauncher.Utilites.UpdaterLauncher;
 
-public class UpdaterController {
+public class UpdaterController extends BaseController{
     @FXML
     private ProgressIndicator IndicatorUpdater;
 
@@ -37,7 +38,7 @@ public class UpdaterController {
 
     @FXML
     void initialize(){
-        UpdaterLauncher.updaterController = this;
+        ManagerWindow.currentController = this;
 
         LaterButton.setOnMouseClicked(mouseEvent -> {
             System.err.println("Later");
