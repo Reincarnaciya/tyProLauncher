@@ -38,6 +38,7 @@ public class UpdaterController extends BaseController{
 
     @FXML
     void initialize(){
+        UpdaterLauncher.updaterController = this;
         ManagerWindow.currentController = this;
 
         LaterButton.setOnMouseClicked(mouseEvent -> {

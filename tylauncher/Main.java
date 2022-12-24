@@ -35,7 +35,7 @@ import static tylauncher.Controllers.SettingsController.settingsFile;
 public class Main extends Application {
     public static Stage mainStage = null;
 
-    public static final String launcher_version = "0.0";
+    public static final String launcher_version = "1.0";
 
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyPro");
     private static final ManagerDirs _clientDir = new ManagerDirs("TyPro/clients/");
