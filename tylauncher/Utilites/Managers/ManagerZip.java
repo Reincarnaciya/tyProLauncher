@@ -1,7 +1,6 @@
 package tylauncher.Utilites.Managers;
 
 import tylauncher.Controllers.PlayController;
-import tylauncher.Utilites.ErrorInterp;
 
 import java.io.*;
 import java.util.zip.ZipEntry;
@@ -58,7 +57,7 @@ public class ManagerZip {
             ManagerStart.StartMinecraft("TySci_1.16.5");
         } catch (Exception e) {
             unzipping = false;
-            ErrorInterp.setMessageError(e.getMessage());
+            ManagerWindow.currentController.setInfoText (e.getMessage());
             e.printStackTrace();
         }
 

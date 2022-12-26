@@ -2,12 +2,8 @@ package tylauncher.Utilites.Managers;
 
 import tylauncher.Controllers.PlayController;
 import tylauncher.Main;
-import tylauncher.Utilites.ErrorInterp;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -50,7 +46,6 @@ public class ManagerUpdate {
                     });
                     byte[] by = new byte[1024];
                     int count = 0;
-
                     while ((count = bis.read(by)) != -1) {
                         fw.write(by, 0, count);
                         clientLength = client.length();
@@ -62,14 +57,15 @@ public class ManagerUpdate {
                     ManagerZip.Unzip(Main.getClientDir().getAbsolutePath() + File.separator + "client1165.zip", Main.getClientDir().getAbsolutePath() + File.separator + version + File.separator);
                 }
 
+            } catch (java.net.SocketException e){
+                playController.setInfoText("Соединение прервано, пробую повторить закачку.." + e.getMessage());
+                DownloadUpdate(version, urld);
             } catch (IOException e) {
-                downloading = false;
-                ErrorInterp.setMessageError(e.getMessage());
-                e.printStackTrace();
+                playController.setInfoText(e.getMessage());
             }
+
         }).start();
     }
-
     public static void UpdateInfo() {
         new Thread(() -> {
             if (!downloading) {

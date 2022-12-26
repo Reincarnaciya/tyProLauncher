@@ -7,7 +7,6 @@ import javafx.scene.text.Text;
 import tylauncher.Main;
 import tylauncher.Utilites.BooleanPageController;
 import tylauncher.Utilites.ButtonPage;
-import tylauncher.Utilites.ErrorInterp;
 import tylauncher.Utilites.Managers.ManagerWindow;
 
 import static tylauncher.Controllers.AccountAuthController.accountController;
@@ -60,7 +59,7 @@ public class ForumController extends BaseController{
 
             } catch (Exception e) {
                 Main.OpenNew("AccountAuth.fxml", A1);
-                ErrorInterp.setMessageError(e.getMessage());
+                ManagerWindow.currentController.setInfoText (e.getMessage());
             }
         });
     }

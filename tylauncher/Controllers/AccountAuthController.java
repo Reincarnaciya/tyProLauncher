@@ -97,7 +97,7 @@ public class AccountAuthController extends BaseController{
                 user.setPassword(password);
                 StartAuth();//Отдельная функция авторизации
             } catch (Exception e) {
-                ErrorInterp.setMessageError("Файл с логином и паролем поломался :( Удаляю..");
+                ManagerWindow.currentController.setInfoText("Файл с логином и паролем поломался :( Удаляю..");
                 AuthFile.delete();
             }
         }
@@ -111,7 +111,7 @@ public class AccountAuthController extends BaseController{
                 if (AutoAuth_CheckBox.isSelected() && user.Auth()) SavePass(); //При успешной авторизации и с поставленной галочкой
                 // на запоминании пароля вызываем функцию сейва данных в файл и пропускаем юзера дальше в лаунчер
             } catch (Exception e) {
-                ErrorInterp.setMessageError(e.getMessage());
+                ManagerWindow.currentController.setInfoText (e.getMessage());
             }
         });
         //Улавливаем событие изменение чекбокса Просмотра пароля
@@ -160,7 +160,6 @@ public class AccountAuthController extends BaseController{
 
     //Выводим ошибки и другое, да
     public void setInfoText(String text) {
-
         infoTextPane.setVisible(true);
         infoText.setText(text);
         ManagerAnimations.StartFadeAnim(infoTextPane);
@@ -186,7 +185,7 @@ public class AccountAuthController extends BaseController{
             WebAnswer.PrintAnswer();
             System.err.println(user.toString());
         } else {
-            ErrorInterp.setMessageError(WebAnswer.getMessage());
+            ManagerWindow.currentController.setInfoText (WebAnswer.getMessage());
         }
     }
 

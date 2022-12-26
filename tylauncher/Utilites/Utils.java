@@ -49,4 +49,13 @@ public class Utils {
     public static void openUrl(String url) throws IOException {
         Desktop.getDesktop().browse(URI.create(url));
     }
+    public static String bytesTostring(String message){
+        String mssage = "";
+        message = message.replace(".", "");
+        String[] msg = message.split(" ");
+        for (int i = 0; i < msg.length; i++) {
+            mssage += Utils.UniToText(msg[i]) + " ";
+        }
+        return mssage;
+    }
 }

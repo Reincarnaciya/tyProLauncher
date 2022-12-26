@@ -102,11 +102,10 @@ public class RegisterController extends BaseController{
         });
         Register_Button.setOnMouseClicked(mouseEvent -> {
             if (Username_Field.getText().equalsIgnoreCase("") || Password_Field.getText().equalsIgnoreCase("") || RepeatPassword_Field.getText().equalsIgnoreCase("") || Email_Field.getText().equalsIgnoreCase("")) {
-                ErrorInterp.setMessageError("Заполин все поля!");
+                ManagerWindow.currentController.setInfoText ("Заполни все поля!");
                 return;
             }
-            WebAnswer.Reset();
-            RegisterUser.RegisterUser(Username_Field.getText(), Password_Field.getText(), RepeatPassword_Field.getText(), Email_Field.getText(), Main.launcher_version);
+            RegisterUser.RegUser(Username_Field.getText(), Password_Field.getText(), RepeatPassword_Field.getText(), Email_Field.getText());
             if (WebAnswer.getStatus()) {
                 Main.OpenNew("AccountAuth.fxml", A1);
                 accountAuthController.infoTextPane.setVisible(true);
@@ -126,7 +125,7 @@ public class RegisterController extends BaseController{
                     PasswordText.setText("Пароль");
                     RepeatPasswordText.setText("Повтор пароля");
                 }
-                ErrorInterp.setMessageError(WebAnswer.getMessage());
+                ManagerWindow.currentController.setInfoText (WebAnswer.getMessage());
             }
 
 

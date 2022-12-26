@@ -163,14 +163,14 @@ public class SettingsController extends BaseController {
             if(newValue.trim().equalsIgnoreCase(String.valueOf(666))){
                 SettingsPane.setStyle("-fx-background-color:  ff0000;");
                 OzuCount_Label.setStyle("-fx-background-color: ff0000;");
-                ErrorInterp.setMessageError("Зря..");
+                ManagerWindow.currentController.setInfoText ("Зря..");
                 A1.getScene().setCursor(Cursor.cursor(String.valueOf(Main.class.getResource("assets/HellTyMasunya.png"))));
                 hellishTheme = true;
             }
             if(newValue.trim().equalsIgnoreCase("999")){
                 SettingsPane.setStyle("-fx-background-color: #363636;");
                 OzuCount_Label.setStyle("-fx-background-color: #363636;");
-                ErrorInterp.setMessageError("Умничка :)");
+                ManagerWindow.currentController.setInfoText ("Умничка :)");
                 A1.getScene().setCursor(Cursor.DEFAULT);
                 hellishTheme = false;
             }
@@ -194,7 +194,7 @@ public class SettingsController extends BaseController {
                 infoTextPane.setVisible(false);
             } catch (Exception e) {
                 SettingsSaved_Text.setVisible(false);
-                ErrorInterp.setMessageError(e.toString());
+                ManagerWindow.currentController.setInfoText (e.toString());
                 UpdateSettings();
                 System.err.println(Settings.show());
                 return;

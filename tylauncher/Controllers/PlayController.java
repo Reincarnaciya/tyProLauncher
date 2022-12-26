@@ -105,7 +105,7 @@ public class PlayController extends BaseController{
                     }
                 }
             } catch (Exception e) {
-                ErrorInterp.setMessageError("Необходимо авторизоваться, прежде чем начать играть");
+                ManagerWindow.currentController.setInfoText ("Необходимо авторизоваться, прежде чем начать играть");
             }
         });
     }

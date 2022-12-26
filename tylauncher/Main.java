@@ -12,10 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import tylauncher.Utilites.*;
-import tylauncher.Utilites.Managers.ManagerDirs;
-import tylauncher.Utilites.Managers.ManagerFlags;
-import tylauncher.Utilites.Managers.ManagerStart;
-import tylauncher.Utilites.Managers.ManagerWindow;
+import tylauncher.Utilites.Managers.*;
 
 import java.awt.*;
 import java.io.File;
@@ -34,21 +31,17 @@ import static tylauncher.Controllers.SettingsController.settingsFile;
 
 public class Main extends Application {
     public static Stage mainStage = null;
-
-    public static final String launcher_version = "1.0";
-
+    public static final String launcher_version = "0.0";
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyPro");
     private static final ManagerDirs _clientDir = new ManagerDirs("TyPro/clients/");
 
     public static User user = new User();
-
     public static File getLauncherDir() {
         return _launcherDir.getWorkDir();
     }
     public static File getClientDir() {
         return _clientDir.getWorkDir();
     }
-
 
     public static void OpenNew(String fxml, AnchorPane pane) {
         AnchorPane pane1;
@@ -71,8 +64,8 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
-
     public static void main(String[] args) throws IOException {
+
         if(args.length > 0 && args[0].equalsIgnoreCase("love")){
             easter();
             System.exit(0);
@@ -86,9 +79,7 @@ public class Main extends Application {
         Test();
 
         File dir_logs = new File(getLauncherDir() + File.separator + "logs");
-        if (!dir_logs.exists()) {
-            dir_logs.mkdirs();
-        }
+        if (!dir_logs.exists()) dir_logs.mkdirs();
         // время для логов
         ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Europe/Moscow")); // Europe/Moscow
         // очищаем от говна
@@ -107,17 +98,13 @@ public class Main extends Application {
         System.setOut(dual);
         dual = new DualStream(System.err, out);
         System.setErr(dual);
-
         CheckLogs();
-
         UserPC.Show();
         launch();
     }
 
     public static void exit() {
         System.err.println("exit");
-        File f = new File(getClientDir() + File.separator + "client1165.zip");
-        f.delete();
         if(ManagerStart.gameIsStart){
             return;
         }
@@ -134,7 +121,6 @@ public class Main extends Application {
         }catch (IOException e){
             e.printStackTrace();
         }
-
         Scene scene = new Scene(root);
         primaryStage.setTitle("Updater");
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("StyleSheets/font.css")).toExternalForm());
