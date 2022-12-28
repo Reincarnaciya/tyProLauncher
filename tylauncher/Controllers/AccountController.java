@@ -4,17 +4,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
-import tylauncher.Utilites.BooleanPageController;
+import tylauncher.Utilites.ButtonPageController;
 import tylauncher.Utilites.ButtonPage;
-import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Managers.ManagerWindow;
 import tylauncher.Utilites.Utils;
 
 import java.io.File;
-import java.io.IOException;
 
 import static tylauncher.Main.user;
 
@@ -51,14 +48,14 @@ public class AccountController extends BaseController{
         AccountAuthController.accountController = this;
         ManagerWindow.currentController = this;
         //все кнопки в 1 массив!
-        ButtonPage.reset();
-        ButtonPage.setPressedNum(1);
-        BooleanPageController.addButton(Account_Img);
-        BooleanPageController.addButton(News_Img);
-        BooleanPageController.addButton(Forum_Img);
-        BooleanPageController.addButton(Message_Img);
-        BooleanPageController.addButton(Settings_Img);
-        BooleanPageController.addButton(Play_Img);
+        ButtonPageController buttonPageController = new ButtonPageController();
+
+        buttonPageController.addButton(Account_Img);
+        buttonPageController.addButton(News_Img);
+        buttonPageController.addButton(Forum_Img);
+        buttonPageController.addButton(Message_Img);
+        buttonPageController.addButton(Settings_Img);
+        buttonPageController.addButton(Play_Img);
 
         Exit_Button.setOnMouseClicked(mouseEvent -> Exit());
 
@@ -70,12 +67,7 @@ public class AccountController extends BaseController{
                 e.printStackTrace();
             }
         });
-        //Ивенты клика на картинки
-        News_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("News.fxml", A1));
-        Forum_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Forum.fxml", A1));
-        Message_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Message.fxml", A1));
-        Settings_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Settings.fxml", A1));
-        Play_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Play.fxml", A1));
+
 
     }
     //Обновление информации о юзере

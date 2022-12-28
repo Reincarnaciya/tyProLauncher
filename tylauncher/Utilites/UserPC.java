@@ -24,7 +24,6 @@ public class UserPC {
             .getHeight();
     public static final String _os = System.getProperty("os.name").toLowerCase();
     public static final String _javaVersion = System.getProperty("java.version");
-
     public static final int _usableDiskSpace = (int) (new File(File.separator).getUsableSpace()/1048576);
     public static final String _javaBit = System.getProperty("sun.arch.data.model");
     public static String _pathToLauncher = null;

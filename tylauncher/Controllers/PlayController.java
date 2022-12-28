@@ -15,7 +15,6 @@ import tylauncher.Utilites.Managers.ManagerZip;
 
 import java.io.File;
 
-import static tylauncher.Controllers.AccountAuthController.accountController;
 import static tylauncher.Main.user;
 
 public class PlayController extends BaseController{
@@ -47,33 +46,18 @@ public class PlayController extends BaseController{
         ManagerStart.playController = this;
         ManagerUpdate.playController = this;
         //все кнопки в 1 массив!
-        ButtonPage.reset();
-        ButtonPage.setPressedNum(6);
-        BooleanPageController.addButton(Account_Img);
-        BooleanPageController.addButton(News_Img);
-        BooleanPageController.addButton(Forum_Img);
-        BooleanPageController.addButton(Message_Img);
-        BooleanPageController.addButton(Settings_Img);
-        BooleanPageController.addButton(Play_Img);
+        ButtonPageController buttonPageController = new ButtonPageController();
+
+        buttonPageController.addButton(Account_Img);
+        buttonPageController.addButton(News_Img);
+        buttonPageController.addButton(Forum_Img);
+        buttonPageController.addButton(Message_Img);
+        buttonPageController.addButton(Settings_Img);
+        buttonPageController.addButton(Play_Img);
         //Проверка на статус.. Чего? а, на статус того, что вообще происходит в лаунчере
         if (ManagerStart.gameIsStart) ManagerWindow.currentController.setInfoText("Игра запущена");
         if (ManagerZip.unzipping) ManagerZip.UpdateInfo();
-        //Ивенты клика на картинки
-        News_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("News.fxml", A1));
-        Forum_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Forum.fxml", A1));
-        Message_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Message.fxml", A1));
-        Settings_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Settings.fxml", A1));
-        //В зависимости от того возможно ли авторизовать юзера кидаем его или в аккаунт или в авторизацию
-        Account_Img.setOnMouseClicked(mouseEvent -> {
-            try {
-                if (user.Auth()) {
-                    Main.OpenNew("Account.fxml", A1);
-                    accountController.UpdateData();
-                } else Main.OpenNew("AccountAuth.fxml", A1);
-            } catch (Exception e) {
-                Main.OpenNew("AccountAuth.fxml", A1);
-            }
-        });
+
         //Улавливаем ивент нажатия на кнопку "Играть"
         Play_Button.setOnMouseClicked(mouseEvent -> {
             ManagerWindow.currentController.setInfoText("Инициализация..");
@@ -88,8 +72,12 @@ public class PlayController extends BaseController{
             try {
                 if (user.Auth()) {
                     if (!HashCodeCheck.CheckHashWithServer()) {
-                        Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "TySci_1.16.5"));
-                        Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "client1165.zip"));
+                        try {
+                            Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "TySci_1.16.5"));
+                            Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "client1165.zip"));
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                         ManagerUpdate.DownloadUpdate("TySci_1.16.5", "https://www.typro.space/files/client_mc/client1165.zip");
                     } else {
                         System.err.println(Settings.show());
@@ -98,12 +86,13 @@ public class PlayController extends BaseController{
                         } catch (Exception e) {
                             ManagerWindow.currentController.setInfoText(e.getMessage());
                         }
-
-
                     }
+                }else {
+                    ManagerWindow.currentController.setInfoText ("Необходимо авторизоваться, прежде чем начать играть");
                 }
             } catch (Exception e) {
-                ManagerWindow.currentController.setInfoText ("Необходимо авторизоваться, прежде чем начать играть");
+                ManagerWindow.currentController.setInfoText(e.getMessage());
+                e.printStackTrace();
             }
         });
     }

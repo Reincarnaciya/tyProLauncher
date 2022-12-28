@@ -37,8 +37,8 @@ public class ManagerStart {
                 try {
 
                     String fsc = "";
-                    String x = "";
-                    String y = "";
+                    String x;
+                    String y;
                     System.err.println(Settings.show());
                     if (Settings.getFsc()) {
                         fsc = "--fullscreen";

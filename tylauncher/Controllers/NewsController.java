@@ -1,7 +1,5 @@
 package tylauncher.Controllers;
 
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
@@ -9,15 +7,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
-import tylauncher.Utilites.BooleanPageController;
+import tylauncher.Utilites.ButtonPageController;
 import tylauncher.Utilites.ButtonPage;
 import tylauncher.Utilites.Managers.ManagerWindow;
 import tylauncher.Utilites.Utils;
 
 import java.io.IOException;
-
-import static tylauncher.Controllers.AccountAuthController.accountController;
-import static tylauncher.Main.user;
 
 public class NewsController extends BaseController{
     @FXML
@@ -44,14 +39,13 @@ public class NewsController extends BaseController{
     void initialize() {
         ManagerWindow.currentController = this;
         //все кнопки в 1 массив!
-        ButtonPage.reset();
-        ButtonPage.setPressedNum(2);
-        BooleanPageController.addButton(Account_Img);
-        BooleanPageController.addButton(News_Img);
-        BooleanPageController.addButton(Forum_Img);
-        BooleanPageController.addButton(Message_Img);
-        BooleanPageController.addButton(Settings_Img);
-        BooleanPageController.addButton(Play_Img);
+        ButtonPageController buttonPageController = new ButtonPageController();
+        buttonPageController.addButton(Account_Img);
+        buttonPageController.addButton(News_Img);
+        buttonPageController.addButton(Forum_Img);
+        buttonPageController.addButton(Message_Img);
+        buttonPageController.addButton(Settings_Img);
+        buttonPageController.addButton(Play_Img);
         //Можно я не буду комментировать всё, что ниже..Это же элементарно..
         inDevText.setOnMouseEntered(mouseEvent ->{
             if (clicks > 1){
@@ -169,23 +163,6 @@ public class NewsController extends BaseController{
                 Utils.openUrl("https://typro.space/vendor/donate/script_donate.php");
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-        });
-
-        //Ивенты клика на картинки
-        Forum_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Forum.fxml", A1));
-        Message_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Message.fxml", A1));
-        Settings_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Settings.fxml", A1));
-        Play_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Play.fxml", A1));
-        //В зависимости от того возможно ли авторизовать юзера кидаем его или в аккаунт или в авторизацию
-        Account_Img.setOnMouseClicked(mouseEvent -> {
-            try {
-                if (user.Auth()) {
-                    Main.OpenNew("Account.fxml", A1);
-                    accountController.UpdateData();
-                } else Main.OpenNew("AccountAuth.fxml", A1);
-            } catch (Exception e) {
-                Main.OpenNew("AccountAuth.fxml", A1);
             }
         });
     }

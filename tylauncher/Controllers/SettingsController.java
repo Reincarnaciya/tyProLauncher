@@ -92,14 +92,14 @@ public class SettingsController extends BaseController {
     void initialize() {
         ManagerWindow.currentController = this;
         //все кнопки в 1 массив!
-        ButtonPage.reset();
-        ButtonPage.setPressedNum(5);
-        BooleanPageController.addButton(Account_Img);
-        BooleanPageController.addButton(News_Img);
-        BooleanPageController.addButton(Forum_Img);
-        BooleanPageController.addButton(Message_Img);
-        BooleanPageController.addButton(Settings_Img);
-        BooleanPageController.addButton(Play_Img);
+        ButtonPageController buttonPageController = new ButtonPageController();
+
+        buttonPageController.addButton(Account_Img);
+        buttonPageController.addButton(News_Img);
+        buttonPageController.addButton(Forum_Img);
+        buttonPageController.addButton(Message_Img);
+        buttonPageController.addButton(Settings_Img);
+        buttonPageController.addButton(Play_Img);
         //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
         if(hellishTheme) SettingsPane.setStyle("-fx-background-color:  ff0000;");//Пасхалка тип
 
@@ -202,28 +202,13 @@ public class SettingsController extends BaseController {
             SettingsSaved_Text.setVisible(true);
             ManagerAnimations.StartFadeAnim(SettingsSaved_Text);
         });
-        //Ивенты клика на картинки
-        News_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("News.fxml", A1));
-        Forum_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Forum.fxml", A1));
-        Message_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Message.fxml", A1));
-        Play_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Play.fxml", A1));
+
 
         openLauncherDirButton.setOnMouseClicked(event -> {
             try {
                 Desktop.getDesktop().open(new File(Main.getLauncherDir().getAbsolutePath()));
             } catch (IOException e) {
                 ManagerWindow.currentController.setInfoText(e.toString());
-            }
-        });
-
-        Account_Img.setOnMouseClicked(mouseEvent -> {
-            try {
-                if (user.Auth()) {
-                    Main.OpenNew("Account.fxml", A1);
-                    accountController.UpdateData();
-                } else Main.OpenNew("AccountAuth.fxml", A1);
-            } catch (Exception e) {
-                Main.OpenNew("AccountAuth.fxml", A1);
             }
         });
     }

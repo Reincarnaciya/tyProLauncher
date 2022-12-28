@@ -61,7 +61,6 @@ public class UpdaterController extends BaseController{
             UpdatingPane.setDisable(true);
             UpdateOrNoPane.setVisible(true);
             UpdateOrNoPane.setDisable(false);
-
         }
     }
 

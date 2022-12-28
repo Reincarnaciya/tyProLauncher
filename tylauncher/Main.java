@@ -1,32 +1,26 @@
 package tylauncher;
 
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import tylauncher.Utilites.*;
-import tylauncher.Utilites.Managers.*;
+import tylauncher.Utilites.Managers.ManagerDirs;
+import tylauncher.Utilites.Managers.ManagerFlags;
+import tylauncher.Utilites.Managers.ManagerStart;
+import tylauncher.Utilites.Managers.ManagerWindow;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
-import java.net.URISyntaxException;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -40,7 +34,7 @@ import static tylauncher.Controllers.SettingsController.settingsFile;
 
 public class Main extends Application {
     public static Stage mainStage = null;
-    public static final String launcher_version = "0.0";
+    public static final String launcher_version = "02.0";
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyPro");
     private static final ManagerDirs _clientDir = new ManagerDirs("TyPro/clients/");
 
@@ -53,25 +47,24 @@ public class Main extends Application {
     }
 
     public static void OpenNew(String fxml, AnchorPane pane) {
-        AnchorPane pane1;
-        try {
-            pane.setStyle("");
-            pane1 = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("FXMLfiles/" + fxml)));
-            pane.getChildren().setAll(pane1);
+        Platform.runLater(()->{
+            AnchorPane pane1;
+            try {
+                pane.setStyle("");
+                pane1 = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("FXMLfiles/" + fxml)));
+                pane.getChildren().setAll(pane1);
 
-            List<Node> buttons = getAllButtons(pane1);
-            for (Node button : buttons){
-                javafx.scene.control.Button btn = (Button) button;
-                btn.setOnMousePressed(event -> btn.setStyle("-fx-background-color: #444"));
-                btn.setOnMouseReleased(event -> btn.setStyle(" "));
-                Platform.runLater(()->{
-                        btn.getScene().getWindow().setOnCloseRequest(event -> exit());
-                });
-
+                List<Node> buttons = getAllButtons(pane1);
+                for (Node button : buttons){
+                    javafx.scene.control.Button btn = (Button) button;
+                    btn.setOnMousePressed(event -> btn.setStyle("-fx-background-color: #444"));
+                    btn.setOnMouseReleased(event -> btn.setStyle(" "));
+                    btn.getScene().getWindow().setOnCloseRequest(event -> exit());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        });
     }
     public static void main(String[] args) throws IOException {
 
@@ -121,16 +114,13 @@ public class Main extends Application {
             return;
         }
         SystemTray.getSystemTray().remove(ManagerStart.trayIcon);
-        Platform.runLater(()->{
-            Stage st = (Stage) ManagerWindow.currentController.getA1().getScene().getWindow();
-            st.close();
-        });
 
+        Platform.exit();
         System.exit(0);
     }
 
     @Override
-    public void start(Stage primaryStage) throws IOException, FontFormatException, URISyntaxException {
+    public void start(Stage primaryStage) throws IOException, FontFormatException {
         Font.loadFont(getClass().getResourceAsStream("Minecraft.ttf"), 16);
         Parent root = null;
         try {
@@ -170,6 +160,7 @@ public class Main extends Application {
         java.awt.Image img = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("assets/icoNewYear.png"));
         ManagerWindow.currentController.getA1().getScene().getWindow().setOnCloseRequest(event -> Main.exit());
         TrayIcon trayIcon = new TrayIcon(img, "TypicalLauncher", popupMenu);
+        trayIcon.setImageAutoSize(true);
         trayIcon.addActionListener(mouseEvent -> Platform.runLater(()->{
             Stage st = (Stage) ManagerWindow.currentController.getA1().getScene().getWindow();
             st.setIconified(!st.isIconified());

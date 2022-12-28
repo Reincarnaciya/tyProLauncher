@@ -65,14 +65,14 @@ public class RegisterController extends BaseController{
     void initialize() {
         ManagerWindow.currentController = this;
         // ЛОГИКА КАК В АВТОРИЗАЦИИ, Я ЗАЕБАЛСЯ КОММЕНТАРИИ ОДНОТИПНЫЕ ПИСАТЬ
-        ButtonPage.reset();
-        ButtonPage.setPressedNum(1);
-        BooleanPageController.addButton(Account_Img);
-        BooleanPageController.addButton(News_Img);
-        BooleanPageController.addButton(Forum_Img);
-        BooleanPageController.addButton(Message_Img);
-        BooleanPageController.addButton(Settings_Img);
-        BooleanPageController.addButton(Play_Img);
+        ButtonPageController buttonPageController = new ButtonPageController();
+
+        buttonPageController.addButton(Account_Img);
+        buttonPageController.addButton(News_Img);
+        buttonPageController.addButton(Forum_Img);
+        buttonPageController.addButton(Message_Img);
+        buttonPageController.addButton(Settings_Img);
+        buttonPageController.addButton(Play_Img);
 
         Cancel_Button.setOnMouseClicked(mouseEvent -> {
             Main.OpenNew("AccountAuth.fxml", A1);
@@ -127,16 +127,8 @@ public class RegisterController extends BaseController{
                 }
                 ManagerWindow.currentController.setInfoText (WebAnswer.getMessage());
             }
-
-
-
         });
-        //Ивенты клика на картинки
-        News_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("News.fxml", A1));
-        Forum_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Forum.fxml", A1));
-        Message_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Message.fxml", A1));
-        Settings_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Settings.fxml", A1));
-        Play_Img.setOnMouseClicked(mouseEvent -> Main.OpenNew("Play.fxml", A1));
+
 
     }
 
