@@ -37,11 +37,9 @@ public class RegisterUser {
         try {
             registerManager.request();
         } catch (Exception e) {
-            ManagerWindow.currentController.setInfoText(e.toString());
+            ManagerWindow.currentController.setInfoText(e.getMessage());
             e.printStackTrace();
         }
-
-
 
         String line = registerManager.getAnswer();
 

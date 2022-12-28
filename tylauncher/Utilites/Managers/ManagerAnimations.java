@@ -10,18 +10,14 @@ public class ManagerAnimations {
     //UPD я разобрался как оно работает
 
     public static FadeTransition CreateFader(Node node) {
-
         FadeTransition fade = new FadeTransition(Duration.seconds(5), node);
         fade.setFromValue(1);
         fade.setToValue(0);
         return fade;
-
-
     }
     public static void StartFadeAnim(Node whatToFade) {
         FadeTransition fader = ManagerAnimations.CreateFader(whatToFade);
         SequentialTransition Fade = new SequentialTransition(whatToFade, fader);
-
         Fade.play();
     }
 }

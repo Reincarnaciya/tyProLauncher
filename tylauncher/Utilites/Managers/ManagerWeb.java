@@ -52,10 +52,10 @@ public class ManagerWeb {
                         .replace("{", "")
                         .replace("]", "")
                         .replace("[", "");
-                if(line.contains("<br />")) throw new Exception("Базы данных упали. Обратитесь к администрации!");
+                if(line.contains("<br />")) throw new Exception("Сайт лёг. Обратитесь к администрации!");
                 this.answer = line;
                 this.answerMass = line.split("[,:]");
-            }else throw new Exception("Ошибка сервера(" + httpURLConnection.getResponseCode() + "). Обратитесь к администрации");
+            }else throw new Exception("Ошибка сервера(" + httpURLConnection.getResponseCode() + "). Обратитесь к администрации!");
         }
     }
 
@@ -73,6 +73,10 @@ public class ManagerWeb {
     }
     public String getAnswer(){
         return this.answer;
+    }
+
+    public void setConnectTimeout(int millsec){
+        this.connectTimeout = millsec;
     }
 
     @Override

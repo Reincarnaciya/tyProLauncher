@@ -55,7 +55,6 @@ public class PlayController extends BaseController{
         BooleanPageController.addButton(Message_Img);
         BooleanPageController.addButton(Settings_Img);
         BooleanPageController.addButton(Play_Img);
-
         //Проверка на статус.. Чего? а, на статус того, что вообще происходит в лаунчере
         if (ManagerStart.gameIsStart) ManagerWindow.currentController.setInfoText("Игра запущена");
         if (ManagerZip.unzipping) ManagerZip.UpdateInfo();
@@ -93,14 +92,13 @@ public class PlayController extends BaseController{
                         Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "client1165.zip"));
                         ManagerUpdate.DownloadUpdate("TySci_1.16.5", "https://www.typro.space/files/client_mc/client1165.zip");
                     } else {
-                        new Thread(()->{
-                            System.err.println(Settings.show());
-                            try {
-                                ManagerStart.StartMinecraft("TySci_1.16.5");
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
-                            }
-                        }).start();
+                        System.err.println(Settings.show());
+                        try {
+                            ManagerStart.StartMinecraft("TySci_1.16.5");
+                        } catch (Exception e) {
+                            ManagerWindow.currentController.setInfoText(e.getMessage());
+                        }
+
 
                     }
                 }

@@ -65,7 +65,6 @@ public class User {
                 System.err.println(this);
                 throw new Exception("Данные авторизации поломались. Авторизуйтесь заново.");
             }
-
             if (!wasAuth && WebAnswer.getStatus()){
                 if (answer[9].equals("session")) this._session = answer[10];
                 System.err.println(this);
@@ -102,17 +101,11 @@ public class User {
     public String getSession() {
         return _session;
     }
-
     public void setSession(String _session) {
         this._session = _session;
     }
-
     public String getEmail() {
         return _email;
-    }
-
-    public void setEmail(String _email) {
-        this._email = _email;
     }
 
     public void setPassword(String _password) {
@@ -121,14 +114,6 @@ public class User {
 
     public void setLogin(String _login) {
         this._login = _login;
-    }
-
-    public void setBalance(String _balance) {
-        this._balance = _balance;
-    }
-
-    public void setGroup(String _group) {
-        this._group = _group;
     }
 
     public void setImage(Image _image) {

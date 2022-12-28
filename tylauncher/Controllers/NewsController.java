@@ -63,7 +63,6 @@ public class NewsController extends BaseController{
         });
         inDevText.setOnMouseClicked(mouseEvent -> {
             clicks++;
-            System.err.println(clicks);
             switch (clicks){
                 case 2:
                     inDevText.setText("Ай   ಥ﹏ಥ");
@@ -146,6 +145,7 @@ public class NewsController extends BaseController{
                         inDevText.setText("Может это его отвлечет..");
                     } catch (IOException e) {
                         inDevText.setText("У ТЕБЯ БРАУЗЕР НЕ ОТКРЫВАЕТСЯ, КАК ТЫ ЖИВЕШЬ????");
+                        e.printStackTrace();
                     }
                     break;
                 case 190:
@@ -161,7 +161,7 @@ public class NewsController extends BaseController{
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    System.exit(-1);
+                    Main.exit();
             }
         });
         donateButton.setOnMouseClicked(mouseEvent -> {

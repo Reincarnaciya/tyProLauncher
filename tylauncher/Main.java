@@ -1,23 +1,32 @@
 package tylauncher;
 
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import tylauncher.Utilites.*;
 import tylauncher.Utilites.Managers.*;
 
+import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -70,9 +79,11 @@ public class Main extends Application {
             easter();
             System.exit(0);
         }
-        if(args.length > 0 && args[0].equals("deleteUpdater")){
+        if(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar").exists()){
             Utils.DeleteFile(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar"));
         }
+
+
         if(UserPC._usableDiskSpace < 1500){
             ManagerFlags.lowDiskSpace = true;
         }
@@ -104,16 +115,22 @@ public class Main extends Application {
     }
 
     public static void exit() {
+
         System.err.println("exit");
         if(ManagerStart.gameIsStart){
             return;
         }
         SystemTray.getSystemTray().remove(ManagerStart.trayIcon);
+        Platform.runLater(()->{
+            Stage st = (Stage) ManagerWindow.currentController.getA1().getScene().getWindow();
+            st.close();
+        });
+
         System.exit(0);
     }
 
     @Override
-    public void start(Stage primaryStage){
+    public void start(Stage primaryStage) throws IOException, FontFormatException, URISyntaxException {
         Font.loadFont(getClass().getResourceAsStream("Minecraft.ttf"), 16);
         Parent root = null;
         try {
@@ -124,16 +141,35 @@ public class Main extends Application {
         Scene scene = new Scene(root);
         primaryStage.setTitle("Updater");
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("StyleSheets/font.css")).toExternalForm());
-        primaryStage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("assets/ico.png"))));
-        primaryStage.setScene(scene);
+        primaryStage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("assets/icoNewYear.png"))));
         primaryStage.setResizable(false);
-        primaryStage.show();
+        primaryStage.setScene(scene);
         primaryStage.getScene().getWindow().centerOnScreen();
+        primaryStage.show();
         mainStage = primaryStage;
 
-        java.awt.Image img = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("assets/ico.png"));
+        //Настройка выпоадающего списка при нажатии пкм на иконку трея
+        java.awt.Font font = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,
+                Main.class.getResourceAsStream("StyleSheets/Minecraft.ttf"));
+
+        PopupMenu popupMenu = new PopupMenu();
+
+        MenuItem exit = new MenuItem("Выход");
+        exit.addActionListener(e -> exit());
+
+        MenuItem showUnshow = new MenuItem("Показать/скрыть");
+        showUnshow.addActionListener(e -> Platform.runLater(() -> mainStage.setIconified(!mainStage.isIconified())));
+
+        popupMenu.add(showUnshow);
+        popupMenu.addSeparator();
+        popupMenu.add(exit);
+
+        popupMenu.setFont(font.deriveFont(14f));
+
+
+        java.awt.Image img = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("assets/icoNewYear.png"));
         ManagerWindow.currentController.getA1().getScene().getWindow().setOnCloseRequest(event -> Main.exit());
-        TrayIcon trayIcon = new TrayIcon(img, "TypicalLauncher");
+        TrayIcon trayIcon = new TrayIcon(img, "TypicalLauncher", popupMenu);
         trayIcon.addActionListener(mouseEvent -> Platform.runLater(()->{
             Stage st = (Stage) ManagerWindow.currentController.getA1().getScene().getWindow();
             st.setIconified(!st.isIconified());
@@ -159,9 +195,7 @@ public class Main extends Application {
 
     public static void CheckLogs() {
         long numDays = 4;   //Оно должно быть лонг, честно, иначе чет всё ломается
-
         String dir = getLauncherDir() + File.separator + "logs";
-
         File directory = new File(dir);
         File[] fList = directory.listFiles();
 

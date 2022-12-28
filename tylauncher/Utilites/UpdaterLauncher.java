@@ -18,18 +18,19 @@ public class UpdaterLauncher {
     public static UpdaterController updaterController;
     private static ManagerWeb updateManagerWeb = new ManagerWeb("POST");
     @FXML
-    public static void checkUpdate() throws IOException {
+    public static void checkUpdate() {
         new Thread (()->{
             try {
 
                 //"https://typro.space/vendor/launcher/CheckingVersion.php"
                 updateManagerWeb.setUrl("https://typro.space/vendor/launcher/CheckingVersion.php");
-                updateManagerWeb.putParam("Search", "Launcher");
-                updateManagerWeb.putParam("Version", Main.launcher_version);
+                updateManagerWeb.putParam("hash", "rehtrjtkykyjhtjhjotrjhoitrjoihjoith");
+                updateManagerWeb.putParam("version", Main.launcher_version);
                 updateManagerWeb.request();
 
                 String line = updateManagerWeb.getAnswer();
-                if(line.equalsIgnoreCase("0")){
+                System.err.println(line);
+                if(!line.equalsIgnoreCase("1")){
                     Platform.runLater(()-> updaterController.setUpdateAvailable(true));
                 }else Platform.runLater(() ->{
                     ManagerWindow.currentController.getA1().getScene().getWindow().setWidth(800);
@@ -40,7 +41,7 @@ public class UpdaterLauncher {
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }).start();
     }
@@ -67,7 +68,7 @@ public class UpdaterLauncher {
                     }
                     fw.close();
                     Runtime.getRuntime().exec(new String[]{"cmd","/c","start","cmd","/k","java -jar \"" + client.getAbsolutePath() + "\" " + "\"" + UserPC._pathToLauncher + "\"" +  " " + "\"" + Main.getLauncherDir().getAbsolutePath()+ "\""});
-                    System.exit(0);
+                    Main.exit();
                 }
             } catch (IOException e) {
                 ManagerWindow.currentController.setInfoText (e.getMessage());
