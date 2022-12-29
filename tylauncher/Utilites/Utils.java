@@ -37,7 +37,6 @@ public class Utils {
         }
         return text;
     }
-
     public static void DeleteFile(File file) {
         if (file.isDirectory()) {
             for (File f : file.listFiles()) {

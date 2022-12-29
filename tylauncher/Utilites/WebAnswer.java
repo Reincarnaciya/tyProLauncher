@@ -9,23 +9,18 @@ public class WebAnswer {
     public static boolean getStatus() {
         return status;
     }
-
     public static void setStatus(String status) {
         WebAnswer.status = Boolean.parseBoolean(status);
     }
-
     public static int getType() {
         return type;
     }
-
     public static void setType(String type) {
         WebAnswer.type = Integer.parseInt(type);
     }
-
     public static String getMessage() {
         return message;
     }
-
     public static void setMessage(String message) {
         String mssage = "";
         message = message.replace(".", "");
@@ -35,7 +30,6 @@ public class WebAnswer {
         }
         WebAnswer.message = mssage;
     }
-
     public static void Reset() {
         WebAnswer.status = false;
         WebAnswer.type = -1;

@@ -34,7 +34,7 @@ import static tylauncher.Controllers.SettingsController.settingsFile;
 
 public class Main extends Application {
     public static Stage mainStage = null;
-    public static final String launcher_version = "02.0";
+    public static final String launcher_version = "0.0";
     private static TrayIcon trayIcon;
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyPro");
     private static final ManagerDirs _clientDir = new ManagerDirs("TyPro/clients/");
@@ -73,14 +73,16 @@ public class Main extends Application {
             easter();
             System.exit(0);
         }
-        if(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar").exists()){
-            Utils.DeleteFile(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar"));
+        try {
+            if(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar").exists()){
+                Utils.DeleteFile(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar"));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
+        if(UserPC._usableDiskSpace < 1500) ManagerFlags.lowDiskSpace = true;
 
-        if(UserPC._usableDiskSpace < 1500){
-            ManagerFlags.lowDiskSpace = true;
-        }
         Test();
 
         File dir_logs = new File(getLauncherDir() + File.separator + "logs");
@@ -88,15 +90,18 @@ public class Main extends Application {
         // время для логов
         ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Europe/Moscow")); // Europe/Moscow
         // очищаем от говна
-        String logfile = now.toString().replace(":", "-")
-                .replace("]", "").replace("[", "")
-                .replace(".", "").replace("/", "-")
+        String logfile = now.toString()
+                .replace(":", "-")
+                .replace("]", "")
+                .replace("[", "")
+                .replace(".", "")
+                .replace("/", "-")
                 + ".log";
         // лог файл
         File log = new File(dir_logs + File.separator + "LogFile_" + logfile);
-        if (!log.exists()) {
-            log.createNewFile();
-        }
+
+        if (!log.exists()) log.createNewFile();
+
         // запись в файл и вывод в консоль
         PrintStream out = new PrintStream(Files.newOutputStream(log.toPath()));
         PrintStream dual = new DualStream(System.out, out);
@@ -118,7 +123,6 @@ public class Main extends Application {
         SystemTray.getSystemTray().remove(trayIcon);
 
         Platform.exit();
-
         System.exit(0);
     }
 
@@ -182,9 +186,6 @@ public class Main extends Application {
             System.err.println("Файл настроек был успешно поломан и восстановлен.");
             e.printStackTrace();
         }
-
-
-
     }
 
     public static void CheckLogs() {
@@ -221,6 +222,43 @@ public class Main extends Application {
 
         return buttons;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
