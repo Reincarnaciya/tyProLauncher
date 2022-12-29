@@ -35,6 +35,7 @@ import static tylauncher.Controllers.SettingsController.settingsFile;
 public class Main extends Application {
     public static Stage mainStage = null;
     public static final String launcher_version = "02.0";
+    private static TrayIcon trayIcon;
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyPro");
     private static final ManagerDirs _clientDir = new ManagerDirs("TyPro/clients/");
 
@@ -105,6 +106,7 @@ public class Main extends Application {
         CheckLogs();
         UserPC.Show();
         launch();
+
     }
 
     public static void exit() {
@@ -113,9 +115,10 @@ public class Main extends Application {
         if(ManagerStart.gameIsStart){
             return;
         }
-        SystemTray.getSystemTray().remove(ManagerStart.trayIcon);
+        SystemTray.getSystemTray().remove(trayIcon);
 
         Platform.exit();
+
         System.exit(0);
     }
 
@@ -159,7 +162,7 @@ public class Main extends Application {
 
         java.awt.Image img = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("assets/icoNewYear.png"));
         ManagerWindow.currentController.getA1().getScene().getWindow().setOnCloseRequest(event -> Main.exit());
-        TrayIcon trayIcon = new TrayIcon(img, "TypicalLauncher", popupMenu);
+        trayIcon = new TrayIcon(img, "TypicalLauncher", popupMenu);
         trayIcon.setImageAutoSize(true);
         trayIcon.addActionListener(mouseEvent -> Platform.runLater(()->{
             Stage st = (Stage) ManagerWindow.currentController.getA1().getScene().getWindow();

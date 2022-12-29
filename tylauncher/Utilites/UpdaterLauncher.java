@@ -65,6 +65,7 @@ public class UpdaterLauncher {
                         System.err.println("Скачка: " + cll_web + "/" + client.length());
                     }
                     fw.close();
+
                     Runtime.getRuntime().exec(new String[]{"cmd","/c","start","cmd","/k","java -jar \"" + client.getAbsolutePath() + "\" " + "\"" + UserPC._pathToLauncher + "\"" +  " " + "\"" + Main.getLauncherDir().getAbsolutePath()+ "\""});
                     Main.exit();
                 }
