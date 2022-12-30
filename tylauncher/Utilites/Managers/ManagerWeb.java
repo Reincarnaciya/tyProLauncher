@@ -52,7 +52,12 @@ public class ManagerWeb {
                         .replace("{", "")
                         .replace("]", "")
                         .replace("[", "");
-                if(line.contains("<br />")) throw new Exception("Сайт лёг. Обратитесь к администрации!");
+
+                if(line.contains("<br />")) {
+                    System.err.println(line);
+                    while ((line = bufferedReader.readLine()) != null) System.err.println(line);
+                    throw new Exception("Сайт лёг. Обратитесь к администрации!(Больше информации в логах)");
+                }
                 this.answer = line;
                 this.answerMass = line.split("[,:]");
             }else throw new Exception("Ошибка сервера(" + httpURLConnection.getResponseCode() + "). Обратитесь к администрации!");

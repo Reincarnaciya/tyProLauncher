@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import tylauncher.Utilites.*;
 import tylauncher.Utilites.Managers.ManagerDirs;
 import tylauncher.Utilites.Managers.ManagerFlags;
-import tylauncher.Utilites.Managers.ManagerStart;
 import tylauncher.Utilites.Managers.ManagerWindow;
 
 import java.awt.*;
@@ -201,10 +200,7 @@ public class Main extends Application {
             }
         }
     }
-
-    private static void Test() {
-
-    }
+    private static void Test() {}
     private static List<Node> getAllButtons(Parent parent) {
         List<Node> buttons = parent.getChildrenUnmodifiable().stream()
                 .filter(node -> node instanceof Button)
@@ -216,46 +212,6 @@ public class Main extends Application {
 
         return buttons;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     static void easter(){
         System.err.println("\n\n\n");
         System.err.println("                   .`\":l><~<!;,^'.                                .'^,;l><>iI:\"`.                   \n" +
