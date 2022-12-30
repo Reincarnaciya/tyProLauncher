@@ -113,15 +113,9 @@ public class Main extends Application {
         launch();
 
     }
-
     public static void exit() {
-
         System.err.println("exit");
-        if(ManagerStart.gameIsStart){
-            return;
-        }
         SystemTray.getSystemTray().remove(trayIcon);
-
         Platform.exit();
         System.exit(0);
     }

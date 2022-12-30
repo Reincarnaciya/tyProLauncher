@@ -17,7 +17,6 @@ public class ManagerUpdate {
     private static long cllweb = 0;
 
     public static void DownloadUpdate(String version, String urld) {
-
         if (downloading) {
             UpdateInfo();
             return;
@@ -62,6 +61,7 @@ public class ManagerUpdate {
                 DownloadUpdate(version, urld);
             } catch (IOException e) {
                 playController.setInfoText(e.getMessage());
+                e.printStackTrace();
             }
 
         }).start();

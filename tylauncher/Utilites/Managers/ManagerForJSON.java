@@ -106,7 +106,7 @@ public class ManagerForJSON {
             FileWriter.write(str.toString());
             FileWriter.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new Exception(e);
         }
     }
 }

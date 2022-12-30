@@ -8,7 +8,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
 import tylauncher.Utilites.ButtonPageController;
-import tylauncher.Utilites.ButtonPage;
 import tylauncher.Utilites.Managers.ManagerWindow;
 import tylauncher.Utilites.Utils;
 

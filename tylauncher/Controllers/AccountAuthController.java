@@ -100,6 +100,7 @@ public class AccountAuthController extends BaseController{
             } catch (Exception e) {
                 ManagerWindow.currentController.setInfoText("Файл с логином и паролем поломался :( Удаляю..");
                 AuthFile.delete();
+                e.printStackTrace();
             }
         }
         //Улавливаем событие нажатия на кнопку
@@ -113,6 +114,7 @@ public class AccountAuthController extends BaseController{
                 // на запоминании пароля вызываем функцию сейва данных в файл и пропускаем юзера дальше в лаунчер
             } catch (Exception e) {
                 ManagerWindow.currentController.setInfoText (e.getMessage());
+                e.printStackTrace();
             }
         });
         //Улавливаем событие изменение чекбокса Просмотра пароля

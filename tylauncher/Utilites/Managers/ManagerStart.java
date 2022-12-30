@@ -21,13 +21,13 @@ public class ManagerStart {
     public static PlayController playController;
     public static TrayIcon trayIcon;
 
-    public static void StartMinecraft(String version) throws Exception {
+    public static void StartMinecraft(String version) {
         System.err.println(Settings.show());
 
 
-        if (user.getSession().isEmpty() || user.getSession().equals("")) {
-            throw new Exception("Проблема с сессией, обратитесь в тех. поддержку");
-        }
+        // if (user.getSession().isEmpty() || user.getSession().equals("")) {
+        //    throw new Exception("Проблема с сессией, обратитесь в тех. поддержку");
+        //}
         Platform.runLater(()-> ManagerWindow.currentController.setInfoText("Игра запущена"));
         if (Settings.getHide()) Platform.runLater(()-> Main.mainStage.setIconified(true));
 
@@ -47,8 +47,6 @@ public class ManagerStart {
                     }else {
                         x = " --width " + Settings.getX();
                         y = " --height " + Settings.getY();
-
-
                     }
 
                     Process p1 = null;
@@ -176,7 +174,7 @@ public class ManagerStart {
                     });
 
                 } catch (Exception ex) {
-                    System.err.println(ex.getMessage());
+                    ex.printStackTrace();
                 }
             } catch (Exception e) {
                 e.printStackTrace();

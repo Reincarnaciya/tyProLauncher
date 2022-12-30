@@ -49,16 +49,15 @@ public class ButtonPageController {
                         _pressedNum = 1;
                         try {
                             if (user.Auth()) {
-                                System.err.println("userAuth");
                                 Main.OpenNew("Account.fxml", ManagerWindow.currentController.getA1());
                                 accountController.UpdateData();
                             } else {
-                                System.err.println("userNotAuth");
                                 Main.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1());
                             }
                         } catch (Exception e) {
                             System.err.println("ExceptUserAuth: " + e.getMessage());
                             Main.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1());
+                            e.printStackTrace();
                         }
                     });
                     break;

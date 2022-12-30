@@ -5,7 +5,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import tylauncher.Utilites.ButtonPageController;
-import tylauncher.Utilites.ButtonPage;
 import tylauncher.Utilites.Managers.ManagerWindow;
 
 public class MessageController extends BaseController{

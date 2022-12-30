@@ -7,7 +7,6 @@ import javafx.scene.text.Text;
 import tylauncher.Utilites.Managers.ManagerAnimations;
 
 public abstract class BaseController {
-
     @FXML
     private AnchorPane A1;
     @FXML

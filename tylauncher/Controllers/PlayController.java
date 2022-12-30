@@ -47,7 +47,6 @@ public class PlayController extends BaseController{
         ManagerUpdate.playController = this;
         //все кнопки в 1 массив!
         ButtonPageController buttonPageController = new ButtonPageController();
-
         buttonPageController.addButton(Account_Img);
         buttonPageController.addButton(News_Img);
         buttonPageController.addButton(Forum_Img);
@@ -80,21 +79,18 @@ public class PlayController extends BaseController{
                         }
                         ManagerUpdate.DownloadUpdate("TySci_1.16.5", "https://www.typro.space/files/client_mc/client1165.zip");
                     } else {
-                        System.err.println(Settings.show());
-                        try {
-                            ManagerStart.StartMinecraft("TySci_1.16.5");
-                        } catch (Exception e) {
-                            ManagerWindow.currentController.setInfoText(e.getMessage());
-                        }
+                        ManagerStart.StartMinecraft("TySci_1.16.5");
                     }
                 }else {
                     ManagerWindow.currentController.setInfoText ("Необходимо авторизоваться, прежде чем начать играть");
                 }
             } catch (Exception e) {
-                ManagerWindow.currentController.setInfoText(e.getMessage());
+                ManagerWindow.currentController.setInfoText("Необходимо авторизоваться, прежде чем начать играть");
                 e.printStackTrace();
             }
         });
+
+
     }
     @Override
     public void setInfoText(String text) {

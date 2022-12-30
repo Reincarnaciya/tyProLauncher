@@ -116,7 +116,7 @@ public class SettingsController extends BaseController {
                 Settings.setHide(Boolean.parseBoolean(settingsJson.GetOfIndex(4,1)));
             } catch (Exception e) {
                 //пошло по пизде? хуево
-                setInfoText("Ошибка: " + e + "\n Пересоздаю файл");
+                setInfoText("Ошибка: " + e.getMessage() + "\n Пересоздаю файл");
                 settingsFile.delete();
                 e.printStackTrace();
             }
@@ -194,9 +194,10 @@ public class SettingsController extends BaseController {
                 infoTextPane.setVisible(false);
             } catch (Exception e) {
                 SettingsSaved_Text.setVisible(false);
-                ManagerWindow.currentController.setInfoText (e.toString());
+                ManagerWindow.currentController.setInfoText (e.getMessage());
                 UpdateSettings();
                 System.err.println(Settings.show());
+                e.printStackTrace();
                 return;
             }
             SettingsSaved_Text.setVisible(true);
@@ -208,7 +209,8 @@ public class SettingsController extends BaseController {
             try {
                 Desktop.getDesktop().open(new File(Main.getLauncherDir().getAbsolutePath()));
             } catch (IOException e) {
-                ManagerWindow.currentController.setInfoText(e.toString());
+                ManagerWindow.currentController.setInfoText(e.getMessage());
+                e.printStackTrace();
             }
         });
     }
@@ -254,7 +256,7 @@ public class SettingsController extends BaseController {
                 Settings.setHide(Boolean.parseBoolean(settingsJson.GetOfIndex(4,1)));
             } catch (Exception e) {
                 //пошло по пизде? хуево
-                ManagerWindow.currentController.setInfoText("Ошибка: " + e + "\n Пересоздаю файл");
+                ManagerWindow.currentController.setInfoText("Ошибка: " + e.getMessage() + "\n Пересоздаю файл");
                 settingsFile.delete();
                 e.printStackTrace();
             }
