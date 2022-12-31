@@ -1,5 +1,7 @@
 package tylauncher.Utilites;
 
+import static tylauncher.Utilites.Utils.bytesTostring;
+
 public class WebAnswer {
     private static boolean status = false;
     private static int type = -1;
@@ -22,13 +24,7 @@ public class WebAnswer {
         return message;
     }
     public static void setMessage(String message) {
-        String mssage = "";
-        message = message.replace(".", "");
-        String[] msg = message.split(" ");
-        for (int i = 0; i < msg.length; i++) {
-            mssage += Utils.UniToText(msg[i]) + " ";
-        }
-        WebAnswer.message = mssage;
+        WebAnswer.message = bytesTostring(message);
     }
     public static void Reset() {
         WebAnswer.status = false;

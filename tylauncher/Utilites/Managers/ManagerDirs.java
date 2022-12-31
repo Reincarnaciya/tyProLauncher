@@ -9,7 +9,11 @@ public class ManagerDirs {
 
     private final File _workDir;
 
-    public ManagerDirs(String nameDir) {
+    public ManagerDirs(String nameDir, int type) {
+        if(type != 1){
+            _workDir = new File(nameDir);
+            return;
+        }
         String userHome = System.getProperty("user.home", ".");
         File workTempDir;
         switch (getPlatform().ordinal()) {

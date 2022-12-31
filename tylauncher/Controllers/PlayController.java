@@ -62,7 +62,7 @@ public class PlayController extends BaseController{
             try {
                 if(user.Auth()) ManagerStart.StartMinecraft("TySci_1.16.5");
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                ManagerWindow.currentController.setInfoText(e.getMessage());
             }
             ManagerWindow.currentController.setInfoText("Инициализация..");
             if (ManagerStart.gameIsStart) {

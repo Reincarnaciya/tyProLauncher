@@ -5,27 +5,35 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.StringJoiner;
+import java.util.*;
+import java.util.stream.IntStream;
 
 public class ManagerWeb {
     private URL url;
     private String requestMethod;
-    private final Map<String, String> _params = new HashMap<>();
-    private String requestType;
+    private Map<String, String> _params;
+    private final String requestType;
 
     private String[] answerMass;
     private String answer;
+
     private int connectTimeout;
     public ManagerWeb(String type){
-        connectTimeout = 1000;
-        url = null;
-        requestMethod = "POST";
+        this.connectTimeout = 1000;
+        this.url = null;
+        this.requestMethod = "POST";
         this.requestType = type;
+        this._params = new HashMap<>();
     }
 
+    /**
+     * Функция просто подключается к серверу, скидывает ему запрос(POST или GET, по умолчанию - POST)
+     * и получает ответ(считывает 1 строку, если же ошибка скрипта, то считывает все строки)
+     * Ответ преобразовывает в массив, так же оставляет в виде строки.
+     *
+     * @throws Exception
+     * Возникает при ошибке со стороны сервера(Сервер сдох, респонс код не ок). Ошибка при этом выводится в консоль.
+     */
     public void request() throws Exception {
         InputStreamReader inputStreamReader;
         BufferedReader bufferedReader;
@@ -63,7 +71,30 @@ public class ManagerWeb {
             }else throw new Exception("Ошибка сервера(" + httpURLConnection.getResponseCode() + "). Обратитесь к администрации!");
         }
     }
+    /**
+     * В общем это пизда..........
+     * используется метод range из класса IntStream, чтобы создать поток целых чисел от 0 до размера списка keys.
+     * Этот поток используется для итерации( Итерация - это процесс перебора элементов в некоторой коллекции
+     * или последовательности данных.) по индексам элементов списков keys и values.
+     * Наконец, метод forEach используется для выполнения лямбда-выражения для каждого элемента потока. Лямбда-выражение
+     * вызывает функцию putParam с аргументами, которые соответствуют элементу списка keys с текущим индексом и элементу
+     * списка values с текущим индексом.
+     * @param key
+     * Имена переменных(списком)
+     * @param value
+     * Значения переменных(списком)
+     */
+    public void putAllParams(List<String> key, List<String> value){
+        IntStream.range(0, key.size()).forEach(i -> this._params.put(key.get(i), value.get(i)));
+    }
 
+    /**
+     * В общем это пизда
+     * @param key
+     * Имя переменной
+     * @param value
+     * Значение переменное
+     */
     public void putParam(String key, String value){
         _params.put(key, value);
     }
@@ -73,6 +104,9 @@ public class ManagerWeb {
     public void setUrl(String url) throws MalformedURLException {
         this.url = new URL(url);
     }
+    /**
+     * Возвращает ответ в виде массива, который разделяется по знакам: ",},{,],[
+     */
     public String[] getAnswerMass(){
         return this.answerMass;
     }
@@ -84,6 +118,12 @@ public class ManagerWeb {
         this.connectTimeout = millsec;
     }
 
+    public void reset(){
+        this.connectTimeout = 1000;
+        this.url = null;
+        this.requestMethod = "POST";
+        this._params = new HashMap<>();
+    }
     @Override
     public String toString() {
         return "ManagerWeb{" +

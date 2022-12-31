@@ -4,15 +4,6 @@ import javafx.scene.image.Image;
 import tylauncher.Main;
 import tylauncher.Utilites.Managers.ManagerWeb;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.sql.Timestamp;
 import java.util.*;
 
 public class User {
@@ -23,7 +14,7 @@ public class User {
     private String _session;
     private String _balance;
     private String _group;
-    private String _endDonateTime = null;
+    private String _endDonateTime;
     private Image _image;
     public boolean wasAuth = false;
 
@@ -38,7 +29,6 @@ public class User {
         this._endDonateTime = null;
         this._image = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("assets/picked/steve.png")));
     }
-
     public boolean Auth() throws Exception {
         WebAnswer.Reset();
         if (_login.equalsIgnoreCase("test")){
@@ -49,25 +39,23 @@ public class User {
 
         ManagerWeb authManagerWeb = new ManagerWeb("auth");
         authManagerWeb.setUrl("https://typro.space/vendor/launcher/login_launcher.php");
-        authManagerWeb.putParam("login", _login);
-        authManagerWeb.putParam("password", _password);
+        authManagerWeb.putAllParams(Arrays.asList("login", "password"), Arrays.asList(_login, _password));
         authManagerWeb.request();
 
-        System.err.println(authManagerWeb);
-
         String[] answer = authManagerWeb.getAnswerMass();
-
-        if(answer[0].equalsIgnoreCase("user_nick")) this._login = answer[1];
-        if(answer[2].equalsIgnoreCase("email")) this._email = answer[3];
-        if(answer[4].equalsIgnoreCase("ty_coin")) this._balance = answer[5];
-        if(answer[6].equalsIgnoreCase("privilege")){
-
+        if(answer.length == 6 && answer[0].equalsIgnoreCase("status")){
+            if (answer[0].equalsIgnoreCase("status")) WebAnswer.setStatus(answer[1]);
+            if(answer[2].equalsIgnoreCase("type")) WebAnswer.setType(answer[3]);
+            if (answer[4].equalsIgnoreCase("message")) WebAnswer.setMessage(answer[5]);
         }
 
 
+        System.err.println("-----------------------------AUTH-INFO-----------------------------");
+        System.err.println(authManagerWeb);
         System.err.println(this);
+        WebAnswer.PrintAnswer();
+        System.err.println("-----------------------------AUTH-INFO-----------------------------");
         return WebAnswer.getStatus();
-
     }
 
 

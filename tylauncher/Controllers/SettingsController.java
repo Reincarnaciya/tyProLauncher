@@ -22,9 +22,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-import static tylauncher.Controllers.AccountAuthController.accountController;
-import static tylauncher.Main.user;
-
 public class SettingsController extends BaseController {
     @FXML
     protected Text infoText;
@@ -42,8 +39,6 @@ public class SettingsController extends BaseController {
     private ImageView Message_Img;
     @FXML
     private ImageView News_Img;
-    /*@FXML
-    private Text OzuCount_Text;*/
     @FXML
     private Slider Ozu_Slider;
     @FXML
@@ -106,14 +101,8 @@ public class SettingsController extends BaseController {
         // берем файл настроек
         if (settingsFile.exists()) {
             try {
-                //Считываем файл
-                settingsJson.ReadJSONFile(settingsFile.getAbsolutePath());
                 //Берем нужное
-                Settings.setOzu(Integer.parseInt(settingsJson.GetOfIndex(0,1)));
-                Settings.setX(Integer.parseInt(settingsJson.GetOfIndex(1,1)));
-                Settings.setY(Integer.parseInt(settingsJson.GetOfIndex(2,1)));
-                Settings.setFsc(Boolean.parseBoolean(settingsJson.GetOfIndex(3,1)));
-                Settings.setHide(Boolean.parseBoolean(settingsJson.GetOfIndex(4,1)));
+                setSettings();
             } catch (Exception e) {
                 //пошло по пизде? хуево
                 setInfoText("Ошибка: " + e.getMessage() + "\n Пересоздаю файл");
@@ -182,6 +171,8 @@ public class SettingsController extends BaseController {
         Y_Label.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) Y_Label.setText(oldValue);
         });
+
+
         Save_Button.setOnMouseClicked(mouseEvent -> {
             Settings.setFsc(Fullscrean_Checkbox.isSelected());
             try {
@@ -204,7 +195,6 @@ public class SettingsController extends BaseController {
             ManagerAnimations.StartFadeAnim(SettingsSaved_Text);
         });
 
-
         openLauncherDirButton.setOnMouseClicked(event -> {
             try {
                 Desktop.getDesktop().open(new File(Main.getLauncherDir().getAbsolutePath()));
@@ -222,8 +212,7 @@ public class SettingsController extends BaseController {
         Fullscrean_Checkbox.setSelected(Settings.getFsc());
         hideLauncherCheckBox.setSelected(Settings.getHide());
     }
-
-    public void WriteSettingToFile() throws Exception {
+    public static void WriteSettingToFile() throws Exception {
         settingsJson.setOfIndex("ozu", 0, 0);
         settingsJson.setOfIndex(String.valueOf(Settings.getOzu()), 0, 1);
         settingsJson.setOfIndex("x", 1, 0);

@@ -9,10 +9,7 @@ import tylauncher.Utilites.Managers.ManagerWindow;
 
 import java.io.*;
 import java.net.*;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.StringJoiner;
+import java.util.Arrays;
 
 public class UpdaterLauncher {
     public static UpdaterController updaterController;
@@ -23,8 +20,8 @@ public class UpdaterLauncher {
             try {
                 //"https://typro.space/vendor/launcher/CheckingVersion.php"
                 updateManagerWeb.setUrl("https://typro.space/vendor/launcher/CheckingVersion.php");
-                updateManagerWeb.putParam("hash", "rehtrjtkykyjhtjhjotrjhoitrjoihjoith");
-                updateManagerWeb.putParam("version", Main.launcher_version);
+                updateManagerWeb.putAllParams(Arrays.asList("hash", "version"), Arrays.asList("rehtrjtkykyjhtjhjotrjhoitrjoihjoith",
+                        Main.launcher_version));
                 updateManagerWeb.request();
 
                 String line = updateManagerWeb.getAnswer();

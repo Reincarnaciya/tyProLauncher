@@ -41,8 +41,6 @@ public class AccountAuthController extends BaseController{
     @FXML
     private PasswordField Password_Field;
     @FXML
-    private Text Password_Text;
-    @FXML
     private ImageView Play_Img;
     @FXML
     private Hyperlink Reg_HyperLynk;
@@ -153,7 +151,7 @@ public class AccountAuthController extends BaseController{
 
     }
 
-    //Выводим ошибки и другое, да
+
     public void setInfoText(String text) {
         infoTextPane.setVisible(true);
         infoText.setText(text);

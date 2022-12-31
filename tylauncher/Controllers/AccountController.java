@@ -85,12 +85,6 @@ public class AccountController extends BaseController{
         user.wasAuth = false;//Флаг авторизации - не авторизовавылся
         Main.OpenNew("AccountAuth.fxml", A1);// Выкинуть в авторизацию
     }
-    //@Override
-   // public void setInfoText(String info) {
-   //     infoTextPane.setVisible(true);
-   //     infoText.setText(info);
-   //     ManagerAnimations.StartFadeAnim(infoTextPane);
-   // }
 
 
 }

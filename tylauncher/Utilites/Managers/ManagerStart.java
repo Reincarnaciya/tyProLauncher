@@ -19,7 +19,6 @@ public class ManagerStart {
     private static final String suffix = "[ManagerStart] ";
     public static boolean gameIsStart = false;
     public static PlayController playController;
-    public static TrayIcon trayIcon;
 
     public static void StartMinecraft(String version) {
         System.err.println(Settings.show());

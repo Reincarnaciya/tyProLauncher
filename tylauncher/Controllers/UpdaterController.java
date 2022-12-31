@@ -63,6 +63,8 @@ public class UpdaterController extends BaseController{
             UpdateOrNoPane.setDisable(false);
         }
     }
+    @Override
+    public void setInfoText(String info){}
 
     public AnchorPane getA1(){
         return this.A1;

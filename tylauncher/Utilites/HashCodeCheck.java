@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 public class HashCodeCheck {
     private static String hash = "";
@@ -69,8 +70,7 @@ public class HashCodeCheck {
 
         ManagerWeb hashManagerWeb = new ManagerWeb("hashCodeCheck");
         hashManagerWeb.setUrl("https://typro.space/vendor/server/check_hash_client.php");
-        hashManagerWeb.putParam("mod", "TY_SCI");
-        hashManagerWeb.putParam("hash", hash);
+        hashManagerWeb.putAllParams(Arrays.asList("mod", "hash"), Arrays.asList("TY_SCI", hash));
         hashManagerWeb.setConnectTimeout(2000);
         hashManagerWeb.request();
 

@@ -49,12 +49,12 @@ public class Utils {
         Desktop.getDesktop().browse(URI.create(url));
     }
     public static String bytesTostring(String message){
-        String mssage = "";
+        StringBuilder mssage = new StringBuilder();
         message = message.replace(".", "");
         String[] msg = message.split(" ");
-        for (int i = 0; i < msg.length; i++) {
-            mssage += Utils.UniToText(msg[i]) + " ";
+        for (String s : msg) {
+            mssage.append(Utils.UniToText(s)).append(" ");
         }
-        return mssage;
+        return mssage.toString();
     }
 }

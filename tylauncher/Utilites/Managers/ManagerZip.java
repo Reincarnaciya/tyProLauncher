@@ -3,25 +3,36 @@ package tylauncher.Utilites.Managers;
 import tylauncher.Controllers.PlayController;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class ManagerZip {
     public static boolean unzipping = false;
     public static PlayController playController;
-
     private static String fileName;
 
+
+    /**
+     *
+     * @param zip
+     * Полный путь до архива (C://path/to/archive.zip)
+     * @param pathToOut
+     * Папка, в которую разархивировать (C://path/to/out/(тут все файлы из архива будут))
+     * @throws IOException
+     * Это просто пиздец.
+     * Возникат, если файлы повреждены, или хуево скачались. В любом случае, в консоли вы увидите  ;)
+     */
     public static void Unzip(String zip, String pathToOut) throws IOException {
-        if (ManagerUpdate.downloading) {
-            return;
-        }
+        if (ManagerUpdate.downloading) return;
+
         if (unzipping) {
             UpdateInfo();
             return;
         }
         unzipping = true;
-        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zip))) {
+        try (ZipInputStream zis = new ZipInputStream(Files.newInputStream(Paths.get(zip)))) {
             ZipEntry entry = zis.getNextEntry();
             String[] name;
             while (entry != null) {

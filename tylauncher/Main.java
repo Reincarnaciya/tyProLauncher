@@ -35,8 +35,8 @@ public class Main extends Application {
     public static Stage mainStage = null;
     public static final String launcher_version = "0.0";
     private static TrayIcon trayIcon;
-    private static final ManagerDirs _launcherDir = new ManagerDirs("TyPro");
-    private static final ManagerDirs _clientDir = new ManagerDirs("TyPro/clients/");
+    private static final ManagerDirs _launcherDir = new ManagerDirs("TyPro", 1);
+    private static final ManagerDirs _clientDir = new ManagerDirs("TyPro/clients/", 1);
 
     public static User user = new User();
     public static File getLauncherDir() {
@@ -46,6 +46,13 @@ public class Main extends Application {
         return _clientDir.getWorkDir();
     }
 
+    /**
+     * Открывает в текущем окне другую сцену(или не сцену, хз как назвать, крч другой fxml)
+     * @param fxml
+     * Имя fxml файла, который расположен в FXMLfile/fxmlfile.fxml (c .fxml)
+     * @param pane
+     * Текущее окно, которое будет заменено на новое
+     */
     public static void OpenNew(String fxml, AnchorPane pane) {
         Platform.runLater(()->{
             AnchorPane pane1;
@@ -107,11 +114,16 @@ public class Main extends Application {
         System.setOut(dual);
         dual = new DualStream(System.err, out);
         System.setErr(dual);
+
         CheckLogs();
         UserPC.Show();
         launch();
 
     }
+
+    /**
+     * полностью закрывает всё, удаляет иконку из трея.. Да блять, сам посмотри что оно делает..
+     */
     public static void exit() {
         System.err.println("exit");
         SystemTray.getSystemTray().remove(trayIcon);
@@ -139,8 +151,8 @@ public class Main extends Application {
         mainStage = primaryStage;
 
         //Настройка выпоадающего списка при нажатии пкм на иконку трея
-        java.awt.Font font = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,
-                Main.class.getResourceAsStream("StyleSheets/Minecraft.ttf"));
+        java.awt.Font font = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, Objects.requireNonNull
+                (Main.class.getResourceAsStream("StyleSheets/Minecraft.ttf")));
 
         PopupMenu popupMenu = new PopupMenu();
 
@@ -170,9 +182,13 @@ public class Main extends Application {
         }catch (Exception e){
             e.printStackTrace();
         }
+        try {
+            UpdaterLauncher.checkUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         try{
-            UpdaterLauncher.checkUpdate();
             setSettings();
         }catch (Exception e){
             settingsFile.delete();
@@ -201,6 +217,15 @@ public class Main extends Application {
         }
     }
     private static void Test() {}
+
+    /**
+     * Функция просто для нахождения всех кнопок на каком-либо объекте(Pane, AnchorPane и т.д). по этой же логике можно
+     * написать другие функции для нахождения чего-либо
+     * @param parent
+     * Объект, с которого получаем все кнопки
+     * @return
+     * Возвращает ЛИСТ кнопок
+     */
     private static List<Node> getAllButtons(Parent parent) {
         List<Node> buttons = parent.getChildrenUnmodifiable().stream()
                 .filter(node -> node instanceof Button)

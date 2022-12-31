@@ -16,6 +16,13 @@ public class ManagerUpdate {
     private static long clientLength = 0;
     private static long cllweb = 0;
 
+    /**
+     * Коннект, скачать, разархивировать, что не понятно?
+     * @param version
+     * Имя папки, в которую разархивируется клиент.
+     * @param urld
+     * Ссылка на файл
+     */
     public static void DownloadUpdate(String version, String urld) {
         if (downloading) {
             UpdateInfo();

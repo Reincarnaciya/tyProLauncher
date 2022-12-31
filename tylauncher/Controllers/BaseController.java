@@ -13,6 +13,12 @@ public abstract class BaseController {
     private Pane infoTextPane;
     @FXML
     private Text infoText;
+
+    /**
+     * Вывод информации
+     * @param info
+     * текст ошибки или информации для вывода
+     */
     public void setInfoText(String info) {
         infoTextPane.setVisible(true);
         infoText.setText(info);
