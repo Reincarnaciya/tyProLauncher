@@ -16,12 +16,11 @@ import java.util.StringJoiner;
 
 public class UpdaterLauncher {
     public static UpdaterController updaterController;
-    private static ManagerWeb updateManagerWeb = new ManagerWeb("POST");
+    private static ManagerWeb updateManagerWeb = new ManagerWeb("checkLauncherUpdate");
     @FXML
     public static void checkUpdate() {
         new Thread (()->{
             try {
-
                 //"https://typro.space/vendor/launcher/CheckingVersion.php"
                 updateManagerWeb.setUrl("https://typro.space/vendor/launcher/CheckingVersion.php");
                 updateManagerWeb.putParam("hash", "rehtrjtkykyjhtjhjotrjhoitrjoihjoith");
@@ -58,8 +57,7 @@ public class UpdaterLauncher {
                     BufferedInputStream bis = new BufferedInputStream(updcon.getInputStream());
                     FileOutputStream fw = new FileOutputStream(client);
                     byte[] by = new byte[1024];
-                    int count = 0;
-                    System.err.println("startupdate");
+                    int count;
                     while ((count = bis.read(by)) != -1) {
                         fw.write(by, 0, count);
                         System.err.println("Скачка: " + cll_web + "/" + client.length());

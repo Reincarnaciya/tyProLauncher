@@ -18,7 +18,7 @@ import static tylauncher.Utilites.Utils.searchMassChar;
 
 public class RegisterUser {
     private static final String suffix = "[RegisterUser] ";
-    private static final ManagerWeb registerManager = new ManagerWeb("POST");
+    private static final ManagerWeb registerManager = new ManagerWeb("Register");
 
     public static void RegUser(String username, String password, String repeat_password, String email) {
         WebAnswer.Reset();

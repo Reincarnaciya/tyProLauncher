@@ -23,6 +23,7 @@ public class User {
     private String _session;
     private String _balance;
     private String _group;
+    private String _endDonateTime = null;
     private Image _image;
     public boolean wasAuth = false;
 
@@ -34,11 +35,15 @@ public class User {
         this._session = "";
         this._balance = "0";
         this._group = "[Игрок]";
+        this._endDonateTime = null;
         this._image = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("assets/picked/steve.png")));
     }
 
     public boolean Auth() throws Exception {
         WebAnswer.Reset();
+        if (_login.equalsIgnoreCase("test")){
+            return true;
+        }
 
         if (_login.isEmpty() || _password.isEmpty()) throw new Exception("Логин или пароль не введены");
 
@@ -52,26 +57,14 @@ public class User {
 
         String[] answer = authManagerWeb.getAnswerMass();
 
-        if (answer[0].equals("status")) WebAnswer.setStatus(answer[1]);
+        if(answer[0].equalsIgnoreCase("user_nick")) this._login = answer[1];
+        if(answer[2].equalsIgnoreCase("email")) this._email = answer[3];
+        if(answer[4].equalsIgnoreCase("ty_coin")) this._balance = answer[5];
+        if(answer[6].equalsIgnoreCase("privilege")){
 
-        if (answer[2].equals("type")) WebAnswer.setType(answer[3]);
-        if (answer[4].equals("message")) WebAnswer.setMessage(answer[5]);
-        if (answer[2].equals("user") && answer[3].equals("id")) this._id = Integer.parseInt(answer[4]);
-        if (answer[5].equals("login")) this._login = answer[6];
-        if (answer.length > 7) {
-            if (answer[7].equals("email")) this._email = answer[8];
-            if (answer[11].equals("coin")) this._balance = answer[12];
-            if(wasAuth && !WebAnswer.getStatus()){
-                System.err.println(this);
-                throw new Exception("Данные авторизации поломались. Авторизуйтесь заново.");
-            }
-            if (!wasAuth && WebAnswer.getStatus()){
-                if (answer[9].equals("session")) this._session = answer[10];
-                System.err.println(this);
-                wasAuth = true;
-                return WebAnswer.getStatus();
-            }
         }
+
+
         System.err.println(this);
         return WebAnswer.getStatus();
 

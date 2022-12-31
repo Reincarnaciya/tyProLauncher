@@ -10,10 +10,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import tylauncher.Main;
 import tylauncher.Utilites.*;
-import tylauncher.Utilites.Managers.ManagerAnimations;
-import tylauncher.Utilites.Managers.ManagerFlags;
-import tylauncher.Utilites.Managers.ManagerForJSON;
-import tylauncher.Utilites.Managers.ManagerWindow;
+import tylauncher.Utilites.Managers.*;
 
 import java.io.File;
 
@@ -68,14 +65,13 @@ public class AccountAuthController extends BaseController{
         ManagerWindow.currentController = this;
         //все кнопки в 1 массив!
         ButtonPageController buttonPageController = new ButtonPageController();
-
-
         buttonPageController.addButton(Account_Img);
         buttonPageController.addButton(News_Img);
         buttonPageController.addButton(Forum_Img);
         buttonPageController.addButton(Message_Img);
         buttonPageController.addButton(Settings_Img);
         buttonPageController.addButton(Play_Img);
+
         //Выполняем в основном потоке(javafx)
         Platform.runLater(()->{
             //Меняем размеры окна и текст окна
@@ -96,9 +92,9 @@ public class AccountAuthController extends BaseController{
                 String password = Auth.GetOfIndex(1, 1);
                 user.setLogin(login);
                 user.setPassword(password);
-                StartAuth();//Отдельная функция авторизации
+                StartAuth();  //Отдельная функция авторизации
             } catch (Exception e) {
-                ManagerWindow.currentController.setInfoText("Файл с логином и паролем поломался :( Удаляю..");
+                ManagerWindow.currentController.setInfoText("Файл с логином и паролем поломался :(\nУдаляю..");
                 AuthFile.delete();
                 e.printStackTrace();
             }
@@ -178,7 +174,7 @@ public class AccountAuthController extends BaseController{
     public void StartAuth() throws Exception {
         if (user.Auth()) {
             //Да-да, в классе юзера уже есть функция авторизации, но тут другое, вы не понимаете!
-            Main.OpenNew("Account.fxml", A1);//пропускаем юзера дальше
+            Main.OpenNew("Account.fxml", ManagerWindow.currentController.getA1());//пропускаем юзера дальше
             accountController.UpdateData();//Обновляем информацию об аккаунте юзера
             //Дебаг
             WebAnswer.PrintAnswer();
@@ -187,7 +183,6 @@ public class AccountAuthController extends BaseController{
             ManagerWindow.currentController.setInfoText (WebAnswer.getMessage());
         }
     }
-
 }
 
 

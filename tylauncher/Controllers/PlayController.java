@@ -59,6 +59,11 @@ public class PlayController extends BaseController{
 
         //Улавливаем ивент нажатия на кнопку "Играть"
         Play_Button.setOnMouseClicked(mouseEvent -> {
+            try {
+                if(user.Auth()) ManagerStart.StartMinecraft("TySci_1.16.5");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             ManagerWindow.currentController.setInfoText("Инициализация..");
             if (ManagerStart.gameIsStart) {
                 ManagerWindow.currentController.setInfoText("Игра запущена");
