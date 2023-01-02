@@ -11,9 +11,6 @@ Text{
  -fx-font-family: "F77 Minecraft Regular";
  src: url('Minecraft.ttf');
 }
-Button:active{
-    -fx-background-color: #444;
-}
 Button{
      -fx-background-color: black;
      -fx-text-fill: "WHITE";

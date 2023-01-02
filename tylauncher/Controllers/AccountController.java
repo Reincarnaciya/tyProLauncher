@@ -83,7 +83,7 @@ public class AccountController extends BaseController{
         f.delete();//Удалить нахуй
         user.Reset();//Ресетнуть всё
         user.wasAuth = false;//Флаг авторизации - не авторизовавылся
-        Main.OpenNew("AccountAuth.fxml", A1);// Выкинуть в авторизацию
+        ManagerWindow.OpenNew("AccountAuth.fxml", A1);// Выкинуть в авторизацию
     }
 
 

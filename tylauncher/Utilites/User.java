@@ -4,17 +4,18 @@ import javafx.scene.image.Image;
 import tylauncher.Main;
 import tylauncher.Utilites.Managers.ManagerWeb;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class User {
-    private String _email;
-    private long _id;
+    private final String _email;
+    private final long _id;
     private String _password;
     private String _login;
     private String _session;
     private String _balance;
     private String _group;
-    private String _endDonateTime;
+    private final String _endDonateTime;
     private Image _image;
     public boolean wasAuth = false;
 

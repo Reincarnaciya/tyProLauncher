@@ -2,18 +2,23 @@ package tylauncher.Utilites;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.stage.Window;
 import tylauncher.Controllers.UpdaterController;
 import tylauncher.Main;
 import tylauncher.Utilites.Managers.ManagerWeb;
 import tylauncher.Utilites.Managers.ManagerWindow;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Arrays;
 
 public class UpdaterLauncher {
     public static UpdaterController updaterController;
-    private static ManagerWeb updateManagerWeb = new ManagerWeb("checkLauncherUpdate");
+    private static final ManagerWeb updateManagerWeb = new ManagerWeb("checkLauncherUpdate");
     @FXML
     public static void checkUpdate() {
         new Thread (()->{
@@ -29,10 +34,11 @@ public class UpdaterLauncher {
                 if(!line.equalsIgnoreCase("1")){
                     Platform.runLater(()-> updaterController.setUpdateAvailable(true));
                 }else Platform.runLater(() ->{
-                    ManagerWindow.currentController.getA1().getScene().getWindow().setWidth(800);
-                    ManagerWindow.currentController.getA1().getScene().getWindow().setHeight(535);
-                    ManagerWindow.currentController.getA1().getScene().getWindow().centerOnScreen();
-                    Main.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1());
+                    Window w = ManagerWindow.currentController.getA1().getScene().getWindow();
+                    w.setWidth(800);
+                    w.setHeight(535);
+                    w.centerOnScreen();
+                    ManagerWindow.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1());
                 });
             } catch (Exception e) {
                 e.printStackTrace();

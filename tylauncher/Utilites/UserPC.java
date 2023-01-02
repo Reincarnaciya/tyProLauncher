@@ -2,7 +2,7 @@ package tylauncher.Utilites;
 
 import tylauncher.Main;
 
-import java.awt.GraphicsEnvironment;
+import java.awt.*;
 import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.net.URISyntaxException;
@@ -36,6 +36,8 @@ public class UserPC {
             e.printStackTrace();
         }
     }
+
+
     public static String _javaFXVersion = com.sun.javafx.runtime.VersionInfo.getVersion();
 
     public static void Show() {

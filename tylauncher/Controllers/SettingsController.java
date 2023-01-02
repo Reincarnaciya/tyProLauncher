@@ -2,21 +2,23 @@ package tylauncher.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
-import tylauncher.Utilites.*;
+import tylauncher.Utilites.ButtonPageController;
 import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Managers.ManagerFlags;
 import tylauncher.Utilites.Managers.ManagerForJSON;
-
 import tylauncher.Utilites.Managers.ManagerWindow;
 import tylauncher.Utilites.Settings;
+import tylauncher.Utilites.UpdaterLauncher;
+import tylauncher.Utilites.UserPC;
 
 import java.awt.*;
 import java.io.File;
@@ -81,7 +83,7 @@ public class SettingsController extends BaseController {
 
     public static final File settingsFile = new File(Main.getLauncherDir() + File.separator + "settings.json");
 
-    private static boolean hellishTheme = false;
+
 
     @FXML
     void initialize() {
@@ -96,7 +98,7 @@ public class SettingsController extends BaseController {
         buttonPageController.addButton(Settings_Img);
         buttonPageController.addButton(Play_Img);
         //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
-        if(hellishTheme) SettingsPane.setStyle("-fx-background-color:  ff0000;");//Пасхалка тип
+        if(ManagerFlags.hellishTheme) SettingsPane.setStyle("-fx-background-color:  ff0000;");//Пасхалка тип
 
         // берем файл настроек
         if (settingsFile.exists()) {
@@ -154,14 +156,14 @@ public class SettingsController extends BaseController {
                 OzuCount_Label.setStyle("-fx-background-color: ff0000;");
                 ManagerWindow.currentController.setInfoText ("Зря..");
                 A1.getScene().setCursor(Cursor.cursor(String.valueOf(Main.class.getResource("assets/HellTyMasunya.png"))));
-                hellishTheme = true;
+                ManagerFlags.hellishTheme = true;
             }
             if(newValue.trim().equalsIgnoreCase("999")){
                 SettingsPane.setStyle("-fx-background-color: #363636;");
                 OzuCount_Label.setStyle("-fx-background-color: #363636;");
                 ManagerWindow.currentController.setInfoText ("Умничка :)");
                 A1.getScene().setCursor(Cursor.DEFAULT);
-                hellishTheme = false;
+                ManagerFlags.hellishTheme = false;
             }
             if (!newValue.matches("\\d*")) OzuCount_Label.setText(oldValue);
         });

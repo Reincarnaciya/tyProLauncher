@@ -14,7 +14,7 @@ public class ButtonPageController {
     private int _buttonCount = 0;
     private static int _pressedNum = 1;
     protected int _amountButtons = 0;
-    private ImageView[] buttonsFx = new ImageView[6];
+    private final ImageView[] buttonsFx = new ImageView[6];
     public void addButton(ImageView button) {
         buttonsFx[_buttonCount++] = button;
 
@@ -49,14 +49,14 @@ public class ButtonPageController {
                         _pressedNum = 1;
                         try {
                             if (user.Auth()) {
-                                Main.OpenNew("Account.fxml", ManagerWindow.currentController.getA1());
+                                ManagerWindow.OpenNew("Account.fxml", ManagerWindow.currentController.getA1());
                                 accountController.UpdateData();
                             } else {
-                                Main.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1());
+                                ManagerWindow.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1());
                             }
                         } catch (Exception e) {
                             System.err.println("ExceptUserAuth: " + e.getMessage());
-                            Main.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1());
+                            ManagerWindow.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1());
                             e.printStackTrace();
                         }
                     });
@@ -64,26 +64,26 @@ public class ButtonPageController {
                 case 2:
                     button.setOnMouseClicked(event -> {
                         _pressedNum = 2;
-                        Main.OpenNew("News.fxml", ManagerWindow.currentController.getA1());
+                        ManagerWindow.OpenNew("News.fxml", ManagerWindow.currentController.getA1());
                     });
                     break;
                 case 3:
                     button.setOnMouseClicked(event -> {
                         _pressedNum = 3;
-                        Main.OpenNew("Forum.fxml", ManagerWindow.currentController.getA1());
+                        ManagerWindow.OpenNew("Forum.fxml", ManagerWindow.currentController.getA1());
                     });
                     break;
                 case 4:
                     button.setOnMouseClicked(event -> {
                         _pressedNum = 4;
-                        Main.OpenNew("Message.fxml", ManagerWindow.currentController.getA1());
+                        ManagerWindow.OpenNew("Message.fxml", ManagerWindow.currentController.getA1());
 
                     });
                     break;
                 case 5:
                     button.setOnMouseClicked(event -> {
                         _pressedNum = 5;
-                        Main.OpenNew("Settings.fxml", ManagerWindow.currentController.getA1());
+                        ManagerWindow.OpenNew("Settings.fxml", ManagerWindow.currentController.getA1());
 
                     });
                     if (ManagerFlags.updateAvailable || ManagerFlags.lowDiskSpace) {
@@ -93,7 +93,7 @@ public class ButtonPageController {
                 case 6:
                     button.setOnMouseClicked(event -> {
                         _pressedNum = 6;
-                        Main.OpenNew("Play.fxml", ManagerWindow.currentController.getA1());
+                        ManagerWindow.OpenNew("Play.fxml", ManagerWindow.currentController.getA1());
                     });
                     break;
             }

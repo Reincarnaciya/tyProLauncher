@@ -9,8 +9,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import tylauncher.Main;
-import tylauncher.Utilites.*;
-import tylauncher.Utilites.Managers.*;
+import tylauncher.Utilites.ButtonPageController;
+import tylauncher.Utilites.Managers.ManagerAnimations;
+import tylauncher.Utilites.Managers.ManagerFlags;
+import tylauncher.Utilites.Managers.ManagerForJSON;
+import tylauncher.Utilites.Managers.ManagerWindow;
+import tylauncher.Utilites.WebAnswer;
 
 import java.io.File;
 
@@ -144,7 +148,7 @@ public class AccountAuthController extends BaseController{
         //При нажатии на гиперссылку регистрации
         Reg_HyperLynk.setOnMouseClicked(mouseEvent -> {
             user.Reset();//Да-да
-            Main.OpenNew("Register.fxml", A1);
+            ManagerWindow.OpenNew("Register.fxml", A1);
         });
         //Ивенты клика на картинки
 
@@ -172,7 +176,7 @@ public class AccountAuthController extends BaseController{
     public void StartAuth() throws Exception {
         if (user.Auth()) {
             //Да-да, в классе юзера уже есть функция авторизации, но тут другое, вы не понимаете!
-            Main.OpenNew("Account.fxml", ManagerWindow.currentController.getA1());//пропускаем юзера дальше
+            ManagerWindow.OpenNew("Account.fxml", ManagerWindow.currentController.getA1());//пропускаем юзера дальше
             accountController.UpdateData();//Обновляем информацию об аккаунте юзера
             //Дебаг
             WebAnswer.PrintAnswer();

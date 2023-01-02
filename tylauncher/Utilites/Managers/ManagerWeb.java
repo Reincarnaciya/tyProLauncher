@@ -9,20 +9,19 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class ManagerWeb {
-    private URL url;
-    private String requestMethod;
+    private URL _url;
+    private String _requestMethod;
     private Map<String, String> _params;
-    private final String requestType;
+    private final String _requestType;
+    private String[] _answerMass;
+    private String _answer;
 
-    private String[] answerMass;
-    private String answer;
-
-    private int connectTimeout;
+    private int _connectTimeout;
     public ManagerWeb(String type){
-        this.connectTimeout = 1000;
-        this.url = null;
-        this.requestMethod = "POST";
-        this.requestType = type;
+        this._connectTimeout = 1000;
+        this._url = null;
+        this._requestMethod = "POST";
+        this._requestType = type;
         this._params = new HashMap<>();
     }
 
@@ -37,16 +36,16 @@ public class ManagerWeb {
     public void request() throws Exception {
         InputStreamReader inputStreamReader;
         BufferedReader bufferedReader;
-        URLConnection urlConnection = url.openConnection();
+        URLConnection urlConnection = _url.openConnection();
         HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;
-        httpURLConnection.setRequestMethod(requestMethod);
+        httpURLConnection.setRequestMethod(_requestMethod);
         httpURLConnection.setDoOutput(true);
         StringJoiner stringJoiner = new StringJoiner("&");
         for (Map.Entry<String, String> entry : _params.entrySet())
             stringJoiner.add(URLEncoder.encode(entry.getKey(), "UTF-8") + "=" + URLEncoder.encode(entry.getValue(), "UTF-8"));
         byte[] out = stringJoiner.toString().getBytes(StandardCharsets.UTF_8);
         httpURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-        httpURLConnection.setConnectTimeout(connectTimeout);
+        httpURLConnection.setConnectTimeout(_connectTimeout);
         httpURLConnection.connect();
         try (OutputStream outputStream = httpURLConnection.getOutputStream()) {
             outputStream.write(out);
@@ -66,8 +65,8 @@ public class ManagerWeb {
                     while ((line = bufferedReader.readLine()) != null) System.err.println(line);
                     throw new Exception("Сайт лёг. Обратитесь к администрации!(Больше информации в логах)");
                 }
-                this.answer = line;
-                this.answerMass = line.split("[,:]");
+                this._answer = line;
+                this._answerMass = line.split("[,:]");
             }else throw new Exception("Ошибка сервера(" + httpURLConnection.getResponseCode() + "). Обратитесь к администрации!");
         }
     }
@@ -99,41 +98,46 @@ public class ManagerWeb {
         _params.put(key, value);
     }
     public URL getUrl() {
-        return url;
+        return _url;
     }
-    public void setUrl(String url) throws MalformedURLException {
-        this.url = new URL(url);
+    public void setUrl(String _url){
+        try {
+            this._url = new URL(_url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
     }
     /**
      * Возвращает ответ в виде массива, который разделяется по знакам: ",},{,],[
      */
     public String[] getAnswerMass(){
-        return this.answerMass;
+        return this._answerMass;
     }
     public String getAnswer(){
-        return this.answer;
+        return this._answer;
     }
 
     public void setConnectTimeout(int millsec){
-        this.connectTimeout = millsec;
+        this._connectTimeout = millsec;
     }
 
     public void reset(){
-        this.connectTimeout = 1000;
-        this.url = null;
-        this.requestMethod = "POST";
+        this._connectTimeout = 1000;
+        this._url = null;
+        this._requestMethod = "POST";
         this._params = new HashMap<>();
     }
     @Override
     public String toString() {
         return "ManagerWeb{" +
-                "  url=" + url +
-                ", requestMethod='" + requestMethod + '\'' +
+                "  url=" + _url +
+                ", requestMethod='" + _requestMethod + '\'' +
                 ", _params=" + _params +
-                ", requestType='" + requestType + '\'' +
-                ", answer=" + answer +
-                ", answerMass=" + Arrays.toString(answerMass) +
-                ", connectTimeout=" + connectTimeout +
+                ", requestType='" + _requestType + '\'' +
+                ", answer=" + _answer +
+                ", answerMass=" + Arrays.toString(_answerMass) +
+                ", connectTimeout=" + _connectTimeout +
                 '}';
     }
 }

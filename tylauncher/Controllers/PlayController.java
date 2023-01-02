@@ -7,11 +7,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
-import tylauncher.Utilites.*;
+import tylauncher.Utilites.ButtonPageController;
+import tylauncher.Utilites.HashCodeCheck;
 import tylauncher.Utilites.Managers.ManagerStart;
 import tylauncher.Utilites.Managers.ManagerUpdate;
 import tylauncher.Utilites.Managers.ManagerWindow;
 import tylauncher.Utilites.Managers.ManagerZip;
+import tylauncher.Utilites.Utils;
 
 import java.io.File;
 

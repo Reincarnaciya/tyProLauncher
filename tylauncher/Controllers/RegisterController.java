@@ -10,10 +10,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import tylauncher.Main;
-import tylauncher.Utilites.*;
+import tylauncher.Utilites.ButtonPageController;
 import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Managers.ManagerWindow;
+import tylauncher.Utilites.RegisterUser;
+import tylauncher.Utilites.WebAnswer;
 
 public class RegisterController extends BaseController{
     public static AccountAuthController accountAuthController;
@@ -75,7 +76,7 @@ public class RegisterController extends BaseController{
         buttonPageController.addButton(Play_Img);
 
         Cancel_Button.setOnMouseClicked(mouseEvent -> {
-            Main.OpenNew("AccountAuth.fxml", A1);
+            ManagerWindow.OpenNew("AccountAuth.fxml", A1);
         });
         ShowPass_CheckBox.setOnAction(event -> {
             if (ShowPass_CheckBox.isSelected()) {
@@ -107,7 +108,7 @@ public class RegisterController extends BaseController{
             }
             RegisterUser.RegUser(Username_Field.getText(), Password_Field.getText(), RepeatPassword_Field.getText(), Email_Field.getText());
             if (WebAnswer.getStatus()) {
-                Main.OpenNew("AccountAuth.fxml", A1);
+                ManagerWindow.OpenNew("AccountAuth.fxml", A1);
                 accountAuthController.infoTextPane.setVisible(true);
                 accountAuthController.setInfoText(WebAnswer.getMessage());
                 ManagerAnimations.StartFadeAnim(accountAuthController.infoTextPane);

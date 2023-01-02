@@ -1,6 +1,6 @@
 package tylauncher.Utilites;
 
-import static tylauncher.Utilites.Utils.bytesTostring;
+import static tylauncher.Utilites.Utils.bytesToString;
 
 public class WebAnswer {
     private static boolean status = false;
@@ -24,7 +24,7 @@ public class WebAnswer {
         return message;
     }
     public static void setMessage(String message) {
-        WebAnswer.message = bytesTostring(message);
+        WebAnswer.message = bytesToString(message);
     }
     public static void Reset() {
         WebAnswer.status = false;

@@ -1,17 +1,13 @@
 package tylauncher.Utilites.Managers;
 
 import javafx.application.Platform;
-import javafx.stage.Stage;
 import tylauncher.Controllers.PlayController;
-import tylauncher.Controllers.SettingsController;
 import tylauncher.Main;
 import tylauncher.Utilites.Settings;
 import tylauncher.Utilites.UserPC;
 
-import java.awt.*;
 import java.io.File;
 import java.io.InputStream;
-import java.util.Set;
 
 import static tylauncher.Main.user;
 

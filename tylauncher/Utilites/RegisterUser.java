@@ -3,8 +3,8 @@ package tylauncher.Utilites;
 import tylauncher.Utilites.Managers.ManagerWeb;
 import tylauncher.Utilites.Managers.ManagerWindow;
 
-import java.net.*;
-import java.util.*;
+import java.net.MalformedURLException;
+import java.util.Arrays;
 
 import static tylauncher.Utilites.Utils.searchMassChar;
 
@@ -14,12 +14,8 @@ public class RegisterUser {
 
     public static void RegUser(String username, String password, String repeat_password, String email) {
         WebAnswer.Reset();
-        try {
-            registerManager.setUrl("https://typro.space/vendor/launcher/register_launcher.php");
-        }catch (MalformedURLException e) {
-            ManagerWindow.currentController.setInfoText("Если вы видите эту ошибку, значит что-то серьезно пошло не так. Скиньте логи администрации.");
-            e.printStackTrace();
-        }
+
+        registerManager.setUrl("https://typro.space/vendor/launcher/register_launcher.php");
         registerManager.putAllParams(Arrays.asList("login", "password", "email", "repeat_password"),
                 Arrays.asList(username, password, email, repeat_password));
 
