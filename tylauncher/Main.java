@@ -1,5 +1,8 @@
 package tylauncher;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +15,7 @@ import javafx.stage.Window;
 import tylauncher.Utilites.*;
 import tylauncher.Utilites.Managers.ManagerDirs;
 import tylauncher.Utilites.Managers.ManagerFlags;
+import tylauncher.Utilites.Managers.ManagerWeb;
 import tylauncher.Utilites.Managers.ManagerWindow;
 
 import java.awt.*;
@@ -21,6 +25,7 @@ import java.io.PrintStream;
 import java.nio.file.Files;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.Objects;
 
 import static tylauncher.Controllers.SettingsController.setSettings;
@@ -60,7 +65,12 @@ public class Main extends Application {
 
         if(UserPC._usableDiskSpace < 1500) ManagerFlags.lowDiskSpace = true;
 
-        Test();
+        try {
+            Test();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
         File dir_logs = new File(getLauncherDir() + File.separator + "logs");
         if (!dir_logs.exists()) dir_logs.mkdirs();
@@ -167,5 +177,9 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
-    private static void Test() {}
+    private static void Test() throws Exception{
+
+
+
+    }
 }

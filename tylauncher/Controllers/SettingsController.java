@@ -11,7 +11,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
-import tylauncher.Utilites.ButtonPageController;
 import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Managers.ManagerFlags;
 import tylauncher.Utilites.Managers.ManagerForJSON;

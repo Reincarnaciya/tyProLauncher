@@ -1,12 +1,14 @@
 package tylauncher.Utilites;
 
+import java.util.Arrays;
+
 import static tylauncher.Utilites.Utils.bytesToString;
 
 public class WebAnswer {
     private static boolean status = false;
     private static int type = -1;
     private static String message = null;
-    private static String fields = null;
+    private static String[] fields = null;
 
     public static boolean getStatus() {
         return status;
@@ -18,6 +20,9 @@ public class WebAnswer {
         return type;
     }
     public static void setType(String type) {
+        if (type == null){
+            return;
+        }
         WebAnswer.type = Integer.parseInt(type);
     }
     public static String getMessage() {
@@ -33,16 +38,17 @@ public class WebAnswer {
         WebAnswer.fields = null;
     }
 
-    public static String getFields() {
+    public static String[] getFields() {
         return fields;
     }
 
     public static void setFields(String fields) {
-        WebAnswer.fields = fields;
+        fields = fields.replace("[", "").replace("]", "").replace("\"", "");
+        WebAnswer.fields = fields.split(",");
     }
 
     public static void PrintAnswer() {
-        System.err.println("WebAnswer{" + "status='" + status  + "', type='" + type + "', message='" + message  + "', fields='" + fields + "'}");
+        System.err.println("WebAnswer{" + "status='" + status  + "', type='" + type + "', message='" + message  + "', fields='" + Arrays.toString(fields) + "'}");
     }
 
 }

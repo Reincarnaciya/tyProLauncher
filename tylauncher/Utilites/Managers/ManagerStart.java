@@ -1,5 +1,7 @@
 package tylauncher.Utilites.Managers;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.application.Platform;
 import tylauncher.Controllers.PlayController;
 import tylauncher.Main;
@@ -8,6 +10,7 @@ import tylauncher.Utilites.UserPC;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.Arrays;
 
 import static tylauncher.Main.user;
 
@@ -26,6 +29,38 @@ public class ManagerStart {
         Platform.runLater(()-> ManagerWindow.currentController.setInfoText("Игра запущена"));
         if (Settings.getHide()) Platform.runLater(()-> Main.mainStage.setIconified(true));
 
+        //https://typro.space/vendor/launcher/login_get_hash_launcher.php
+        ManagerWeb hashStart = new ManagerWeb("hashRequest");
+        hashStart.setUrl("https://typro.space/vendor/launcher/login_get_hash_launcher.php");
+        hashStart.putAllParams(Arrays.asList("login", "password"), Arrays.asList(user.GetLogin(), user.GetPassword()));
+        try {
+            hashStart.request();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        System.err.println(hashStart);
+        JsonObject hashes = null;
+        try {
+            JsonObject requestObject = (JsonObject) new JsonParser().parse(hashStart.getFullAnswer());
+            if(requestObject.get("status") == null || requestObject.get("status").toString().equalsIgnoreCase("false")){
+                throw new Exception("Не удалось получить сессию. Обратитесь к администрации");
+            }
+            hashes = (JsonObject) requestObject.get("hashes");
+
+            System.err.println(requestObject);
+            if(hashes == null) throw new Exception("Не удалось получить сессию. Обратитесь к администрации");
+            System.err.println(hashes);
+
+
+        }catch (Exception e){
+            ManagerWindow.currentController.setInfoText(e.getMessage());
+            e.printStackTrace();
+            return;
+        }
+
+
+        JsonObject finalHashes = hashes;
         new Thread(() -> {
             try {
                 Runtime runtime = Runtime.getRuntime();
@@ -96,7 +131,7 @@ public class ManagerStart {
                                 + Main.getClientDir().toString() + File.separator + version + "\\libraries\\com\\mojang\\brigadier\\1.0.17\\brigadier-1.0.17.jar;"
                                 + Main.getClientDir().toString() + File.separator + version + "\\libraries\\com\\mojang\\datafixerupper\\4.0.26\\datafixerupper-4.0.26.jar;"
                                 + Main.getClientDir().toString() + File.separator + version + "\\libraries\\com\\google\\code\\gson\\gson\\2.8.0\\gson-2.8.0.jar;"
-                                + Main.getClientDir().toString() + File.separator + version + "\\libraries\\org\\tlauncher\\authlib\\2.0.28.12\\authlib-2.0.28.12.jar;"
+                                + Main.getClientDir().toString() + File.separator + version + "\\libraries\\com\\mojang\\authlib\\2.1.28\\authlib-2.1.28.jar;"
                                 + Main.getClientDir().toString() + File.separator + version + "\\libraries\\org\\apache\\commons\\commons-compress\\1.8.1\\commons-compress-1.8.1.jar;"
                                 + Main.getClientDir().toString() + File.separator + version + "\\libraries\\org\\apache\\httpcomponents\\httpclient\\4.3.3\\httpclient-4.3.3.jar;"
                                 + Main.getClientDir().toString() + File.separator + version + "\\libraries\\commons-logging\\commons-logging\\1.1.3\\commons-logging-1.1.3.jar;"
@@ -135,8 +170,8 @@ public class ManagerStart {
                                 + "--gameDir " + Main.getClientDir().toString() + File.separator + version + ""
                                 + " --assetsDir " + Main.getClientDir().toString() + File.separator + version + "\\assets "
                                 + "--assetIndex 1.16 "
-                                + "--uuid 313a7d63a4326905cbace067a7c84a71 "
-                                + "--accessToken 123g12h3g12hg31h2g3h12gh321g312g "
+                                + "--uuid "+ finalHashes.get("uuid")+" "
+                                + "--accessToken " + finalHashes.get("accessToken") + " "
                                 + "--userType mojang "
                                 + "--versionType modified"
                                 + x

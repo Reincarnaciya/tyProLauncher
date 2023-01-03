@@ -10,7 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import tylauncher.Utilites.ButtonPageController;
 import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Managers.ManagerWindow;
 import tylauncher.Utilites.RegisterUser;
@@ -109,25 +108,31 @@ public class RegisterController extends BaseController{
             RegisterUser.RegUser(Username_Field.getText(), Password_Field.getText(), RepeatPassword_Field.getText(), Email_Field.getText());
             if (WebAnswer.getStatus()) {
                 ManagerWindow.OpenNew("AccountAuth.fxml", A1);
-                accountAuthController.infoTextPane.setVisible(true);
-                accountAuthController.setInfoText(WebAnswer.getMessage());
-                ManagerAnimations.StartFadeAnim(accountAuthController.infoTextPane);
-            } else {
-                if(WebAnswer.getFields().contains("email"))EmailText.setText("Электронная почта*");
-                else EmailText.setText("Электронная почта");
+                Platform.runLater(()->{
+                    accountAuthController.infoTextPane.setVisible(true);
+                    accountAuthController.setInfoText(WebAnswer.getMessage());
+                    ManagerAnimations.StartFadeAnim(accountAuthController.infoTextPane);
+                });
+            } else if(WebAnswer.getFields() != null){
+                for (String s:WebAnswer.getFields()) {
+                    if (s.contains("email")) EmailText.setText("Электронная почта*");
+                    else EmailText.setText("Электронная почта");
 
-                if(WebAnswer.getFields().contains("login"))LoginText.setText("Логин*");
-                else LoginText.setText("Логин");
+                    if (s.contains("login")) LoginText.setText("Логин*");
+                    else LoginText.setText("Логин");
 
-                if(WebAnswer.getFields().contains("password")){
-                    PasswordText.setText("Пароль*");
-                    RepeatPasswordText.setText("Повтор пароля*");
-                }else {
-                    PasswordText.setText("Пароль");
-                    RepeatPasswordText.setText("Повтор пароля");
+                    if (s.contains("password")) {
+                        PasswordText.setText("Пароль*");
+                        RepeatPasswordText.setText("Повтор пароля*");
+                    } else {
+                        PasswordText.setText("Пароль");
+                        RepeatPasswordText.setText("Повтор пароля");
+                    }
                 }
                 ManagerWindow.currentController.setInfoText (WebAnswer.getMessage());
             }
+            ManagerWindow.currentController.setInfoText (WebAnswer.getMessage());
+
         });
 
 

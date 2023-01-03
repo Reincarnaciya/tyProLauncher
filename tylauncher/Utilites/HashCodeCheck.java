@@ -68,6 +68,8 @@ public class HashCodeCheck {
         //getHash(Main.getClientDir() + File.separator + "TySci_1.16.5"
         String hash = getHash(Main.getClientDir() + File.separator + "TySci_1.16.5");
 
+        System.err.println(hash);
+
         ManagerWeb hashManagerWeb = new ManagerWeb("hashCodeCheck");
         hashManagerWeb.setUrl("https://typro.space/vendor/server/check_hash_client.php");
         hashManagerWeb.putAllParams(Arrays.asList("mod", "hash"), Arrays.asList("TY_SCI", hash));

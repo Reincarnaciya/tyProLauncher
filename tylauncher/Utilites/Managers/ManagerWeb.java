@@ -15,6 +15,7 @@ public class ManagerWeb {
     private final String _requestType;
     private String[] _answerMass;
     private String _answer;
+    private String _fullAnswer;
 
     private int _connectTimeout;
     public ManagerWeb(String type){
@@ -53,18 +54,21 @@ public class ManagerWeb {
                 inputStreamReader = new InputStreamReader(httpURLConnection.getInputStream());
                 bufferedReader = new BufferedReader(inputStreamReader);
                 String line;
-                line = bufferedReader.readLine()
+
+                this._fullAnswer = bufferedReader.readLine();
+                if(this._fullAnswer.contains("<br />") || this._fullAnswer.trim().contains("Error:")) {
+                    System.err.println(this._fullAnswer);
+                    while ((line = bufferedReader.readLine()) != null) System.err.println(line);
+                    throw new Exception("Сайт лёг. Обратитесь к администрации!(Больше информации в логах)");
+                }
+                line = _fullAnswer
                         .replace("\"", "")
                         .replace("}", "")
                         .replace("{", "")
                         .replace("]", "")
                         .replace("[", "");
 
-                if(line.contains("<br />")) {
-                    System.err.println(line);
-                    while ((line = bufferedReader.readLine()) != null) System.err.println(line);
-                    throw new Exception("Сайт лёг. Обратитесь к администрации!(Больше информации в логах)");
-                }
+
                 this._answer = line;
                 this._answerMass = line.split("[,:]");
             }else throw new Exception("Ошибка сервера(" + httpURLConnection.getResponseCode() + "). Обратитесь к администрации!");
@@ -117,6 +121,9 @@ public class ManagerWeb {
     public String getAnswer(){
         return this._answer;
     }
+    public String getFullAnswer(){
+        return _fullAnswer;
+    }
 
     public void setConnectTimeout(int millsec){
         this._connectTimeout = millsec;
@@ -128,16 +135,18 @@ public class ManagerWeb {
         this._requestMethod = "POST";
         this._params = new HashMap<>();
     }
+
     @Override
     public String toString() {
         return "ManagerWeb{" +
-                "  url=" + _url +
-                ", requestMethod='" + _requestMethod + '\'' +
+                "_url=" + _url +
+                ", _requestMethod='" + _requestMethod + '\'' +
                 ", _params=" + _params +
-                ", requestType='" + _requestType + '\'' +
-                ", answer=" + _answer +
-                ", answerMass=" + Arrays.toString(_answerMass) +
-                ", connectTimeout=" + _connectTimeout +
+                ", _requestType='" + _requestType + '\'' +
+                ", _answerMass=" + Arrays.toString(_answerMass) +
+                ", _answer='" + _answer + '\'' +
+                ", _fullAnswer='" + _fullAnswer + '\'' +
+                ", _connectTimeout=" + _connectTimeout +
                 '}';
     }
 }

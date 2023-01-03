@@ -48,7 +48,7 @@ public class UpdaterLauncher {
     public static void UpdateLauncher(){
         new Thread(() -> {
             try {
-                URL url = new URL("https://www.typro.space/files/launcher/Update/TyUpdaterLauncher.jar");
+                URL url = new URL("https://www.typro.space/files/Update/TyUpdaterLauncher.jar");
                 HttpURLConnection updcon = (HttpURLConnection) url.openConnection();
                 System.out.println(updcon);
                 File client = new File(Main.getClientDir().getAbsolutePath() + File.separator, "TyUpdaterLauncher.jar");

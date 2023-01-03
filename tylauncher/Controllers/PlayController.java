@@ -7,7 +7,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
-import tylauncher.Utilites.ButtonPageController;
 import tylauncher.Utilites.HashCodeCheck;
 import tylauncher.Utilites.Managers.ManagerStart;
 import tylauncher.Utilites.Managers.ManagerUpdate;
@@ -61,11 +60,6 @@ public class PlayController extends BaseController{
 
         //Улавливаем ивент нажатия на кнопку "Играть"
         Play_Button.setOnMouseClicked(mouseEvent -> {
-            try {
-                if(user.Auth()) ManagerStart.StartMinecraft("TySci_1.16.5");
-            } catch (Exception e) {
-                ManagerWindow.currentController.setInfoText(e.getMessage());
-            }
             ManagerWindow.currentController.setInfoText("Инициализация..");
             if (ManagerStart.gameIsStart) {
                 ManagerWindow.currentController.setInfoText("Игра запущена");

@@ -1,4 +1,4 @@
-package tylauncher.Utilites;
+package tylauncher.Controllers;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,10 +10,8 @@ import static tylauncher.Controllers.AccountAuthController.accountController;
 import static tylauncher.Main.user;
 
 public class ButtonPageController {
-    private ImageView _buttonFx;
     private int _buttonCount = 0;
     private static int _pressedNum = 1;
-    protected int _amountButtons = 0;
     private final ImageView[] buttonsFx = new ImageView[6];
     public void addButton(ImageView button) {
         buttonsFx[_buttonCount++] = button;
@@ -51,13 +49,11 @@ public class ButtonPageController {
                             if (user.Auth()) {
                                 ManagerWindow.OpenNew("Account.fxml", ManagerWindow.currentController.getA1());
                                 accountController.UpdateData();
-                            } else {
-                                ManagerWindow.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1());
                             }
                         } catch (Exception e) {
-                            System.err.println("ExceptUserAuth: " + e.getMessage());
+                            System.err.println("Except when click \"Account\": " + e.getMessage());
                             ManagerWindow.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1());
-                            e.printStackTrace();
+
                         }
                     });
                     break;

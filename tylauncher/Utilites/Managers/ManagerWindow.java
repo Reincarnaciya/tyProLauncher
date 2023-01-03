@@ -25,7 +25,6 @@ public class ManagerWindow {
      * Текущее окно, которое будет заменено на новое
      */
     public static void OpenNew(String fxml, AnchorPane pane) {
-        Platform.runLater(()->{
             AnchorPane pane1;
             try {
                 pane.setStyle("");
@@ -37,12 +36,10 @@ public class ManagerWindow {
                     javafx.scene.control.Button btn = (Button) button;
                     btn.setOnMousePressed(event -> btn.setStyle("-fx-background-color: #444"));
                     btn.setOnMouseReleased(event -> btn.setStyle(" "));
-                    btn.getScene().getWindow().setOnCloseRequest(event -> Main.exit());
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        });
     }
 
     /**

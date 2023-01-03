@@ -1,5 +1,9 @@
 package tylauncher.Utilites;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 import tylauncher.Utilites.Managers.ManagerWeb;
 import tylauncher.Utilites.Managers.ManagerWindow;
 
@@ -27,28 +31,16 @@ public class RegisterUser {
             e.printStackTrace();
         }
 
-        String line = registerManager.getAnswer();
+        JsonObject object = (JsonObject) new JsonParser().parse(registerManager.getFullAnswer());
 
-        String[] end_reg = line.split("[,\\-:]");
-        if (line.contains("fields")) {
-            WebAnswer.setStatus(end_reg[searchMassChar(end_reg, "status") + 1]);
-            WebAnswer.setType(end_reg[searchMassChar(end_reg, "type") + 1]);
-            WebAnswer.setMessage(end_reg[searchMassChar(end_reg, "message") + 1]);
-            String temp = "";
-            if ((end_reg.length - searchMassChar(end_reg, "fields") - 1) > 1) {
-                for (int i = 0; i < (end_reg.length - searchMassChar(end_reg, "fields") - 1); i++) {
-                    temp = temp + " " + (end_reg[searchMassChar(end_reg, "fields") + 1 + i]);
-                }
-                WebAnswer.setFields(temp);
-            } else {
-                WebAnswer.setFields(end_reg[searchMassChar(end_reg, "fields") + 1]);
-            }
-        } else {
-            WebAnswer.setStatus(end_reg[searchMassChar(end_reg, "status") + 1]);
-            WebAnswer.setMessage(end_reg[searchMassChar(end_reg, "message") + 1]);
-        }
+        if(!(object.get("type") == null)) WebAnswer.setType(object.get("type").toString());
+        if(!(object.get("message") == null)) WebAnswer.setMessage(object.get("message").toString());
+        if(!(object.get("status") == null))WebAnswer.setStatus(object.get("status").toString());
+        if(!(object.get("fields") == null))WebAnswer.setFields(object.get("fields").toString());
+
         System.err.println("-----------------------------REG-INFO-----------------------------");
         System.err.println(registerManager);
+        System.err.println(object);
         WebAnswer.PrintAnswer();
         System.err.println("-----------------------------REG-INFO-----------------------------");
 

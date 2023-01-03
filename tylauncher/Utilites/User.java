@@ -1,5 +1,8 @@
 package tylauncher.Utilites;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.scene.image.Image;
 import tylauncher.Main;
 import tylauncher.Utilites.Managers.ManagerWeb;
@@ -8,14 +11,14 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class User {
-    private final String _email;
+    private String _email;
     private final long _id;
     private String _password;
     private String _login;
     private String _session;
     private String _balance;
     private String _group;
-    private final String _endDonateTime;
+    private String _endDonateTime;
     private Image _image;
     public boolean wasAuth = false;
 
@@ -43,12 +46,47 @@ public class User {
         authManagerWeb.putAllParams(Arrays.asList("login", "password"), Arrays.asList(_login, _password));
         authManagerWeb.request();
 
-        String[] answer = authManagerWeb.getAnswerMass();
-        if(answer.length == 6 && answer[0].equalsIgnoreCase("status")){
-            if (answer[0].equalsIgnoreCase("status")) WebAnswer.setStatus(answer[1]);
-            if(answer[2].equalsIgnoreCase("type")) WebAnswer.setType(answer[3]);
-            if (answer[4].equalsIgnoreCase("message")) WebAnswer.setMessage(answer[5]);
+        JsonObject answerFromServer = (JsonObject) new JsonParser().parse(authManagerWeb.getFullAnswer());
+        JsonObject user = null;
+        JsonObject privilege = null;
+
+        if (answerFromServer.get("user") != null){
+            user = (JsonObject) new JsonParser().parse(answerFromServer.get("user").toString());
+            privilege = (JsonObject) new JsonParser().parse(user.get("privilege").toString());
         }
+
+
+
+        System.err.println("------------------------JSON--------------------------" + "\n");
+        System.err.println(answerFromServer);
+        System.err.println(user);
+        System.err.println(privilege);
+
+
+        if(!(answerFromServer.get("type") == null)) WebAnswer.setType(answerFromServer.get("type").toString());
+        if(!(answerFromServer.get("message") == null)) WebAnswer.setMessage(answerFromServer.get("message").toString().replace("\"", ""));
+        if(!(answerFromServer.get("status") == null))WebAnswer.setStatus(answerFromServer.get("status").toString());
+        if(!(answerFromServer.get("fields") == null))WebAnswer.setFields(answerFromServer.get("fields").toString());
+
+        if(user != null){
+            System.err.println(user.get("user_nick"));
+            if(user.get("user_nick") != null) _login = user.get("user_nick").toString().replace("\"", "");
+            if(user.get("email") != null) _email = user.get("email").toString().replace("\"", "");
+            if(user.get("ty_coin") != null) _balance = "Баланс: " + user.get("ty_coin").toString();
+
+            if(privilege.get("privilegeDonate") != null) _group = "Роль: " + privilege.get("privilegeDonate").toString()
+                    .replaceFirst("\"", "[").replaceFirst("\"", "]");
+
+            if (!privilege.get("privilegeAdmin").toString().contains("null")){
+                _group = _group + " [" + privilege.get("privilegeAdmin").toString().replace("\"", "") + "]";
+            }
+            if(!privilege.get("end_time").toString().contains("null")){
+                _endDonateTime = privilege.get("end_time").toString();
+                _group = _group + "\n\nИстекает: " + _endDonateTime.replace("\"", "");
+            }
+        }
+
+
 
 
         System.err.println("-----------------------------AUTH-INFO-----------------------------");
@@ -67,6 +105,7 @@ public class User {
     public String GetGroup() {
         return _group;
     }
+
 
     public String GetLogin() {
         return _login;

@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import tylauncher.Utilites.ButtonPageController;
 import tylauncher.Utilites.Managers.ManagerWindow;
 
 public class ForumController extends BaseController{

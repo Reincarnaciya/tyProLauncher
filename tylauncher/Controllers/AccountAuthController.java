@@ -9,7 +9,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import tylauncher.Main;
-import tylauncher.Utilites.ButtonPageController;
 import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Managers.ManagerFlags;
 import tylauncher.Utilites.Managers.ManagerForJSON;
@@ -176,7 +175,7 @@ public class AccountAuthController extends BaseController{
     public void StartAuth() throws Exception {
         if (user.Auth()) {
             //Да-да, в классе юзера уже есть функция авторизации, но тут другое, вы не понимаете!
-            ManagerWindow.OpenNew("Account.fxml", ManagerWindow.currentController.getA1());//пропускаем юзера дальше
+            ManagerWindow.OpenNew("Account.fxml", A1);//пропускаем юзера дальше
             accountController.UpdateData();//Обновляем информацию об аккаунте юзера
             //Дебаг
             WebAnswer.PrintAnswer();
