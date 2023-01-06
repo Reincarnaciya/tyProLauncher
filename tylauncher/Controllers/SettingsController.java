@@ -1,15 +1,18 @@
 package tylauncher.Controllers;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonWriter;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
 import tylauncher.Main;
 import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Managers.ManagerFlags;
@@ -20,8 +23,7 @@ import tylauncher.Utilites.UpdaterLauncher;
 import tylauncher.Utilites.UserPC;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class SettingsController extends BaseController {
     @FXML
@@ -71,21 +73,28 @@ public class SettingsController extends BaseController {
     private Text warningText;
     @FXML
     private Button openLauncherDirButton;
+    @FXML
+    private CheckBox autoConnectCheckBox;
 
     @FXML
     private Pane warningPane;
-
+    @FXML
+    private Hyperlink pathToClientHyperLink;
     @FXML
     private CheckBox hideLauncherCheckBox;
+    @FXML
+    private Button resetBtn;
 
-    private static final ManagerForJSON settingsJson = new ManagerForJSON(5);
+    private static final ManagerForJSON settingsJson = new ManagerForJSON(12);
 
     public static final File settingsFile = new File(Main.getLauncherDir() + File.separator + "settings.json");
 
 
-
+    private boolean reset = false;
     @FXML
     void initialize() {
+        updateVisual();
+
         ManagerWindow.currentController = this;
         //все кнопки в 1 массив!
         ButtonPageController buttonPageController = new ButtonPageController();
@@ -99,18 +108,6 @@ public class SettingsController extends BaseController {
         //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
         if(ManagerFlags.hellishTheme) SettingsPane.setStyle("-fx-background-color:  ff0000;");//Пасхалка тип
 
-        // берем файл настроек
-        if (settingsFile.exists()) {
-            try {
-                //Берем нужное
-                setSettings();
-            } catch (Exception e) {
-                //пошло по пизде? хуево
-                setInfoText("Ошибка: " + e.getMessage() + "\n Пересоздаю файл");
-                settingsFile.delete();
-                e.printStackTrace();
-            }
-        }
         //Включаем апдейт пэйн, если есть апдейт
         if(ManagerFlags.updateAvailable){
             updateAvailablePane.setDisable(false);
@@ -118,6 +115,25 @@ public class SettingsController extends BaseController {
         }
 
         updateButton.setOnMouseClicked(mouseEvent -> UpdaterLauncher.UpdateLauncher());
+
+        resetBtn.setOnMouseClicked(event -> {
+            if(!reset){
+                ManagerWindow.currentController.setInfoText("Точно хочешь сбросить все настройки? Если да, то нажми еще раз на кнопку!");
+                reset = true;
+                return;
+            }
+            Settings.reset();
+            Main.resetClientDir();
+            updateVisual();
+            try {
+                updateLogicalSettings();
+            } catch (Exception e) {
+                ManagerWindow.currentController.setInfoText(e.getMessage());
+                e.printStackTrace();
+            }
+            writeSettingsToFile();
+            reset = false;
+        });
 
         if(ManagerFlags.lowDiskSpace){
             warningPane.setVisible(true);
@@ -133,13 +149,7 @@ public class SettingsController extends BaseController {
         Ozu_Slider.setValue(Settings.getOzu());
         OzuCount_Label.setText(String.valueOf(Settings.getOzu()));
 
-        try {
-            //Инфа в комментариях функций
-            WriteSettingToFile();
-            UpdateSettings();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         //Листенер изменения слайдера Озу
         Ozu_Slider.valueProperty().addListener((obs, oldval, newval) -> {
             int value = Math.round(newval.floatValue() / 512) * 512;//округляем до числа кратного 512(Джава так любит)
@@ -175,26 +185,42 @@ public class SettingsController extends BaseController {
 
 
         Save_Button.setOnMouseClicked(mouseEvent -> {
-            Settings.setFsc(Fullscrean_Checkbox.isSelected());
             try {
-                Settings.setX(Integer.parseInt(X_Label.getText()));
-                Settings.setY(Integer.parseInt(Y_Label.getText()));
-                Settings.setOzu(Integer.parseInt(OzuCount_Label.getText()));
-                Settings.setHide(hideLauncherCheckBox.isSelected());
-                WriteSettingToFile();
-                UpdateSettings();
-                infoTextPane.setVisible(false);
+                updateLogicalSettings();
             } catch (Exception e) {
-                SettingsSaved_Text.setVisible(false);
-                ManagerWindow.currentController.setInfoText (e.getMessage());
-                UpdateSettings();
-                System.err.println(Settings.show());
+                ManagerWindow.currentController.setInfoText(e.getMessage());
                 e.printStackTrace();
+                updateVisual();
                 return;
             }
-            SettingsSaved_Text.setVisible(true);
-            ManagerAnimations.StartFadeAnim(SettingsSaved_Text);
+            writeSettingsToFile();
+
+            ManagerWindow.currentController.setInfoText("Настройки успешно сохранены :)");
         });
+
+        pathToClientHyperLink.setText(Main.getClientDir().getAbsolutePath());
+        pathToClientHyperLink.setOnMouseClicked(event -> {
+            try {
+                System.err.println("click");
+                DirectoryChooser dc = new DirectoryChooser();
+                dc.setInitialDirectory(Main.getClientDir());
+                dc.setTitle("Выбор папки, куда будут скачиваться все клиенты");
+                File f = dc.showDialog(ManagerWindow.currentController.getA1().getScene().getWindow());
+                if(f == null) return;
+                for(char c : f.getAbsolutePath().toCharArray()){
+                    if(Character.UnicodeBlock.of(c).equals(Character.UnicodeBlock.CYRILLIC)){
+                        throw new Exception("Путь не должен содержать русских букв");
+                    }
+                }
+                pathToClientHyperLink.setText(f.getAbsolutePath());
+            }catch (Exception e){
+                ManagerWindow.currentController.setInfoText(e.getMessage() + "\n Сбрасываю папку клиента..");
+                Main.resetClientDir();
+                updateVisual();
+            }
+
+        });
+
 
         openLauncherDirButton.setOnMouseClicked(event -> {
             try {
@@ -205,51 +231,90 @@ public class SettingsController extends BaseController {
             }
         });
     }
-    void UpdateSettings() {
+
+    void updateVisual(){
         OzuCount_Label.setText(String.valueOf(Settings.getOzu()));
         Ozu_Slider.setValue(Settings.getOzu());
         Y_Label.setText(String.valueOf(Settings.getY()));
         X_Label.setText(String.valueOf(Settings.getX()));
         Fullscrean_Checkbox.setSelected(Settings.getFsc());
         hideLauncherCheckBox.setSelected(Settings.getHide());
+        autoConnectCheckBox.setSelected(Settings.isAutoConnect());
+        pathToClientHyperLink.setText(Main.getClientDir().getAbsolutePath());
     }
-    public static void WriteSettingToFile() throws Exception {
-        settingsJson.setOfIndex("ozu", 0, 0);
-        settingsJson.setOfIndex(String.valueOf(Settings.getOzu()), 0, 1);
-        settingsJson.setOfIndex("x", 1, 0);
-        settingsJson.setOfIndex(String.valueOf(Settings.getX()), 1, 1);
-        settingsJson.setOfIndex("y", 2, 0);
-        settingsJson.setOfIndex(String.valueOf(Settings.getY()), 2, 1);
-        settingsJson.setOfIndex("FullScreenMode", 3, 0);
-        settingsJson.setOfIndex(String.valueOf(Settings.getFsc()), 3, 1);
-        settingsJson.setOfIndex("hide", 4, 0);
-        settingsJson.setOfIndex(String.valueOf(Settings.getHide()), 4, 1);
-        settingsJson.WritingFile(Main.getLauncherDir() + File.separator + "settings.json");
-    }
-
-
     public void setInfoText(String info) {
         infoTextPane.setVisible(true);
         infoText.setText(info);
         ManagerAnimations.StartFadeAnim(infoTextPane);
     }
-    public static void setSettings(){
-        if (settingsFile.exists()) {
-            try {
-                //Считываем файл
-                settingsJson.ReadJSONFile(settingsFile.getAbsolutePath());
-                //Берем нужное
-                Settings.setOzu(Integer.parseInt(settingsJson.GetOfIndex(0,1)));
-                Settings.setX(Integer.parseInt(settingsJson.GetOfIndex(1,1)));
-                Settings.setY(Integer.parseInt(settingsJson.GetOfIndex(2,1)));
-                Settings.setFsc(Boolean.parseBoolean(settingsJson.GetOfIndex(3,1)));
-                Settings.setHide(Boolean.parseBoolean(settingsJson.GetOfIndex(4,1)));
-            } catch (Exception e) {
-                //пошло по пизде? хуево
-                ManagerWindow.currentController.setInfoText("Ошибка: " + e.getMessage() + "\n Пересоздаю файл");
-                settingsFile.delete();
-                e.printStackTrace();
-            }
+
+    public void updateLogicalSettings() throws Exception {
+        Settings.setFsc(Fullscrean_Checkbox.isSelected());
+        if (X_Label.getText().isEmpty() || Y_Label.getText().isEmpty()){
+            Settings.reset();
+            throw new Exception("Игрики и иксы не могут быть пусты! Сбрасываю настройки");
+        }
+        Settings.setX(Integer.parseInt(X_Label.getText()));
+        Settings.setY(Integer.parseInt(Y_Label.getText()));
+        Settings.setOzu(Integer.parseInt(OzuCount_Label.getText()));
+        Settings.setHide(hideLauncherCheckBox.isSelected());
+        Settings.setAutoConnect(autoConnectCheckBox.isSelected());
+        Main.setClientDir(new File(pathToClientHyperLink.getText()));
+
+    }
+    public static void writeSettingsToFile(){
+        try (JsonWriter writer = new JsonWriter(new FileWriter(settingsFile))){
+            writer.beginObject();
+            writer.name("ozu");
+            writer.value(Settings.getOzu());
+            writer.name("x");
+            writer.value(Settings.getX());
+            writer.name("y");
+            writer.value(Settings.getY());
+            writer.name("fsc");
+            writer.value(Settings.getFsc());
+            writer.name("hide");
+            writer.value(Settings.getHide());
+            writer.name("autoConnect");
+            writer.value(Settings.isAutoConnect());
+            writer.name("clientDir");
+            writer.value(Main.getClientDir().getAbsolutePath());
+            writer.endObject();
+            writer.close();
+            SettingsController.readSettingsFromFileToSettings();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
+    public static void readSettingsFromFileToSettings() throws Exception{
+        try(BufferedReader bfr = new BufferedReader(new FileReader(settingsFile))) {
+            JsonObject settings = (JsonObject) JsonParser.parseString(bfr.readLine());
+
+            if (settings.size() != 7) {
+                settingsFile.delete();
+                settingsFile.createNewFile();
+                throw new Exception("Файл настроек сломался, пересоздаю.");
+            }
+            try {
+                Settings.setOzu(Integer.parseInt(settings.get("ozu").toString()));
+                Settings.setX(Integer.parseInt(settings.get("x").toString()));
+                Settings.setY(Integer.parseInt(settings.get("y").toString()));
+                Settings.setFsc(Boolean.parseBoolean(settings.get("fsc").toString()));
+                Settings.setHide(Boolean.parseBoolean(settings.get("hide").toString()));
+                Settings.setAutoConnect(Boolean.parseBoolean(settings.get("autoConnect").toString()));
+                Main.setClientDir(new File(settings.get("clientDir").toString().replace("\"", "")));
+            }catch (Exception e){
+                settingsFile.delete();
+                settingsFile.createNewFile();
+                throw new Exception("Файл настроек сломался, пересоздаю.");
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
 }

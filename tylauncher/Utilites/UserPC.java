@@ -38,7 +38,7 @@ public class UserPC {
     }
 
 
-    public static String _javaFXVersion = com.sun.javafx.runtime.VersionInfo.getVersion();
+    public static final String _javaFXVersion = com.sun.javafx.runtime.VersionInfo.getVersion();
 
     public static void Show() {
         System.err.println("----------------USER PC----------------");

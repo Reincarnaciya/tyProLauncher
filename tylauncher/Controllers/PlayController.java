@@ -55,7 +55,10 @@ public class PlayController extends BaseController{
         buttonPageController.addButton(Settings_Img);
         buttonPageController.addButton(Play_Img);
         //Проверка на статус.. Чего? а, на статус того, что вообще происходит в лаунчере
-        if (ManagerStart.gameIsStart) ManagerWindow.currentController.setInfoText("Игра запущена");
+        if (ManagerStart.gameIsStart){
+            UdpateProgressBar(1);
+            ManagerWindow.currentController.setInfoText("Игра запущена");
+        }
         if (ManagerZip.unzipping) ManagerZip.UpdateInfo();
 
         //Улавливаем ивент нажатия на кнопку "Играть"
@@ -73,8 +76,8 @@ public class PlayController extends BaseController{
                 if (user.Auth()) {
                     if (!HashCodeCheck.CheckHashWithServer()) {
                         try {
-                            Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "TySci_1.16.5"));
-                            Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "client1165.zip"));
+                            if (new File(Main.getClientDir() + File.separator + "TySci_1.16.5").exists())Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "TySci_1.16.5"));
+                            if(new File(Main.getClientDir() + File.separator + "client1165.zip").exists()) Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "client1165.zip"));
                         }catch (Exception e){
                             e.printStackTrace();
                         }

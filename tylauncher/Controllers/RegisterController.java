@@ -74,9 +74,7 @@ public class RegisterController extends BaseController{
         buttonPageController.addButton(Settings_Img);
         buttonPageController.addButton(Play_Img);
 
-        Cancel_Button.setOnMouseClicked(mouseEvent -> {
-            ManagerWindow.OpenNew("AccountAuth.fxml", A1);
-        });
+        Cancel_Button.setOnMouseClicked(mouseEvent -> ManagerWindow.OpenNew("AccountAuth.fxml", A1));
         ShowPass_CheckBox.setOnAction(event -> {
             if (ShowPass_CheckBox.isSelected()) {
                 CheckPass_Text.setVisible(true);
@@ -111,7 +109,7 @@ public class RegisterController extends BaseController{
                 Platform.runLater(()->{
                     accountAuthController.infoTextPane.setVisible(true);
                     accountAuthController.setInfoText(WebAnswer.getMessage());
-                    ManagerAnimations.StartFadeAnim(accountAuthController.infoTextPane);
+                    ManagerAnimations.StartFadeAnim(infoTextPane);
                 });
             } else if(WebAnswer.getFields() != null){
                 for (String s:WebAnswer.getFields()) {

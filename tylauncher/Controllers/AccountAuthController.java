@@ -56,7 +56,7 @@ public class AccountAuthController extends BaseController{
 
     public static AccountController accountController;
     private final File AuthFile = new File((Main.getLauncherDir() + File.separator + "auth.json"));//Файл, в котором хранятся настройки авторизации
-    public ManagerForJSON Auth = new ManagerForJSON(2);//Хрень, которая читает и записыват json
+    public final ManagerForJSON Auth = new ManagerForJSON(2);//Хрень, которая читает и записыват json
     private static boolean firstOpen = true; //Флаг, определяющий впервые ли открыта сцена
     //Инициализация сцены
     @FXML
@@ -149,11 +149,7 @@ public class AccountAuthController extends BaseController{
             user.Reset();//Да-да
             ManagerWindow.OpenNew("Register.fxml", A1);
         });
-        //Ивенты клика на картинки
-
-
     }
-
 
     public void setInfoText(String text) {
         infoTextPane.setVisible(true);

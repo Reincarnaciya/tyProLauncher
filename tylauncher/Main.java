@@ -1,8 +1,5 @@
 package tylauncher;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -12,10 +9,10 @@ import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import tylauncher.Controllers.SettingsController;
 import tylauncher.Utilites.*;
 import tylauncher.Utilites.Managers.ManagerDirs;
 import tylauncher.Utilites.Managers.ManagerFlags;
-import tylauncher.Utilites.Managers.ManagerWeb;
 import tylauncher.Utilites.Managers.ManagerWindow;
 
 import java.awt.*;
@@ -25,11 +22,8 @@ import java.io.PrintStream;
 import java.nio.file.Files;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Arrays;
 import java.util.Objects;
 
-import static tylauncher.Controllers.SettingsController.setSettings;
-import static tylauncher.Controllers.SettingsController.settingsFile;
 import static tylauncher.Utilites.Utils.CheckLogs;
 import static tylauncher.Utilites.Utils.easter;
 
@@ -38,9 +32,9 @@ public class Main extends Application {
     public static final String launcher_version = "0.0";
     private static TrayIcon trayIcon;
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyPro", 1);
-    private static final ManagerDirs _clientDir = new ManagerDirs("TyPro/clients/", 1);
+    private static ManagerDirs _clientDir = new ManagerDirs("TyPro/clients/", 1);
 
-    public static User user = new User();
+    public static final User user = new User();
     public static File getLauncherDir() {
         return _launcherDir.getWorkDir();
     }
@@ -48,6 +42,12 @@ public class Main extends Application {
         return _clientDir.getWorkDir();
     }
 
+    public static void setClientDir(File f){
+        _clientDir = new ManagerDirs(f.getAbsolutePath(), 0);
+    }
+    public static void resetClientDir(){
+        _clientDir = new ManagerDirs("TyPro/clients/", 1);
+    }
 
     public static void main(String[] args) throws IOException {
 
@@ -98,6 +98,13 @@ public class Main extends Application {
         dual = new DualStream(System.err, out);
         System.setErr(dual);
 
+        try {
+            SettingsController.readSettingsFromFileToSettings();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+        }
+
         CheckLogs();
         UserPC.Show();
 
@@ -122,7 +129,7 @@ public class Main extends Application {
         }catch (IOException e){
             e.printStackTrace();
         }
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(Objects.requireNonNull(root));
         primaryStage.setTitle("Updater");
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("StyleSheets/font.css")).toExternalForm());
         primaryStage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("assets/icoNewYear.png"))));
@@ -168,18 +175,6 @@ public class Main extends Application {
         }catch (Exception e){
             e.printStackTrace();
         }
-
-        try{
-            setSettings();
-        }catch (Exception e){
-            settingsFile.delete();
-            System.err.println("Файл настроек был успешно поломан и восстановлен.");
-            e.printStackTrace();
-        }
     }
-    private static void Test() throws Exception{
-
-
-
-    }
+    private static void Test() {}
 }

@@ -1,6 +1,5 @@
 package tylauncher.Utilites;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javafx.scene.image.Image;
@@ -46,13 +45,13 @@ public class User {
         authManagerWeb.putAllParams(Arrays.asList("login", "password"), Arrays.asList(_login, _password));
         authManagerWeb.request();
 
-        JsonObject answerFromServer = (JsonObject) new JsonParser().parse(authManagerWeb.getFullAnswer());
+        JsonObject answerFromServer = (JsonObject) JsonParser.parseString(authManagerWeb.getFullAnswer());
         JsonObject user = null;
         JsonObject privilege = null;
 
         if (answerFromServer.get("user") != null){
-            user = (JsonObject) new JsonParser().parse(answerFromServer.get("user").toString());
-            privilege = (JsonObject) new JsonParser().parse(user.get("privilege").toString());
+            user = (JsonObject) JsonParser.parseString(answerFromServer.get("user").toString());
+            privilege = (JsonObject) JsonParser.parseString(user.get("privilege").toString());
         }
 
 
@@ -63,13 +62,15 @@ public class User {
         System.err.println(privilege);
 
 
-        if(!(answerFromServer.get("type") == null)) WebAnswer.setType(answerFromServer.get("type").toString());
-        if(!(answerFromServer.get("message") == null)) WebAnswer.setMessage(answerFromServer.get("message").toString().replace("\"", ""));
-        if(!(answerFromServer.get("status") == null))WebAnswer.setStatus(answerFromServer.get("status").toString());
-        if(!(answerFromServer.get("fields") == null))WebAnswer.setFields(answerFromServer.get("fields").toString());
+        if(answerFromServer.get("type") != null) WebAnswer.setType(answerFromServer.get("type").toString());
+        if(answerFromServer.get("message") != null) WebAnswer.setMessage(answerFromServer.get("message")
+                .toString().replace("\"", ""));
+        if(answerFromServer.get("status") != null) WebAnswer.setStatus(answerFromServer.get("status").toString());
+        if(answerFromServer.get("fields") != null) WebAnswer.setFields(answerFromServer.get("fields").toString());
 
         if(user != null){
             System.err.println(user.get("user_nick"));
+            this.wasAuth = true;
             if(user.get("user_nick") != null) _login = user.get("user_nick").toString().replace("\"", "");
             if(user.get("email") != null) _email = user.get("email").toString().replace("\"", "");
             if(user.get("ty_coin") != null) _balance = "Баланс: " + user.get("ty_coin").toString();

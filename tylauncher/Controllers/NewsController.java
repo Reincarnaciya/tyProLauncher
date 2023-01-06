@@ -50,9 +50,7 @@ public class NewsController extends BaseController{
                 inDevText.setCursor(Cursor.HAND);
             }
         });
-        inDevText.setOnMouseExited(mouseEvent ->{
-            inDevText.setCursor(Cursor.DEFAULT);
-        });
+        inDevText.setOnMouseExited(mouseEvent -> inDevText.setCursor(Cursor.DEFAULT));
         inDevText.setOnMouseClicked(mouseEvent -> {
             clicks++;
             switch (clicks){

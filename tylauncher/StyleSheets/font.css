@@ -11,6 +11,13 @@ Text{
  -fx-font-family: "F77 Minecraft Regular";
  src: url('Minecraft.ttf');
 }
+
+Hyperlink {
+    -fx-border-color: transparent;
+    -fx-padding: 4 0 4 0;
+    -fx-text-fill: white;
+}
+
 Button{
      -fx-background-color: black;
      -fx-text-fill: "WHITE";

@@ -54,7 +54,7 @@ public class ManagerUpdate {
                         }
                     });
                     byte[] by = new byte[1024];
-                    int count = 0;
+                    int count;
                     while ((count = bis.read(by)) != -1) {
                         fw.write(by, 0, count);
                         clientLength = client.length();

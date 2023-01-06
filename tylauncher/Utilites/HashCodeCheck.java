@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class HashCodeCheck {
     private static String hash = "";
@@ -32,7 +33,7 @@ public class HashCodeCheck {
     }
 
     private static void ListFilesForFolder(final File folder) throws IOException, NoSuchAlgorithmException {
-        for (final File fileEntry : folder.listFiles()) {
+        for (final File fileEntry : Objects.requireNonNull(folder.listFiles())) {
             if (fileEntry.isDirectory()) {
                 ListFilesForFolder(fileEntry);
             } else {
@@ -45,7 +46,7 @@ public class HashCodeCheck {
         MessageDigest md = MessageDigest.getInstance("MD5");
         FileInputStream fis = new FileInputStream(fileName);
         byte[] dataBytes = new byte[1024];
-        int nread = 0;
+        int nread;
         while ((nread = fis.read(dataBytes)) != -1) {
             md.update(dataBytes, 0, nread);
         }
@@ -68,7 +69,7 @@ public class HashCodeCheck {
         //getHash(Main.getClientDir() + File.separator + "TySci_1.16.5"
         String hash = getHash(Main.getClientDir() + File.separator + "TySci_1.16.5");
 
-        System.err.println(hash);
+
 
         ManagerWeb hashManagerWeb = new ManagerWeb("hashCodeCheck");
         hashManagerWeb.setUrl("https://typro.space/vendor/server/check_hash_client.php");
@@ -76,7 +77,10 @@ public class HashCodeCheck {
         hashManagerWeb.setConnectTimeout(2000);
         hashManagerWeb.request();
 
+        System.err.println("-----------------------------HASH-----------------------------");
         System.err.println(hashManagerWeb.getAnswer());
+        System.err.println(hash);
+        System.err.println("-----------------------------HASH-----------------------------");
 
         switch (hashManagerWeb.getAnswer()){
             case "0":

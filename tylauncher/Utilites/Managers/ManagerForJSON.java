@@ -40,7 +40,7 @@ public class ManagerForJSON {
             ++index;
         return index;
     }
-    public static short AdressLatter(char[] array, char later, short adress) throws Exception {
+    public static short AdressLatter(char[] array, char later, short adress) {
         while (adress < array.length - 1) {
             if (array[adress] == later) return adress;
             ++adress;
@@ -79,7 +79,7 @@ public class ManagerForJSON {
         }
         if (_fullText[0] != '{' || _fullText[(int) file.length() - 1] != '}')
             throw new Exception(suffix + "файл не джсон");
-        String[] arrStr = String.valueOf(_fullText).replaceAll("[ {}\"'\n\r ]", "").split("[:,]");
+        String[] arrStr = String.valueOf(_fullText).replaceAll("[ {}\"'\n\r]", "").split("[:,]");
         System.err.println(Arrays.toString(arrStr));
         _numElement = arrStr.length >> 1;
         _elementEndValue = new String[_numElement][2];

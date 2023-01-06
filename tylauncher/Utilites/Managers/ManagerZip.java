@@ -4,7 +4,6 @@ import tylauncher.Controllers.PlayController;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -50,7 +49,7 @@ public class ManagerZip {
                     if (!parent.exists()) {
                         parent.mkdirs();
                     }
-                    try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file))) {
+                    try (BufferedOutputStream bos = new BufferedOutputStream(Files.newOutputStream(file.toPath()))) {
                         int bufferSize = Math.toIntExact(entry.getSize());
                         byte[] buffer = new byte[bufferSize > 0 ? bufferSize : 1];
                         int location;

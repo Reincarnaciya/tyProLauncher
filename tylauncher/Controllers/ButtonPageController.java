@@ -1,5 +1,6 @@
 package tylauncher.Controllers;
 
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import tylauncher.Main;
@@ -45,16 +46,28 @@ public class ButtonPageController {
                 case 1:
                     button.setOnMouseClicked(event -> {
                         _pressedNum = 1;
-                        try {
-                            if (user.Auth()) {
-                                ManagerWindow.OpenNew("Account.fxml", ManagerWindow.currentController.getA1());
-                                accountController.UpdateData();
-                            }
-                        } catch (Exception e) {
-                            System.err.println("Except when click \"Account\": " + e.getMessage());
-                            ManagerWindow.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1());
-
+                        if(user.wasAuth){
+                            ManagerWindow.OpenNew("Account.fxml", ManagerWindow.currentController.getA1());
+                            accountController.UpdateData();
                         }
+                        new Thread(()->{
+                            try {
+                                if (user.Auth()) {
+                                    Platform.runLater(()->{
+                                        ManagerWindow.OpenNew("Account.fxml", ManagerWindow.currentController.getA1());
+                                        accountController.UpdateData();
+                                    });
+                                }else {
+                                    Platform.runLater(()-> ManagerWindow.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1()));
+                                }
+
+                            } catch (Exception e) {
+                                System.err.println("Except when click \"Account\": " + e.getMessage());
+                                Platform.runLater(()-> ManagerWindow.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1()));
+
+                            }
+                        }).start();
+
                     });
                     break;
                 case 2:
@@ -95,5 +108,7 @@ public class ButtonPageController {
             }
         }
     }
+
+
 
 }

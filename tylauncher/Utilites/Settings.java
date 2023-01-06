@@ -6,7 +6,7 @@ public class Settings {
     private static int _y = 530;
     private static boolean _fsc = false;
     private static boolean hide = false;
-
+    private static boolean autoConnect = false;
     public static void setHide(boolean bool){
         hide = bool;
     }
@@ -49,6 +49,42 @@ public class Settings {
             _y = 530;
             throw new Exception("Попытка выставить y больше, чем разрешение вашего экрана");
         } else _y = y;
+    }
+
+    public static void reset(){
+        _ozu = Math.round(UserPC.getOzu() / 1536) * 512;
+        _x = 925;
+        _y = 530;
+        _fsc = false;
+        hide = false;
+        autoConnect = false;
+    }
+    public static int get_ozu() {
+        return _ozu;
+    }
+
+    public static void set_ozu(int _ozu) {
+        Settings._ozu = _ozu;
+    }
+
+    public static boolean is_fsc() {
+        return _fsc;
+    }
+
+    public static void set_fsc(boolean _fsc) {
+        Settings._fsc = _fsc;
+    }
+
+    public static boolean isHide() {
+        return hide;
+    }
+
+    public static boolean isAutoConnect() {
+        return autoConnect;
+    }
+
+    public static void setAutoConnect(boolean autoConnect) {
+        Settings.autoConnect = autoConnect;
     }
 
     public static boolean getFsc() {

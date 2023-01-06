@@ -12,6 +12,7 @@ public class ManagerDirs {
     public ManagerDirs(String nameDir, int type) {
         if(type != 1){
             _workDir = new File(nameDir);
+
             return;
         }
         String userHome = System.getProperty("user.home", ".");

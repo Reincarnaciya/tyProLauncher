@@ -3,7 +3,7 @@ package tylauncher.Utilites;
 import java.io.PrintStream;
 
 public class DualStream extends PrintStream {
-    PrintStream out;
+    final PrintStream out;
 
     public DualStream(PrintStream out1, PrintStream out2) {
         super(out1);

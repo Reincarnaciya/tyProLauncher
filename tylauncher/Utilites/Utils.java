@@ -1,11 +1,14 @@
 package tylauncher.Utilites;
 
 import tylauncher.Main;
+import tylauncher.Utilites.Managers.ManagerWindow;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.Objects;
 
@@ -21,9 +24,8 @@ public class Utils {
     }
     //unicode символы в понятные буковки
     public static String UniToText(String message) {
-        if (!message.contains("\\")) {
-            return message;
-        }
+        if (!message.contains("\\")) return message;
+
         String str = message.split(" ")[0];
         str = str.replace("\\", "");
         String[] arr = str.split("u");
@@ -40,7 +42,12 @@ public class Utils {
                 DeleteFile(f);
             }
         }
-        file.delete();
+        try {
+            Files.delete(Paths.get(file.getAbsolutePath()));
+        }catch (IOException e) {
+            ManagerWindow.currentController.setInfoText(e.getMessage());
+            e.printStackTrace();
+        }
     }
     public static void openUrl(String url) throws IOException {
         Desktop.getDesktop().browse(URI.create(url));

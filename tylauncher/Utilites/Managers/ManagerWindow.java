@@ -1,10 +1,12 @@
 package tylauncher.Utilites.Managers;
 
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.AnchorPane;
 import tylauncher.Controllers.BaseController;
 import tylauncher.Main;
@@ -33,10 +35,26 @@ public class ManagerWindow {
 
                 List<Node> buttons = getAllButtons(pane1);
                 for (Node button : buttons){
-                    javafx.scene.control.Button btn = (Button) button;
+                    Button btn = (Button) button;
                     btn.setOnMousePressed(event -> btn.setStyle("-fx-background-color: #444"));
+                    btn.setOnMouseEntered(event -> btn.setStyle("-fx-background-color: #1a1a1a;"));
                     btn.setOnMouseReleased(event -> btn.setStyle(" "));
+                    btn.setOnMouseExited(event -> btn.setStyle(" "));
                 }
+
+                List<Node> hyperlinks = getAllHyperlinks(pane1);
+                for (Node hyplink : hyperlinks){
+                    Hyperlink hl = (Hyperlink) hyplink;
+                    hl.setOnMouseEntered(event -> hl.setStyle("-fx-text-fill: gray;"));
+                    hl.setOnMouseExited(event -> hl.setStyle(""));
+                }
+
+                List<Node> cbox = getAllCheckbox(pane1);
+                for(Node cb : cbox){
+                    CheckBox checkBox = (CheckBox) cb;
+                    checkBox.setCursor(Cursor.HAND);
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -49,7 +67,41 @@ public class ManagerWindow {
      * Объект, с которого получаем все кнопки
      * @return
      * Возвращает ЛИСТ кнопок
+     * pathToClientHyperLink.setOnMouseClicked(event -> {
+     *             pathToClientHyperLink.setVisited(false);
+     *         });
+     *         pathToClientHyperLink.setOnMouseEntered(event -> {
+     *             pathToClientHyperLink.setStyle("-fx-text-fill: gray;");
+     *         });
+     *         pathToClientHyperLink.setOnMouseExited(event -> {
+     *             pathToClientHyperLink.setStyle("");
+     *         });
      */
+
+    private static List<Node> getAllCheckbox(Parent parent){
+        List<Node> cbox = parent.getChildrenUnmodifiable().stream()
+                .filter(node -> node instanceof CheckBox)
+                .collect(Collectors.toList());
+
+        parent.getChildrenUnmodifiable().stream()
+                .filter(node -> node instanceof Parent)
+                .forEach(node -> cbox.addAll(getAllCheckbox((Parent) node)));
+
+        return cbox;
+    }
+
+    private static List<Node> getAllHyperlinks(Parent parent){
+        List<Node> hyperlinks = parent.getChildrenUnmodifiable().stream()
+                .filter(node -> node instanceof Hyperlink)
+                .collect(Collectors.toList());
+
+        parent.getChildrenUnmodifiable().stream()
+                .filter(node -> node instanceof Parent)
+                .forEach(node -> hyperlinks.addAll(getAllHyperlinks((Parent) node)));
+
+        return hyperlinks;
+    }
+
     private static List<Node> getAllButtons(Parent parent) {
         List<Node> buttons = parent.getChildrenUnmodifiable().stream()
                 .filter(node -> node instanceof Button)
