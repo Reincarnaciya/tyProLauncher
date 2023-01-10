@@ -51,7 +51,7 @@ public class HashCodeCheck {
             md.update(dataBytes, 0, nread);
         }
         byte[] mdbytes = md.digest();
-        //convert the byte to hex format
+        //байты в хексы ебат
         StringBuilder sb = new StringBuilder();
         for (byte mdbyte : mdbytes) {
             sb.append(Integer.toString((mdbyte & 0xff) + 0x100, 16).substring(1));
@@ -68,8 +68,6 @@ public class HashCodeCheck {
     public static boolean CheckHashWithServer() throws Exception {
         //getHash(Main.getClientDir() + File.separator + "TySci_1.16.5"
         String hash = getHash(Main.getClientDir() + File.separator + "TySci_1.16.5");
-
-
 
         ManagerWeb hashManagerWeb = new ManagerWeb("hashCodeCheck");
         hashManagerWeb.setUrl("https://typro.space/vendor/server/check_hash_client.php");

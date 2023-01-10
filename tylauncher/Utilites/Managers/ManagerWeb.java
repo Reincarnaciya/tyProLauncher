@@ -43,7 +43,8 @@ public class ManagerWeb {
         httpURLConnection.setDoOutput(true);
         StringJoiner stringJoiner = new StringJoiner("&");
         for (Map.Entry<String, String> entry : _params.entrySet())
-            stringJoiner.add(URLEncoder.encode(entry.getKey(), "UTF-8") + "=" + URLEncoder.encode(entry.getValue(), "UTF-8"));
+            stringJoiner.add(URLEncoder.encode(entry.getKey(), "UTF-8")
+                    + "=" + URLEncoder.encode(entry.getValue(), "UTF-8"));
         byte[] out = stringJoiner.toString().getBytes(StandardCharsets.UTF_8);
         httpURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
         httpURLConnection.setConnectTimeout(_connectTimeout);

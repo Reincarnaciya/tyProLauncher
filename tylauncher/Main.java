@@ -19,10 +19,13 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Objects;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 import static tylauncher.Utilites.Utils.CheckLogs;
 import static tylauncher.Utilites.Utils.easter;
@@ -50,6 +53,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws IOException {
+        System.err.println("Hello World");
 
         if(args.length > 0 && args[0].equalsIgnoreCase("love")){
             easter();
