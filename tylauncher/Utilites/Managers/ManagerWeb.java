@@ -19,7 +19,7 @@ public class ManagerWeb {
 
     private int _connectTimeout;
     public ManagerWeb(String type){
-        this._connectTimeout = 1000;
+        this._connectTimeout = 3000;
         this._url = null;
         this._requestMethod = "POST";
         this._requestType = type;

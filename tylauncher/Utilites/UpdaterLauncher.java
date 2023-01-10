@@ -41,6 +41,7 @@ public class UpdaterLauncher {
                     ManagerWindow.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1());
                 });
             } catch (Exception e) {
+                ManagerWindow.currentController.setInfoText(e.getMessage());
                 e.printStackTrace();
             }
         }).start();

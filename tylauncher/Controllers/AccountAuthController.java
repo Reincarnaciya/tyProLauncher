@@ -1,5 +1,8 @@
 package tylauncher.Controllers;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonWriter;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -11,11 +14,13 @@ import javafx.stage.Stage;
 import tylauncher.Main;
 import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Managers.ManagerFlags;
-import tylauncher.Utilites.Managers.ManagerForJSON;
 import tylauncher.Utilites.Managers.ManagerWindow;
 import tylauncher.Utilites.WebAnswer;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 
 import static tylauncher.Main.user;
 
@@ -56,7 +61,7 @@ public class AccountAuthController extends BaseController{
 
     public static AccountController accountController;
     private final File AuthFile = new File((Main.getLauncherDir() + File.separator + "auth.json"));//Файл, в котором хранятся настройки авторизации
-    public final ManagerForJSON Auth = new ManagerForJSON(2);//Хрень, которая читает и записыват json
+
     private static boolean firstOpen = true; //Флаг, определяющий впервые ли открыта сцена
     //Инициализация сцены
     @FXML
@@ -85,19 +90,25 @@ public class AccountAuthController extends BaseController{
             else stage.setTitle("Typical Launcher");
         });
 
-        //Проверка на существование файла авторизации и последующая попытка авторизации
-        if (AuthFile.exists()) {
-            try {
-                Auth.ReadJSONFile(AuthFile.getAbsolutePath());
-                String login = Auth.GetOfIndex(0, 1);
-                String password = Auth.GetOfIndex(1, 1);
+        //Проверка на существование файла авторизации и последующая попытка авторизацииtry(BufferedReader bfr = new BufferedReader(new FileReader(settingsFile))) {
+        //            JsonObject settings = (JsonObject) JsonParser.parseString(bfr.readLine());
+        if (AuthFile.exists() && firstOpen) {
+            try(BufferedReader brf = new BufferedReader(new FileReader(AuthFile))) {
+                JsonObject auth = (JsonObject) JsonParser.parseString(brf.readLine());
+                String login = auth.get("login").toString().replace("\"", "");
+                String password = auth.get("password").toString().replace("\"", "");
                 user.setLogin(login);
                 user.setPassword(password);
                 StartAuth();  //Отдельная функция авторизации
             } catch (Exception e) {
-                ManagerWindow.currentController.setInfoText("Файл с логином и паролем поломался :(\nУдаляю..");
-                AuthFile.delete();
+                if(!e.getMessage().contains("Сайт")){
+                    ManagerWindow.currentController.setInfoText("Файл с логином и паролем поломался :(\nУдаляю..");
+                    AuthFile.delete();
+                }else {
+                    ManagerWindow.currentController.setInfoText(e.getMessage());
+                }
                 e.printStackTrace();
+
             }
         }
         //Улавливаем событие нажатия на кнопку
@@ -158,14 +169,15 @@ public class AccountAuthController extends BaseController{
     }
     //Функция сейва пароля
     void SavePass() throws Exception {
-        ManagerForJSON auth = new ManagerForJSON(2); //создаем объект класса
-        //Задаем параметры
-        auth.setOfIndex("username", 0, 0);
-        auth.setOfIndex(user.GetLogin(), 0, 1);
-        auth.setOfIndex("password", 1, 0);
-        auth.setOfIndex(user.GetPassword(), 1, 1);
-        //Записываем в файл
-        auth.WritingFile(Main.getLauncherDir().getAbsolutePath() + File.separator + "auth.json");
+        if(!AuthFile.exists()) AuthFile.createNewFile();
+        try(JsonWriter writer = new JsonWriter(new FileWriter(AuthFile))) {
+            writer.beginObject();
+            writer.name("login");
+            writer.value(user.GetLogin());
+            writer.name("password");
+            writer.value(user.GetPassword());
+            writer.endObject();
+        }
     }
 
     public void StartAuth() throws Exception {
@@ -175,8 +187,9 @@ public class AccountAuthController extends BaseController{
             accountController.UpdateData();//Обновляем информацию об аккаунте юзера
             //Дебаг
             WebAnswer.PrintAnswer();
-            System.err.println(user.toString());
+            System.err.println(user);
         } else {
+            user.Reset();
             ManagerWindow.currentController.setInfoText (WebAnswer.getMessage());
         }
     }

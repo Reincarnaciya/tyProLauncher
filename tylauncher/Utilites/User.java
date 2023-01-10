@@ -95,6 +95,9 @@ public class User {
         System.err.println(this);
         WebAnswer.PrintAnswer();
         System.err.println("-----------------------------AUTH-INFO-----------------------------");
+        if(!WebAnswer.getStatus()){
+            Reset();
+        }
         return WebAnswer.getStatus();
     }
 
@@ -148,6 +151,7 @@ public class User {
         this._login = "";
         this._group = "[Игрок]";
         this._balance = "0$";
+        this.wasAuth = false;
         this._image = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("assets/picked/steve.png")));
     }
 

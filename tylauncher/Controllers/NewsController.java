@@ -44,14 +44,15 @@ public class NewsController extends BaseController{
         buttonPageController.addButton(Message_Img);
         buttonPageController.addButton(Settings_Img);
         buttonPageController.addButton(Play_Img);
-        //Можно я не буду комментировать всё, что ниже..Это же элементарно..
+        //Можно я не буду комментировать всё, что ниже..Это же элементарно, Ватсон..
         inDevText.setOnMouseEntered(mouseEvent ->{
-            if (clicks > 1){
+            if (clicks >= 1){
                 inDevText.setCursor(Cursor.HAND);
             }
         });
         inDevText.setOnMouseExited(mouseEvent -> inDevText.setCursor(Cursor.DEFAULT));
         inDevText.setOnMouseClicked(mouseEvent -> {
+            if(clicks>=1) inDevText.setCursor(Cursor.HAND);
             clicks++;
             switch (clicks){
                 case 2:

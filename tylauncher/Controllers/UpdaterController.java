@@ -62,7 +62,9 @@ public class UpdaterController extends BaseController{
         }
     }
     @Override
-    public void setInfoText(String info){}
+    public void setInfoText(String info){
+        TextUpdater.setText(info);
+    }
 
     public AnchorPane getA1(){
         return this.A1;

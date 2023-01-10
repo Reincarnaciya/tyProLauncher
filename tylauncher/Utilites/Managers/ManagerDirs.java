@@ -7,14 +7,9 @@ import java.io.File;
 public class ManagerDirs {
     private static final String suffix = "[ManagerLauncherDir] ";
 
-    private final File _workDir;
+    private File _workDir;
 
-    public ManagerDirs(String nameDir, int type) {
-        if(type != 1){
-            _workDir = new File(nameDir);
-
-            return;
-        }
+    public ManagerDirs(String nameDir) {
         String userHome = System.getProperty("user.home", ".");
         File workTempDir;
         switch (getPlatform().ordinal()) {
@@ -44,6 +39,9 @@ public class ManagerDirs {
     }
     public File getWorkDir() {
         return _workDir;
+    }
+    public void setWorkDir(File f){
+        this._workDir = f;
     }
 
     public enum OS {

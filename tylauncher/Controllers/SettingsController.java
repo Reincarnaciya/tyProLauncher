@@ -16,7 +16,6 @@ import javafx.stage.DirectoryChooser;
 import tylauncher.Main;
 import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Managers.ManagerFlags;
-import tylauncher.Utilites.Managers.ManagerForJSON;
 import tylauncher.Utilites.Managers.ManagerWindow;
 import tylauncher.Utilites.Settings;
 import tylauncher.Utilites.UpdaterLauncher;
@@ -85,7 +84,7 @@ public class SettingsController extends BaseController {
     @FXML
     private Button resetBtn;
 
-    private static final ManagerForJSON settingsJson = new ManagerForJSON(12);
+
 
     public static final File settingsFile = new File(Main.getLauncherDir() + File.separator + "settings.json");
 
@@ -253,6 +252,10 @@ public class SettingsController extends BaseController {
         if (X_Label.getText().isEmpty() || Y_Label.getText().isEmpty()){
             Settings.reset();
             throw new Exception("Игрики и иксы не могут быть пусты! Сбрасываю настройки");
+        }
+        if(OzuCount_Label.getText().equalsIgnoreCase("") || OzuCount_Label.getText().isEmpty()){
+            Settings.reset();
+            throw new Exception("Чел..Ты реально думаешь, что можно выставить оперативу в 0?");
         }
         Settings.setX(Integer.parseInt(X_Label.getText()));
         Settings.setY(Integer.parseInt(Y_Label.getText()));

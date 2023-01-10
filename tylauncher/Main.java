@@ -31,8 +31,8 @@ public class Main extends Application {
     public static Stage mainStage = null;
     public static final String launcher_version = "0.0";
     private static TrayIcon trayIcon;
-    private static final ManagerDirs _launcherDir = new ManagerDirs("TyPro", 1);
-    private static ManagerDirs _clientDir = new ManagerDirs("TyPro/clients/", 1);
+    private static final ManagerDirs _launcherDir = new ManagerDirs("TyPro");
+    private static ManagerDirs _clientDir = new ManagerDirs("TyPro/clients/");
 
     public static final User user = new User();
     public static File getLauncherDir() {
@@ -41,12 +41,12 @@ public class Main extends Application {
     public static File getClientDir() {
         return _clientDir.getWorkDir();
     }
-
     public static void setClientDir(File f){
-        _clientDir = new ManagerDirs(f.getAbsolutePath(), 0);
+        _clientDir.setWorkDir(f);
     }
+
     public static void resetClientDir(){
-        _clientDir = new ManagerDirs("TyPro/clients/", 1);
+        _clientDir = new ManagerDirs("TyPro/clients/");
     }
 
     public static void main(String[] args) throws IOException {

@@ -59,7 +59,10 @@ public class PlayController extends BaseController{
             UdpateProgressBar(1);
             ManagerWindow.currentController.setInfoText("Игра запущена");
         }
-        if (ManagerZip.unzipping) ManagerZip.UpdateInfo();
+        if (ManagerZip.unzipping){
+            UdpateProgressBar(1);
+            ManagerZip.UpdateInfo();
+        }
 
         //Улавливаем ивент нажатия на кнопку "Играть"
         Play_Button.setOnMouseClicked(mouseEvent -> {
