@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import tylauncher.Main;
 import tylauncher.Utilites.Managers.ManagerFlags;
 import tylauncher.Utilites.Managers.ManagerWindow;
+import tylauncher.Utilites.Utils;
 
 import static tylauncher.Controllers.AccountAuthController.accountController;
 import static tylauncher.Main.user;
@@ -45,6 +46,7 @@ public class ButtonPageController {
             switch (_buttonCount) {
                 case 1:
                     button.setOnMouseClicked(event -> {
+                        Utils.playSound("click");
                         _pressedNum = 1;
                         if(user.wasAuth){
                             ManagerWindow.OpenNew("Account.fxml", ManagerWindow.currentController.getA1());
@@ -72,18 +74,21 @@ public class ButtonPageController {
                     break;
                 case 2:
                     button.setOnMouseClicked(event -> {
+                        Utils.playSound("click");
                         _pressedNum = 2;
                         ManagerWindow.OpenNew("News.fxml", ManagerWindow.currentController.getA1());
                     });
                     break;
                 case 3:
                     button.setOnMouseClicked(event -> {
+                        Utils.playSound("click");
                         _pressedNum = 3;
                         ManagerWindow.OpenNew("Forum.fxml", ManagerWindow.currentController.getA1());
                     });
                     break;
                 case 4:
                     button.setOnMouseClicked(event -> {
+                        Utils.playSound("click");
                         _pressedNum = 4;
                         ManagerWindow.OpenNew("Message.fxml", ManagerWindow.currentController.getA1());
 
@@ -91,6 +96,7 @@ public class ButtonPageController {
                     break;
                 case 5:
                     button.setOnMouseClicked(event -> {
+                        Utils.playSound("click");
                         _pressedNum = 5;
                         ManagerWindow.OpenNew("Settings.fxml", ManagerWindow.currentController.getA1());
 
@@ -101,6 +107,7 @@ public class ButtonPageController {
                     break;
                 case 6:
                     button.setOnMouseClicked(event -> {
+                        Utils.playSound("click");
                         _pressedNum = 6;
                         ManagerWindow.OpenNew("Play.fxml", ManagerWindow.currentController.getA1());
                     });

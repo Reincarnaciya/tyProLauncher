@@ -34,9 +34,8 @@ public class User {
     }
     public boolean Auth() throws Exception {
         WebAnswer.Reset();
-        if (_login.equalsIgnoreCase("test")){
-            return true;
-        }
+        //if (_login.equalsIgnoreCase("test"))return true;
+
 
         if (_login.isEmpty() || _password.isEmpty()) throw new Exception("Логин или пароль не введены");
 
@@ -53,14 +52,11 @@ public class User {
             user = (JsonObject) JsonParser.parseString(answerFromServer.get("user").toString());
             privilege = (JsonObject) JsonParser.parseString(user.get("privilege").toString());
         }
-
-
-
-        System.err.println("------------------------JSON--------------------------" + "\n");
+        System.err.println("------------------------JSON--------------------------");
         System.err.println(answerFromServer);
         System.err.println(user);
         System.err.println(privilege);
-
+        System.err.println("------------------------JSON--------------------------");
 
         if(answerFromServer.get("type") != null) WebAnswer.setType(answerFromServer.get("type").toString());
         if(answerFromServer.get("message") != null) WebAnswer.setMessage(answerFromServer.get("message")

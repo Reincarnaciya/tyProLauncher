@@ -5,8 +5,6 @@ import tylauncher.Utilites.UserPC;
 import java.io.File;
 
 public class ManagerDirs {
-    private static final String suffix = "[ManagerLauncherDir] ";
-
     private File _workDir;
 
     public ManagerDirs(String nameDir) {

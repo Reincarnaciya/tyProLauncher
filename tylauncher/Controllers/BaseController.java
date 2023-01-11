@@ -1,5 +1,6 @@
 package tylauncher.Controllers;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -20,9 +21,11 @@ public abstract class BaseController {
      * текст ошибки или информации для вывода
      */
     public void setInfoText(String info) {
-        infoTextPane.setVisible(true);
-        infoText.setText(info);
-        ManagerAnimations.StartFadeAnim(infoTextPane);
+        Platform.runLater(()->{
+            infoTextPane.setVisible(true);
+            infoText.setText(info);
+            ManagerAnimations.StartFadeAnim(infoTextPane);
+        });
     }
 
     public AnchorPane getA1(){

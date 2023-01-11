@@ -1,6 +1,7 @@
 package tylauncher.Utilites.Managers;
 
 import tylauncher.Controllers.PlayController;
+import tylauncher.Utilites.Settings;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -67,7 +68,8 @@ public class ManagerZip {
         File file = new File(zip);
         file.delete();
         try {
-            ManagerStart.StartMinecraft("TySci_1.16.5");
+            ManagerStart starter = new ManagerStart(Settings.isAutoConnect(), Settings.getFsc(), "TySci_1.16.5");
+            starter.Start();
         } catch (Exception e) {
             unzipping = false;
             ManagerWindow.currentController.setInfoText (e.getMessage());

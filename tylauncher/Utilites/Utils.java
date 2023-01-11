@@ -1,5 +1,7 @@
 package tylauncher.Utilites;
 
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import tylauncher.Main;
 import tylauncher.Utilites.Managers.ManagerWindow;
 
@@ -7,6 +9,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;
@@ -138,5 +141,13 @@ public class Utils {
                 "                                                                                                                          \n" +
                 "                                                                                                                          \n");
         System.err.println("Now open the launcher normally :)");
+    }
+    public static void playSound(String sound){
+        new Thread(()->{
+            URL file = Main.class.getResource("assets/sounds/" + sound + ".mp3");
+            final Media media = new Media(file.toString());
+            final MediaPlayer mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.play();
+        }).start();
     }
 }

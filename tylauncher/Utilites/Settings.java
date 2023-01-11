@@ -18,10 +18,7 @@ public class Settings {
         return _ozu;
     }
 
-
-
     public static void setOzu(int ozu) throws Exception {
-
         if (Math.round((float) ozu / 512) * 512 > UserPC.getOzu()) {
             _ozu = Math.round(UserPC.getOzu() / 1536) * 512;
             throw new Exception("Попытка выставить ОЗУ больше, чем имеешь на ПК может вызвать к синему экрану\nP.s Я проверяла");
@@ -34,9 +31,9 @@ public class Settings {
     }
 
     public static void setX(int x) throws Exception {
-        if (x > UserPC._width) {
+        if (x > UserPC._width || x == 0) {
             _x = 925;
-            throw new Exception("Попытка выставить х больше, чем разрешение вашего экрана");
+            throw new Exception("Попытка выставить х больше(или 0), чем разрешение вашего экрана");
         } else _x = x;
     }
 
@@ -45,9 +42,9 @@ public class Settings {
     }
 
     public static void setY(int y) throws Exception {
-        if (y > UserPC._height) {
+        if (y > UserPC._height || y == 1) {
             _y = 530;
-            throw new Exception("Попытка выставить y больше, чем разрешение вашего экрана");
+            throw new Exception("Попытка выставить y больше(или 0), чем разрешение вашего экрана");
         } else _y = y;
     }
 
