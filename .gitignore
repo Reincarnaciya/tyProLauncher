@@ -13,13 +13,14 @@ Z2a04216
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
 *.zip
 *.tar.gz
 *.rar
+*.html
+*.jnlp
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
@@ -33,3 +34,5 @@ replay_pid*
 /tylauncher/.idea/
 /tylauncher/logs/
 /tylauncher/out/
+build/tyProLauncher.html
+build/tyProLauncher.jnlp
