@@ -16,13 +16,16 @@ import tylauncher.Utilites.Managers.ManagerFlags;
 import tylauncher.Utilites.Managers.ManagerWindow;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.EventListener;
 import java.util.Objects;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -53,54 +56,16 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws IOException {
-        System.err.println("Hello World");
-
         if(args.length > 0 && args[0].equalsIgnoreCase("love")){
             easter();
             System.exit(0);
         }
-        try {
-            if(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar").exists()){
-                Utils.DeleteFile(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar"));
-            }
-        }catch (Exception e){
-            e.printStackTrace();
+
+        if(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar").exists()){
+            Utils.DeleteFile(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar"));
         }
 
-        if(UserPC._usableDiskSpace < 1500) ManagerFlags.lowDiskSpace = true;
-
-        try {
-            Test();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-
-        File dir_logs = new File(getLauncherDir() + File.separator + "logs");
-        if (!dir_logs.exists()) dir_logs.mkdirs();
-
-        // время для логов
-        ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Europe/Moscow"));
-
-        // очищаем от говна
-        String logfile = now.toString()
-                .replace(":", "-")
-                .replace("]", "")
-                .replace("[", "")
-                .replace(".", "")
-                .replace("/", "-")
-                + ".log";
-
-        // лог файл
-        File log = new File(dir_logs + File.separator + "LogFile_" + logfile);
-        if (!log.exists()) log.createNewFile();
-
-        // запись в файл и вывод в консоль
-        PrintStream out = new PrintStream(Files.newOutputStream(log.toPath()));
-        PrintStream dual = new DualStream(System.out, out);
-        System.setOut(dual);
-        dual = new DualStream(System.err, out);
-        System.setErr(dual);
+        splitOut();
 
         try {
             SettingsController.readSettingsFromFileToSettings();
@@ -108,12 +73,8 @@ public class Main extends Application {
             System.err.println(e.getMessage());
             e.printStackTrace();
         }
-
-        CheckLogs();
         UserPC.Show();
-
         launch();
-
     }
     /**
      * полностью закрывает всё, удаляет иконку из трея.. Да блять, сам посмотри что оно делает..
@@ -143,9 +104,31 @@ public class Main extends Application {
         primaryStage.show();
         mainStage = primaryStage;
 
-        Window window = ManagerWindow.currentController.getA1().getScene().getWindow();
+        Window window = scene.getWindow();
         window.setOnCloseRequest(event -> Main.exit());
 
+        trayIconCreate(window);
+    }
+
+    private static void trayIconCreate(Window window) throws IOException, FontFormatException {
+        java.awt.Image img = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("assets/icoNewYear.png"));
+
+        trayIcon = new TrayIcon(img, "TypicalLauncher", poppupMenuCreate());
+        trayIcon.setImageAutoSize(true);
+        trayIcon.addActionListener(mouseEvent -> Platform.runLater(()->{
+            Stage st = (Stage) window;
+            st.setIconified(!st.isIconified());
+        }));
+
+        try {
+            SystemTray.getSystemTray().add(trayIcon);
+            UpdaterLauncher.checkUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private static PopupMenu poppupMenuCreate() throws IOException, FontFormatException {
         //Настройка выпоадающего списка при нажатии пкм на иконку трея
         java.awt.Font font = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, Objects.requireNonNull
                 (Main.class.getResourceAsStream("StyleSheets/Minecraft.ttf")));
@@ -163,22 +146,37 @@ public class Main extends Application {
         popupMenu.add(exit);
 
         popupMenu.setFont(font.deriveFont(14f));
-
-        java.awt.Image img = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("assets/icoNewYear.png"));
-
-        trayIcon = new TrayIcon(img, "TypicalLauncher", popupMenu);
-        trayIcon.setImageAutoSize(true);
-        trayIcon.addActionListener(mouseEvent -> Platform.runLater(()->{
-            Stage st = (Stage) window;
-            st.setIconified(!st.isIconified());
-        }));
-
-        try {
-            SystemTray.getSystemTray().add(trayIcon);
-            UpdaterLauncher.checkUpdate();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        return popupMenu;
     }
-    private static void Test() {}
+    private static File setLogs() throws IOException {
+        File dir_logs = new File(getLauncherDir() + File.separator + "logs");
+        if (!dir_logs.exists()) dir_logs.mkdirs();
+
+        // время для логов
+        ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Europe/Moscow"));
+
+        // очищаем от говна
+        String logfile = now.toString()
+                .replace(":", "-")
+                .replace("]", "")
+                .replace("[", "")
+                .replace(".", "")
+                .replace("/", "-")
+                + ".log";
+
+        // лог файл
+        File log = new File(dir_logs + File.separator + "LogFile_" + logfile);
+        if (!log.exists()) log.createNewFile();
+        CheckLogs();
+        return log;
+    }
+
+    private static void splitOut() throws IOException {
+        // запись в файл и вывод в консоль
+        PrintStream out = new PrintStream(Files.newOutputStream(setLogs().toPath()));
+        PrintStream dual = new DualStream(System.out, out);
+        System.setOut(dual);
+        dual = new DualStream(System.err, out);
+        System.setErr(dual);
+    }
 }

@@ -83,17 +83,12 @@ public class SettingsController extends BaseController {
     private CheckBox hideLauncherCheckBox;
     @FXML
     private Button resetBtn;
-
-
-
     public static final File settingsFile = new File(Main.getLauncherDir() + File.separator + "settings.json");
-
-
+    private static final int settingsCount = 7;
     private boolean reset = false;
     @FXML
     void initialize() {
         updateVisual();
-
         ManagerWindow.currentController = this;
         //все кнопки в 1 массив!
         ButtonPageController buttonPageController = new ButtonPageController();
@@ -158,26 +153,16 @@ public class SettingsController extends BaseController {
                 OzuCount_Label.setText(String.valueOf(value));
             });
         });
+
         OzuCount_Label.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue.trim().equalsIgnoreCase(String.valueOf(666))){
-                SettingsPane.setStyle("-fx-background-color:  ff0000;");
-                OzuCount_Label.setStyle("-fx-background-color: ff0000;");
-                ManagerWindow.currentController.setInfoText ("Зря..");
-                A1.getScene().setCursor(Cursor.cursor(String.valueOf(Main.class.getResource("assets/HellTyMasunya.png"))));
-                ManagerFlags.hellishTheme = true;
-            }
-            if(newValue.trim().equalsIgnoreCase("999")){
-                SettingsPane.setStyle("-fx-background-color: #363636;");
-                OzuCount_Label.setStyle("-fx-background-color: #363636;");
-                ManagerWindow.currentController.setInfoText ("Умничка :)");
-                A1.getScene().setCursor(Cursor.DEFAULT);
-                ManagerFlags.hellishTheme = false;
-            }
+            easterCheck(newValue);
             if (!newValue.matches("\\d*")) OzuCount_Label.setText(oldValue);
         });
+
         X_Label.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) X_Label.setText(oldValue);
         });
+
         Y_Label.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) Y_Label.setText(oldValue);
         });
@@ -241,12 +226,6 @@ public class SettingsController extends BaseController {
         autoConnectCheckBox.setSelected(Settings.isAutoConnect());
         pathToClientHyperLink.setText(Main.getClientDir().getAbsolutePath());
     }
-    public void setInfoText(String info) {
-        infoTextPane.setVisible(true);
-        infoText.setText(info);
-        ManagerAnimations.StartFadeAnim(infoTextPane);
-    }
-
     public void updateLogicalSettings() throws Exception {
         Settings.setFsc(Fullscrean_Checkbox.isSelected());
         if (X_Label.getText().isEmpty() || Y_Label.getText().isEmpty()){
@@ -263,7 +242,6 @@ public class SettingsController extends BaseController {
         Settings.setHide(hideLauncherCheckBox.isSelected());
         Settings.setAutoConnect(autoConnectCheckBox.isSelected());
         Main.setClientDir(new File(pathToClientHyperLink.getText()));
-
     }
     public static void writeSettingsToFile(){
         try (JsonWriter writer = new JsonWriter(new FileWriter(settingsFile))){
@@ -294,7 +272,7 @@ public class SettingsController extends BaseController {
         try(BufferedReader bfr = new BufferedReader(new FileReader(settingsFile))) {
             JsonObject settings = (JsonObject) JsonParser.parseString(bfr.readLine());
 
-            if (settings.size() != 7) {
+            if (settings.size() != settingsCount) {
                 settingsFile.delete();
                 settingsFile.createNewFile();
                 throw new Exception("Файл настроек сломался, пересоздаю.");
@@ -312,9 +290,24 @@ public class SettingsController extends BaseController {
                 settingsFile.createNewFile();
                 throw new Exception("Файл настроек сломался, пересоздаю.");
             }
-
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+    private void easterCheck(String newValue){
+        if(newValue.trim().equalsIgnoreCase(String.valueOf(666))){
+            SettingsPane.setStyle("-fx-background-color:  ff0000;");
+            OzuCount_Label.setStyle("-fx-background-color: ff0000;");
+            ManagerWindow.currentController.setInfoText ("Зря..");
+            A1.getScene().setCursor(Cursor.cursor(String.valueOf(Main.class.getResource("assets/HellTyMasunya.png"))));
+            ManagerFlags.hellishTheme = true;
+        }
+        if(newValue.trim().equalsIgnoreCase("999")){
+            SettingsPane.setStyle("-fx-background-color: #363636;");
+            OzuCount_Label.setStyle("-fx-background-color: #363636;");
+            ManagerWindow.currentController.setInfoText ("Умничка :)");
+            A1.getScene().setCursor(Cursor.DEFAULT);
+            ManagerFlags.hellishTheme = false;
         }
     }
 

@@ -11,8 +11,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import tylauncher.Main;
-import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Managers.ManagerFlags;
 import tylauncher.Utilites.Managers.ManagerWindow;
 import tylauncher.Utilites.WebAnswer;
@@ -80,12 +80,12 @@ public class AccountAuthController extends BaseController{
 
         //Выполняем в основном потоке(javafx)
         Platform.runLater(()->{
+            Window window = A1.getScene().getWindow();
             //Меняем размеры окна и текст окна
-            A1.getScene().getWindow().setWidth(800);
-            A1.getScene().getWindow().setHeight(535);
-            Stage stage = (Stage) A1.getScene().getWindow();
-            if(firstOpen) A1.getScene().getWindow().centerOnScreen();
-            firstOpen = false;
+            window.setWidth(800);
+            window.setHeight(535);
+            Stage stage = (Stage) window;
+            if(firstOpen) window.centerOnScreen();
             if(ManagerFlags.updateAvailable) stage.setTitle("Typical Launcher (Доступно обновление)");
             else stage.setTitle("Typical Launcher");
         });
@@ -99,7 +99,7 @@ public class AccountAuthController extends BaseController{
                 String password = auth.get("password").toString().replace("\"", "");
                 user.setLogin(login);
                 user.setPassword(password);
-                StartAuth();  //Отдельная функция авторизации
+                startAuth();  //Отдельная функция авторизации
             } catch (Exception e) {
                 if(!e.getMessage().contains("Сайт")){
                     ManagerWindow.currentController.setInfoText("Файл с логином и паролем поломался :(\nУдаляю..");
@@ -108,17 +108,17 @@ public class AccountAuthController extends BaseController{
                     ManagerWindow.currentController.setInfoText(e.getMessage());
                 }
                 e.printStackTrace();
-
             }
         }
+
         //Улавливаем событие нажатия на кнопку
         Auth_Button.setOnMouseClicked(mouseEvent -> {
             //Юзеру задаем логин и пароль
             user.setLogin(Login_Field.getText());
             user.setPassword(Password_Field.getText());
             try {
-                StartAuth();
-                if (AutoAuth_CheckBox.isSelected() && user.Auth()) SavePass(); //При успешной авторизации и с поставленной галочкой
+                startAuth();
+                if (AutoAuth_CheckBox.isSelected() && user.auth()) savePass(); //При успешной авторизации и с поставленной галочкой
                 // на запоминании пароля вызываем функцию сейва данных в файл и пропускаем юзера дальше в лаунчер
             } catch (Exception e) {
                 ManagerWindow.currentController.setInfoText (e.getMessage());
@@ -127,19 +127,7 @@ public class AccountAuthController extends BaseController{
         });
         //Улавливаем событие изменение чекбокса Просмотра пароля
         ShowPass_CheckBox.setOnAction(event -> {
-            if (ShowPass_CheckBox.isSelected()) {//если чекбокс нажат
-                //Костыль, да-да, по-другому не знаю как сделать
-                ShowPassText.setVisible(true);
-                //выполняем всё в мэйн потоке
-                Platform.runLater(() -> {
-                    ShowPassText.requestFocus();
-                    ShowPassText.selectEnd();
-                    ShowPassText.deselect();
-                });
-                //Меняем текст
-                ShowPassText.setText(Password_Field.getText());
-
-            } else {
+            if (!ShowPass_CheckBox.isSelected()){
                 Platform.runLater(() -> {
                     Password_Field.requestFocus();
                     Password_Field.selectEnd();
@@ -147,8 +135,20 @@ public class AccountAuthController extends BaseController{
                 });
                 Password_Field.setText(ShowPassText.getText());
                 ShowPassText.setVisible(false);
+                return;
             }
+            //Костыль, да-да, по-другому не знаю как сделать
+            ShowPassText.setVisible(true);
+            //выполняем всё в мэйн потоке
+                Platform.runLater(() -> {
+                    ShowPassText.requestFocus();
+                    ShowPassText.selectEnd();
+                    ShowPassText.deselect();
+                });
+                //Меняем текст
+                ShowPassText.setText(Password_Field.getText());
         });
+
         //Синхронизация значение текста между 2-я полями пароля и показа пароля
         ShowPassText.textProperty().addListener((observable, oldValue, newValue) -> {
             if (ShowPass_CheckBox.isSelected()) {
@@ -160,15 +160,11 @@ public class AccountAuthController extends BaseController{
             user.Reset();//Да-да
             ManagerWindow.OpenNew("Register.fxml", A1);
         });
+        firstOpen = false;
     }
 
-    public void setInfoText(String text) {
-        infoTextPane.setVisible(true);
-        infoText.setText(text);
-        ManagerAnimations.StartFadeAnim(infoTextPane);
-    }
     //Функция сейва пароля
-    void SavePass() throws Exception {
+    void savePass() throws Exception {
         if(!AuthFile.exists()) AuthFile.createNewFile();
         try(JsonWriter writer = new JsonWriter(new FileWriter(AuthFile))) {
             writer.beginObject();
@@ -180,8 +176,8 @@ public class AccountAuthController extends BaseController{
         }
     }
 
-    public void StartAuth() throws Exception {
-        if (user.Auth()) {
+    public void startAuth() throws Exception {
+        if (user.auth()) {
             //Да-да, в классе юзера уже есть функция авторизации, но тут другое, вы не понимаете!
             ManagerWindow.OpenNew("Account.fxml", A1);//пропускаем юзера дальше
             accountController.UpdateData();//Обновляем информацию об аккаунте юзера

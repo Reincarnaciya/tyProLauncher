@@ -111,7 +111,6 @@ public class ManagerWeb {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
     }
     /**
      * Возвращает ответ в виде массива, который разделяется по знакам: ",},{,],[
@@ -134,7 +133,7 @@ public class ManagerWeb {
         this._connectTimeout = 1000;
         this._url = null;
         this._requestMethod = "POST";
-        this._params = new HashMap<>();
+        this._params.clear();
     }
 
     @Override

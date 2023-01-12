@@ -16,15 +16,7 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Utils {
-    //Поиск элемента в массиве
-    public static int searchMassChar(String[] array, String whatSearch) {
-        for (int i = 0; i < array.length; i++) {
-            if (array[i].equals(whatSearch)) {
-                return i;
-            }
-        }
-        return -1;
-    }
+    private static Desktop desktop = Desktop.getDesktop();
     //unicode символы в понятные буковки
     public static String UniToText(String message) {
         if (!message.contains("\\")) return message;
@@ -53,7 +45,7 @@ public class Utils {
         }
     }
     public static void openUrl(String url) throws IOException {
-        Desktop.getDesktop().browse(URI.create(url));
+        desktop.browse(URI.create(url));
     }
     public static String bytesToString(String message){
         StringBuilder mssage = new StringBuilder();

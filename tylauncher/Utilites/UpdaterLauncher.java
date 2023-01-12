@@ -53,9 +53,9 @@ public class UpdaterLauncher {
                 HttpURLConnection updcon = (HttpURLConnection) url.openConnection();
                 System.out.println(updcon);
                 File client = new File(Main.getClientDir().getAbsolutePath() + File.separator, "TyUpdaterLauncher.jar");
-                if(client.exists()){
-                    client.delete();
-                }
+
+                if(client.exists()) client.delete();
+
                 long cll_web = updcon.getContentLength();
                 if ((client.length() != cll_web) && cll_web > 1) {
                     BufferedInputStream bis = new BufferedInputStream(updcon.getInputStream());

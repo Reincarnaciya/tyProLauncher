@@ -32,7 +32,7 @@ public class User {
         this._endDonateTime = null;
         this._image = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("assets/picked/steve.png")));
     }
-    public boolean Auth() throws Exception {
+    public boolean auth() throws Exception {
         WebAnswer.Reset();
         //if (_login.equalsIgnoreCase("test"))return true;
 

@@ -14,9 +14,10 @@ import static tylauncher.Main.user;
 public class ButtonPageController {
     private int _buttonCount = 0;
     private static int _pressedNum = 1;
-    private final ImageView[] buttonsFx = new ImageView[6];
+    //private final ImageView[] buttonsFx = new ImageView[6];
     public void addButton(ImageView button) {
-        buttonsFx[_buttonCount++] = button;
+        //buttonsFx[_buttonCount++] = button;
+        _buttonCount++;
 
         //buttonsFx[ButtonPage._amountButtons] = new ButtonPage(button);
         if (_pressedNum == _buttonCount) {
@@ -54,7 +55,7 @@ public class ButtonPageController {
                         }
                         new Thread(()->{
                             try {
-                                if (user.Auth()) {
+                                if (user.auth()) {
                                     Platform.runLater(()->{
                                         ManagerWindow.OpenNew("Account.fxml", ManagerWindow.currentController.getA1());
                                         accountController.UpdateData();
@@ -62,14 +63,11 @@ public class ButtonPageController {
                                 }else {
                                     Platform.runLater(()-> ManagerWindow.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1()));
                                 }
-
                             } catch (Exception e) {
                                 System.err.println("Except when click \"Account\": " + e.getMessage());
                                 Platform.runLater(()-> ManagerWindow.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1()));
-
                             }
                         }).start();
-
                     });
                     break;
                 case 2:

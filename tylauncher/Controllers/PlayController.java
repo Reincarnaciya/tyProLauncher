@@ -75,7 +75,7 @@ public class PlayController extends BaseController{
                 return;
             }
             try {
-                if (!user.Auth()) {
+                if (!user.auth()) {
                     ManagerWindow.currentController.setInfoText("Необходимо авторизоваться, прежде чем начать играть");
                     return;
                 }
@@ -95,6 +95,7 @@ public class PlayController extends BaseController{
                 }
             } catch (Exception e) {
                 ManagerWindow.currentController.setInfoText(e.getMessage());
+                e.printStackTrace();
                 return;
             }
             try {

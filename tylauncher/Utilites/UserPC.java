@@ -1,6 +1,7 @@
 package tylauncher.Utilites;
 
 import tylauncher.Main;
+import tylauncher.Utilites.Managers.ManagerFlags;
 
 import java.awt.*;
 import java.io.File;
@@ -37,6 +38,9 @@ public class UserPC {
         }
     }
 
+    static {
+        if(UserPC._usableDiskSpace < 1500) ManagerFlags.lowDiskSpace = true;
+    }
 
     public static final String _javaFXVersion = com.sun.javafx.runtime.VersionInfo.getVersion();
 

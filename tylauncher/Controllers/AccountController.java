@@ -55,18 +55,16 @@ public class AccountController extends BaseController{
         buttonPageController.addButton(Settings_Img);
         buttonPageController.addButton(Play_Img);
 
-        Exit_Button.setOnMouseClicked(mouseEvent -> Exit());
+        Exit_Button.setOnMouseClicked(mouseEvent -> logout());
 
         donateButton.setOnMouseClicked(event ->{
             try {
                 Utils.openUrl("https://typro.space/markup/donate.php");
             } catch (Exception e) {
-                ManagerWindow.currentController.setInfoText("Невозможно открыть ссылку:  " + e.getMessage());
+                ManagerWindow.currentController.setInfoText(String.format("Невозможно открыть ссылку:  %s", e.getMessage()));
                 e.printStackTrace();
             }
         });
-
-
     }
     //Обновление информации о юзере
     public void UpdateData() {
@@ -77,7 +75,7 @@ public class AccountController extends BaseController{
     }
 
     //Функция выхода из аккаунта
-    void Exit() {
+    void logout() {
         File f = new File(Main.getLauncherDir() + File.separator + "auth.json");//Файл настроек
         f.delete();//Удалить нахуй
         user.Reset();//Ресетнуть всё
