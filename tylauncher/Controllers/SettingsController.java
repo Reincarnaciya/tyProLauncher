@@ -18,11 +18,13 @@ import tylauncher.Utilites.Managers.ManagerAnimations;
 import tylauncher.Utilites.Managers.ManagerFlags;
 import tylauncher.Utilites.Managers.ManagerWindow;
 import tylauncher.Utilites.Settings;
+import tylauncher.Utilites.Sound;
 import tylauncher.Utilites.UpdaterLauncher;
 import tylauncher.Utilites.UserPC;
 
 import java.awt.*;
 import java.io.*;
+import java.util.Arrays;
 
 public class SettingsController extends BaseController {
     @FXML
@@ -112,16 +114,20 @@ public class SettingsController extends BaseController {
 
         resetBtn.setOnMouseClicked(event -> {
             if(!reset){
+                Sound.playSound(Sound.UNSUCCESSFUL_OPERATION);
                 ManagerWindow.currentController.setInfoText("Точно хочешь сбросить все настройки? Если да, то нажми еще раз на кнопку!");
                 reset = true;
                 return;
             }
+            ManagerWindow.currentController.unsetText();
+            Sound.playSound(Sound.SUCCESS_CLICK);
             Settings.reset();
             Main.resetClientDir();
             updateVisual();
             try {
                 updateLogicalSettings();
             } catch (Exception e) {
+                Sound.playSound(Sound.UNSUCCESSFUL_OPERATION);
                 ManagerWindow.currentController.setInfoText(e.getMessage());
                 e.printStackTrace();
             }
@@ -171,8 +177,10 @@ public class SettingsController extends BaseController {
         Save_Button.setOnMouseClicked(mouseEvent -> {
             try {
                 updateLogicalSettings();
+                Sound.playSound(Sound.SUCCESS_CLICK);
             } catch (Exception e) {
-                ManagerWindow.currentController.setInfoText(e.getMessage());
+                Sound.playSound(Sound.UNSUCCESSFUL_OPERATION);
+                ManagerWindow.currentController.setInfoText(e.getMessage().contains("input") ? "Введи нормальное значение" : e.getMessage());
                 e.printStackTrace();
                 updateVisual();
                 return;

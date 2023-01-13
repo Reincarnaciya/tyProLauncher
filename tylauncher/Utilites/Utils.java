@@ -17,6 +17,7 @@ import java.util.Objects;
 
 public class Utils {
     private static Desktop desktop = Desktop.getDesktop();
+
     //unicode символы в понятные буковки
     public static String UniToText(String message) {
         if (!message.contains("\\")) return message;
@@ -77,6 +78,8 @@ public class Utils {
         }
     }
 
+
+
     public static void easter(){
         System.err.println("\n\n\n");
         System.err.println("                   .`\":l><~<!;,^'.                                .'^,;l><>iI:\"`.                   \n" +
@@ -134,12 +137,5 @@ public class Utils {
                 "                                                                                                                          \n");
         System.err.println("Now open the launcher normally :)");
     }
-    public static void playSound(String sound){
-        new Thread(()->{
-            URL file = Main.class.getResource("assets/sounds/" + sound + ".mp3");
-            final Media media = new Media(file.toString());
-            final MediaPlayer mediaPlayer = new MediaPlayer(media);
-            mediaPlayer.play();
-        }).start();
-    }
+
 }

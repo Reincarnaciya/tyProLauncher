@@ -27,7 +27,9 @@ public abstract class BaseController {
             ManagerAnimations.StartFadeAnim(infoTextPane);
         });
     }
-
+    public void unsetText(){
+        infoTextPane.setVisible(false);
+    }
     public AnchorPane getA1(){
         return this.A1;
     }
