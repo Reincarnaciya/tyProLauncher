@@ -1,4 +1,4 @@
-package tylauncher.Utilites.Managers;
+package tylauncher.Managers;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
@@ -12,6 +12,10 @@ public class ManagerAnimations {
         FadeTransition fade = new FadeTransition(Duration.seconds(5), node);
         fade.setFromValue(1);
         fade.setToValue(0);
+        fade.setOnFinished(event -> {
+            node.setVisible(false);
+            node.setDisable(true);
+        });
         return fade;
     }
     public static void StartFadeAnim(Node whatToFade) {

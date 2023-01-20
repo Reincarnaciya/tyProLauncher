@@ -8,8 +8,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import tylauncher.Utilites.Managers.ManagerFlags;
-import tylauncher.Utilites.Managers.ManagerWindow;
+import tylauncher.Managers.ManagerFlags;
+import tylauncher.Managers.ManagerWindow;
 import tylauncher.Utilites.UpdaterLauncher;
 
 public class UpdaterController extends BaseController{

@@ -14,9 +14,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import tylauncher.Main;
-import tylauncher.Utilites.Managers.ManagerAnimations;
-import tylauncher.Utilites.Managers.ManagerFlags;
-import tylauncher.Utilites.Managers.ManagerWindow;
+import tylauncher.Managers.ManagerFlags;
+import tylauncher.Managers.ManagerWindow;
 import tylauncher.Utilites.Settings;
 import tylauncher.Utilites.Sound;
 import tylauncher.Utilites.UpdaterLauncher;
@@ -24,7 +23,6 @@ import tylauncher.Utilites.UserPC;
 
 import java.awt.*;
 import java.io.*;
-import java.util.Arrays;
 
 public class SettingsController extends BaseController {
     @FXML
@@ -114,6 +112,7 @@ public class SettingsController extends BaseController {
             Sound.playSound(Sound.SUCCESS_CLICK);
             Settings.reset();
             Main.resetClientDir();
+            pathToClientHyperLink.setText(Main.getClientDir().getAbsolutePath());
 
             try {
                 updateLogicalSettings();

@@ -54,6 +54,7 @@
         </ImageView>
     </VBox>
     <Pane fx:id="SettingsPane" layoutX="93.0" prefHeight="500.0" prefWidth="712.0" style="-fx-background-color: #363636;">
+      <Hyperlink fx:id="pathToClientHyperLink" layoutX="33.0" layoutY="262.0" prefWidth="500.0" text="asdasd" wrapText="true" />
         <VBox alignment="CENTER" layoutX="9.0" layoutY="81.0" prefHeight="97.0" prefWidth="165.0" style="-fx-spacing: 5;">
             <HBox alignment="CENTER" prefHeight="27.0" prefWidth="275.0" style="-fx-spacing: 10;">
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="X" />
@@ -68,12 +69,6 @@
         <Button fx:id="Save_Button" layoutX="559.0" layoutY="320.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="сохранить" />
         <Slider fx:id="Ozu_Slider" blockIncrement="512.0" layoutX="33.0" layoutY="20.0" majorTickUnit="512.0" max="4096" min="1024" minorTickCount="0" prefHeight="37.0" prefWidth="538.0" showTickLabels="true" showTickMarks="true" />
         <TextField fx:id="OzuCount_Label" layoutX="583.0" layoutY="15.0" prefHeight="25.0" prefWidth="87.0" style="-fx-background-color: #363636; -fx-text-fill: white;" />
-        <Pane fx:id="infoTextPane" layoutX="161.0" layoutY="344.0" prefHeight="148.0" prefWidth="404.0" style="-fx-border-color: white; -fx-background-color: black;" visible="false">
-            <Text fx:id="infoText" layoutX="133.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-origin: center;" text="ты не должен этого видетьты не должен этого видетьты не должен этого видетьты не должен этого видетьты не должен этого видетьты не должен этого видетьты не должен этого видеть" textAlignment="CENTER" wrappingWidth="260.0" />
-            <ImageView fitHeight="130.0" fitWidth="125.0" layoutX="8.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../assets/TyMasunya.png" />
-            </ImageView>
-        </Pane>
         <Text fx:id="OzuCount_Text" layoutX="663.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mb" />
       <Pane fx:id="updateAvailablePane" disable="true" layoutX="14.0" layoutY="250.0" prefHeight="140.0" prefWidth="200.0" visible="false">
          <children>
@@ -87,10 +82,15 @@
          </children>
       </Pane>
       <CheckBox fx:id="hideLauncherCheckBox" layoutX="460.0" layoutY="104.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="302.0" text="Сворачивать лаунчер" />
-      <Button fx:id="openLauncherDirButton" layoutX="152.0" layoutY="131.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="260.0" style="-fx-wrap-text: 160;" text="открыть папку лаунчера" />
+      <Button fx:id="openLauncherDirButton" layoutX="152.0" layoutY="131.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="290.0" style="-fx-wrap-text: 160;" text="открыть папку лаунчера" />
       <CheckBox fx:id="autoConnectCheckBox" layoutX="460.0" layoutY="135.0" mnemonicParsing="false" text="Авто-вход на сервер" />
-      <Hyperlink fx:id="pathToClientHyperLink" layoutX="33.0" layoutY="262.0" prefHeight="23.0" prefWidth="515.0" style="-fx-wrap-text: 500;" text="Hyperlink" />
       <Button fx:id="resetBtn" layoutX="559.0" layoutY="354.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="136.0" text="сбросить" />
       <Text layoutX="33.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Путь до клиента:" />
+        <Pane fx:id="infoTextPane" layoutX="161.0" layoutY="344.0" prefHeight="148.0" prefWidth="404.0" style="-fx-border-color: white; -fx-background-color: black;" visible="false">
+            <Text fx:id="infoText" layoutX="133.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-origin: center;" text="ты не должен этого видетьты не должен этого видетьты не должен этого видетьты не должен этого видетьты не должен этого видетьты не должен этого видетьты не должен этого видеть" textAlignment="CENTER" wrappingWidth="260.0" />
+            <ImageView fitHeight="130.0" fitWidth="125.0" layoutX="8.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../assets/TyMasunya.png" />
+            </ImageView>
+        </Pane>
     </Pane>
 </AnchorPane>

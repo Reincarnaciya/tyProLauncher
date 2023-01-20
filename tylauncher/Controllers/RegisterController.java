@@ -12,9 +12,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import tylauncher.Utilites.Managers.ManagerAnimations;
-import tylauncher.Utilites.Managers.ManagerWeb;
-import tylauncher.Utilites.Managers.ManagerWindow;
+import tylauncher.Managers.ManagerWeb;
+import tylauncher.Managers.ManagerWindow;
 import tylauncher.Utilites.WebAnswer;
 
 import java.util.Arrays;

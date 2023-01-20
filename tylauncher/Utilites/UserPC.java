@@ -1,7 +1,7 @@
 package tylauncher.Utilites;
 
 import tylauncher.Main;
-import tylauncher.Utilites.Managers.ManagerFlags;
+import tylauncher.Managers.ManagerFlags;
 
 import java.awt.*;
 import java.io.File;

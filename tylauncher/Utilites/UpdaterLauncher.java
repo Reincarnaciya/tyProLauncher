@@ -5,9 +5,9 @@ import javafx.fxml.FXML;
 import javafx.stage.Window;
 import tylauncher.Controllers.UpdaterController;
 import tylauncher.Main;
-import tylauncher.Utilites.Managers.ManagerFlags;
-import tylauncher.Utilites.Managers.ManagerWeb;
-import tylauncher.Utilites.Managers.ManagerWindow;
+import tylauncher.Managers.ManagerFlags;
+import tylauncher.Managers.ManagerWeb;
+import tylauncher.Managers.ManagerWindow;
 
 import java.io.BufferedInputStream;
 import java.io.File;

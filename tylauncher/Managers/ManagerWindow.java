@@ -1,4 +1,4 @@
-package tylauncher.Utilites.Managers;
+package tylauncher.Managers;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;

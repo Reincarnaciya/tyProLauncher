@@ -13,8 +13,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import tylauncher.Main;
-import tylauncher.Utilites.Managers.ManagerFlags;
-import tylauncher.Utilites.Managers.ManagerWindow;
+import tylauncher.Managers.ManagerFlags;
+import tylauncher.Managers.ManagerWindow;
 import tylauncher.Utilites.WebAnswer;
 
 import java.io.BufferedReader;

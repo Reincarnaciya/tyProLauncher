@@ -11,26 +11,16 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import tylauncher.Controllers.SettingsController;
 import tylauncher.Utilites.*;
-import tylauncher.Utilites.Managers.ManagerDirs;
-import tylauncher.Utilites.Managers.ManagerFlags;
-import tylauncher.Utilites.Managers.ManagerWindow;
+import tylauncher.Managers.ManagerDirs;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.lang.reflect.Field;
-import java.math.BigInteger;
 import java.nio.file.Files;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.EventListener;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
 
 import static tylauncher.Utilites.Utils.CheckLogs;
 import static tylauncher.Utilites.Utils.easter;
@@ -53,7 +43,8 @@ public class Main extends Application {
         _clientDir.setWorkDir(f);
     }
     public static void resetClientDir(){
-        _clientDir = new ManagerDirs("TyPro/clients/");
+        _clientDir = new ManagerDirs(String.format("TyPro%sclients%s", File.separator, File.separator));
+        System.err.println(_clientDir.toString());
     }
     public static void main(String[] args) throws IOException {
 

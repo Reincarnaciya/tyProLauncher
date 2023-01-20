@@ -1,4 +1,4 @@
-package tylauncher.Utilites.Managers;
+package tylauncher.Managers;
 
 import tylauncher.Utilites.UserPC;
 
@@ -6,6 +6,13 @@ import java.io.File;
 
 public class ManagerDirs {
     private File _workDir;
+
+    @Override
+    public String toString() {
+        return "ManagerDirs{" +
+                "_workDir=" + _workDir +
+                '}';
+    }
 
     public ManagerDirs(String nameDir) {
         String userHome = System.getProperty("user.home", ".");

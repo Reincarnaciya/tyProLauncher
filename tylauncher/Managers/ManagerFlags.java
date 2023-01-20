@@ -1,4 +1,4 @@
-package tylauncher.Utilites.Managers;
+package tylauncher.Managers;
 
 public class ManagerFlags {
     public static boolean lowDiskSpace = false;

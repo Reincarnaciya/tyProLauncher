@@ -4,10 +4,9 @@ import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import tylauncher.Main;
-import tylauncher.Utilites.Managers.ManagerFlags;
-import tylauncher.Utilites.Managers.ManagerWindow;
+import tylauncher.Managers.ManagerFlags;
+import tylauncher.Managers.ManagerWindow;
 import tylauncher.Utilites.Sound;
-import tylauncher.Utilites.Utils;
 
 import static tylauncher.Controllers.AccountAuthController.accountController;
 import static tylauncher.Main.user;

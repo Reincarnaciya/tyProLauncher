@@ -1,4 +1,4 @@
-package tylauncher.Utilites.Managers;
+package tylauncher.Managers;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

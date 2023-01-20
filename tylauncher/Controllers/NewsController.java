@@ -7,7 +7,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
-import tylauncher.Utilites.Managers.ManagerWindow;
 import tylauncher.Utilites.Utils;
 
 import java.io.IOException;

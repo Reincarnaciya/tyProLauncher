@@ -6,8 +6,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import tylauncher.Utilites.Managers.ManagerAnimations;
-import tylauncher.Utilites.Managers.ManagerWindow;
+import tylauncher.Managers.ManagerAnimations;
+import tylauncher.Managers.ManagerWindow;
 
 public abstract class BaseController {
     @FXML
@@ -48,6 +48,7 @@ public abstract class BaseController {
      */
     public void setInfoText(String info) {
         Platform.runLater(()->{
+            infoTextPane.setDisable(false);
             infoTextPane.setVisible(true);
             infoText.setText(info);
             ManagerAnimations.StartFadeAnim(infoTextPane);

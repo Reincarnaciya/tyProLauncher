@@ -1,4 +1,4 @@
-package tylauncher.Utilites.Managers;
+package tylauncher.Managers;
 
 import tylauncher.Controllers.PlayController;
 import tylauncher.Utilites.Settings;

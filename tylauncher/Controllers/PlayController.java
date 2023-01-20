@@ -9,7 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
 import tylauncher.Utilites.HashCodeCheck;
-import tylauncher.Utilites.Managers.*;
+import tylauncher.Managers.*;
 import tylauncher.Utilites.Settings;
 import tylauncher.Utilites.Utils;
 

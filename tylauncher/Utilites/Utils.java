@@ -1,15 +1,12 @@
 package tylauncher.Utilites;
 
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import tylauncher.Main;
-import tylauncher.Utilites.Managers.ManagerWindow;
+import tylauncher.Managers.ManagerWindow;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;

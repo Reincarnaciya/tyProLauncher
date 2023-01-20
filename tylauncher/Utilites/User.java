@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javafx.scene.image.Image;
 import tylauncher.Main;
-import tylauncher.Utilites.Managers.ManagerWeb;
+import tylauncher.Managers.ManagerWeb;
 
 import java.util.Arrays;
 import java.util.Objects;

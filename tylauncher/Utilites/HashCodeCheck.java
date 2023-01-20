@@ -1,7 +1,7 @@
 package tylauncher.Utilites;
 
 import tylauncher.Main;
-import tylauncher.Utilites.Managers.ManagerWeb;
+import tylauncher.Managers.ManagerWeb;
 
 import java.io.File;
 import java.io.FileInputStream;

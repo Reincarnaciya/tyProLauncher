@@ -1,4 +1,4 @@
-package tylauncher.Utilites.Managers;
+package tylauncher.Managers;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
