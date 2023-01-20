@@ -44,16 +44,8 @@ public class AccountController extends BaseController{
     void initialize() {
         //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
         AccountAuthController.accountController = this;
-        ManagerWindow.currentController = this;
-        //все кнопки в 1 массив!
-        ButtonPageController buttonPageController = new ButtonPageController();
 
-        buttonPageController.addButton(Account_Img);
-        buttonPageController.addButton(News_Img);
-        buttonPageController.addButton(Forum_Img);
-        buttonPageController.addButton(Message_Img);
-        buttonPageController.addButton(Settings_Img);
-        buttonPageController.addButton(Play_Img);
+        initPageButton();
 
         Exit_Button.setOnMouseClicked(mouseEvent -> logout());
 

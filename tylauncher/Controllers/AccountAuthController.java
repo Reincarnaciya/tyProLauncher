@@ -66,17 +66,7 @@ public class AccountAuthController extends BaseController{
     //Инициализация сцены
     @FXML
     void initialize() {
-
-        //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
-        ManagerWindow.currentController = this;
-        //все кнопки в 1 массив!
-        ButtonPageController buttonPageController = new ButtonPageController();
-        buttonPageController.addButton(Account_Img);
-        buttonPageController.addButton(News_Img);
-        buttonPageController.addButton(Forum_Img);
-        buttonPageController.addButton(Message_Img);
-        buttonPageController.addButton(Settings_Img);
-        buttonPageController.addButton(Play_Img);
+        initPageButton();
 
         //Выполняем в основном потоке(javafx)
         Platform.runLater(()->{
@@ -189,6 +179,7 @@ public class AccountAuthController extends BaseController{
             ManagerWindow.currentController.setInfoText (WebAnswer.getMessage());
         }
     }
+
 }
 
 

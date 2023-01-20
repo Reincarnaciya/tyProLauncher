@@ -39,15 +39,9 @@ public class UpdaterController extends BaseController{
         UpdaterLauncher.updaterController = this;
         ManagerWindow.currentController = this;
 
-        LaterButton.setOnMouseClicked(mouseEvent -> {
-            System.err.println("Later");
-            ManagerWindow.OpenNew("AccountAuth.fxml", A1);
-        });
-        UpdateButton.setOnMouseClicked(mouseEvent ->{
-            System.err.println("Update");
-            UpdaterLauncher.UpdateLauncher();
-            ManagerFlags.updateAvailable = false;
-        });
+        LaterButton.setOnMouseClicked(mouseEvent -> ManagerWindow.OpenNew("AccountAuth.fxml", A1));
+
+        UpdateButton.setOnMouseClicked(mouseEvent -> UpdaterLauncher.UpdateLauncher());
     }
     public void setUpdateAvailable(boolean available){
         ManagerFlags.updateAvailable = available;

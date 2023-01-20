@@ -11,12 +11,9 @@ import java.util.stream.IntStream;
 public class ManagerWeb {
     private URL _url;
     private String _requestMethod;
-    private Map<String, String> _params;
+    private final Map<String, String> _params;
     private final String _requestType;
-    private String[] _answerMass;
     private String _answer;
-    private String _fullAnswer;
-
     private int _connectTimeout;
     public ManagerWeb(String type){
         this._connectTimeout = 3000;
@@ -56,22 +53,12 @@ public class ManagerWeb {
                 bufferedReader = new BufferedReader(inputStreamReader);
                 String line;
 
-                this._fullAnswer = bufferedReader.readLine();
-                if(this._fullAnswer.contains("<br />") || this._fullAnswer.trim().contains("Error:")) {
-                    System.err.println(this._fullAnswer);
+                this._answer = bufferedReader.readLine();
+                if(this._answer.contains("<br />") || this._answer.trim().contains("Error:")) {
+                    System.err.println(this._answer);
                     while ((line = bufferedReader.readLine()) != null) System.err.println(line);
                     throw new Exception("Сайт лёг. Обратитесь к администрации!(Больше информации в логах)");
                 }
-                line = _fullAnswer
-                        .replace("\"", "")
-                        .replace("}", "")
-                        .replace("{", "")
-                        .replace("]", "")
-                        .replace("[", "");
-
-
-                this._answer = line;
-                this._answerMass = line.split("[,:]");
             }else throw new Exception("Ошибка сервера(" + httpURLConnection.getResponseCode() + "). Обратитесь к администрации!");
         }
     }
@@ -112,17 +99,8 @@ public class ManagerWeb {
             e.printStackTrace();
         }
     }
-    /**
-     * Возвращает ответ в виде массива, который разделяется по знакам: ",},{,],[
-     */
-    public String[] getAnswerMass(){
-        return this._answerMass;
-    }
-    public String getAnswer(){
-        return this._answer;
-    }
     public String getFullAnswer(){
-        return _fullAnswer;
+        return _answer;
     }
 
     public void setConnectTimeout(int millsec){
@@ -130,7 +108,7 @@ public class ManagerWeb {
     }
 
     public void reset(){
-        this._connectTimeout = 1000;
+        this._connectTimeout = 3000;
         this._url = null;
         this._requestMethod = "POST";
         this._params.clear();
@@ -143,9 +121,7 @@ public class ManagerWeb {
                 ", _requestMethod='" + _requestMethod + '\'' +
                 ", _params=" + _params +
                 ", _requestType='" + _requestType + '\'' +
-                ", _answerMass=" + Arrays.toString(_answerMass) +
                 ", _answer='" + _answer + '\'' +
-                ", _fullAnswer='" + _fullAnswer + '\'' +
                 ", _connectTimeout=" + _connectTimeout +
                 '}';
     }

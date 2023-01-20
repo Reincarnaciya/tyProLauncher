@@ -12,10 +12,9 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class HashCodeCheck {
-    private static String hash = "";
+    private static final StringBuilder hash = new StringBuilder(" ");
 
     public static void Hash(String checkingFile) throws IOException, NoSuchAlgorithmException {
-        hash = "";
         File dirClient = new File(checkingFile);
         if (!dirClient.exists()) return;
         File[] files;
@@ -37,7 +36,7 @@ public class HashCodeCheck {
             if (fileEntry.isDirectory()) {
                 ListFilesForFolder(fileEntry);
             } else {
-                hash += Checksum(fileEntry.getAbsolutePath());
+                hash.append(Checksum(fileEntry.getAbsolutePath()));
             }
         }
     }
@@ -62,7 +61,7 @@ public class HashCodeCheck {
 
     public static String getHash(String checkingFile) throws IOException, NoSuchAlgorithmException {
         Hash(checkingFile);
-        return hash;
+        return hash.toString();
     }
 
     public static boolean CheckHashWithServer() throws Exception {
@@ -76,17 +75,17 @@ public class HashCodeCheck {
         hashManagerWeb.request();
 
         System.err.println("-----------------------------HASH-----------------------------");
-        System.err.println(hashManagerWeb.getAnswer());
+        System.err.println(hashManagerWeb.getFullAnswer());
         System.err.println(hash);
         System.err.println("-----------------------------HASH-----------------------------");
 
-        switch (hashManagerWeb.getAnswer()){
+        switch (hashManagerWeb.getFullAnswer()){
             case "0":
                 return false;
             case "1":
                 return true;
             default:
-                throw new Exception("Сервер лёг. Обратитесь к администрации!\n"  + hashManagerWeb.getAnswer());
+                throw new Exception("Сервер лёг. Обратитесь к администрации!\n"  + hashManagerWeb.getFullAnswer());
         }
     }
 }

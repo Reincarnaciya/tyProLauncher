@@ -35,15 +35,7 @@ public class NewsController extends BaseController{
     private int clicks = 0;
     @FXML
     void initialize() {
-        ManagerWindow.currentController = this;
-        //все кнопки в 1 массив!
-        ButtonPageController buttonPageController = new ButtonPageController();
-        buttonPageController.addButton(Account_Img);
-        buttonPageController.addButton(News_Img);
-        buttonPageController.addButton(Forum_Img);
-        buttonPageController.addButton(Message_Img);
-        buttonPageController.addButton(Settings_Img);
-        buttonPageController.addButton(Play_Img);
+        initPageButton();
         //Можно я не буду комментировать всё, что ниже..Это же элементарно, Ватсон..
         inDevText.setOnMouseEntered(mouseEvent ->{
             if (clicks >= 1){

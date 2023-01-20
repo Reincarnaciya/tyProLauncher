@@ -78,10 +78,9 @@ public class ManagerZip {
 
     }
 
+
     public static void UpdateInfo() {
-        if (!unzipping) {
-            return;
-        }
+        if (!unzipping) return;
         playController.UdpateProgressBar(1);
         new Thread(() -> {
             switch (fileName) {

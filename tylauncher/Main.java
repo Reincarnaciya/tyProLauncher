@@ -27,6 +27,8 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.EventListener;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
@@ -50,20 +52,19 @@ public class Main extends Application {
     public static void setClientDir(File f){
         _clientDir.setWorkDir(f);
     }
-
     public static void resetClientDir(){
         _clientDir = new ManagerDirs("TyPro/clients/");
     }
-
     public static void main(String[] args) throws IOException {
+
         if(args.length > 0 && args[0].equalsIgnoreCase("love")){
             easter();
             System.exit(0);
         }
 
-        if(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar").exists()){
+        if(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar").exists())
             Utils.DeleteFile(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar"));
-        }
+
 
         splitOut();
 
@@ -108,6 +109,8 @@ public class Main extends Application {
         window.setOnCloseRequest(event -> Main.exit());
 
         trayIconCreate(window);
+
+        UpdaterLauncher.checkUpdate();
     }
 
     private static void trayIconCreate(Window window) throws IOException, FontFormatException {
@@ -120,11 +123,11 @@ public class Main extends Application {
             st.setIconified(!st.isIconified());
         }));
 
+
         try {
             SystemTray.getSystemTray().add(trayIcon);
-            UpdaterLauncher.checkUpdate();
-        }catch (Exception e){
-            e.printStackTrace();
+        } catch (AWTException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -174,8 +177,10 @@ public class Main extends Application {
     private static void splitOut() throws IOException {
         // запись в файл и вывод в консоль
         PrintStream out = new PrintStream(Files.newOutputStream(setLogs().toPath()));
+
         PrintStream dual = new DualStream(System.out, out);
         System.setOut(dual);
+
         dual = new DualStream(System.err, out);
         System.setErr(dual);
     }

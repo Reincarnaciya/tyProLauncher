@@ -29,7 +29,7 @@ public class ManagerStart {
         this.version = version;
     }
 
-    public void Start()throws Exception {
+    public void Start() throws Exception {
         getUserHashes();
         new Thread(() -> {
             try {
@@ -60,16 +60,14 @@ public class ManagerStart {
     private void getUserHashes() throws Exception{
         ManagerWeb userHashes = new ManagerWeb("userHashes");
         JsonObject requestObject = (JsonObject) JsonParser.parseString(userHashes.getFullAnswer());
-        if(requestObject.get("status") == null || requestObject.get("status").toString().equalsIgnoreCase("false")){
+        if(requestObject.get("status") == null || requestObject.get("status").toString().equalsIgnoreCase("false"))
             throw new Exception("Не удалось получить сессию. Обратитесь к администрации");
-        }
+
         requestObject = (JsonObject) requestObject.get("hashes");
-        try {
-            this.UUID = String.valueOf(requestObject.get("uuid"));
-            this.accessToken = String.valueOf(requestObject.get("accessToken"));
-        }catch (Exception e){
-            throw new Exception(e);
-        }
+
+        this.UUID = String.valueOf(requestObject.get("uuid"));
+        this.accessToken = String.valueOf(requestObject.get("accessToken"));
+
 
     }
     private String getStartString(){

@@ -67,16 +67,7 @@ public class RegisterController extends BaseController{
 
     @FXML
     void initialize() {
-        ManagerWindow.currentController = this;
-        // ЛОГИКА КАК В АВТОРИЗАЦИИ, Я ЗАЕБАЛСЯ КОММЕНТАРИИ ОДНОТИПНЫЕ ПИСАТЬ
-        ButtonPageController buttonPageController = new ButtonPageController();
-
-        buttonPageController.addButton(Account_Img);
-        buttonPageController.addButton(News_Img);
-        buttonPageController.addButton(Forum_Img);
-        buttonPageController.addButton(Message_Img);
-        buttonPageController.addButton(Settings_Img);
-        buttonPageController.addButton(Play_Img);
+        initPageButton();
 
         Cancel_Button.setOnMouseClicked(mouseEvent -> ManagerWindow.OpenNew("AccountAuth.fxml", A1));
         ShowPass_CheckBox.setOnAction(event -> {

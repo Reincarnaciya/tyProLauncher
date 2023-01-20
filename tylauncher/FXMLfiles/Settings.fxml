@@ -54,7 +54,7 @@
         </ImageView>
     </VBox>
     <Pane fx:id="SettingsPane" layoutX="93.0" prefHeight="500.0" prefWidth="712.0" style="-fx-background-color: #363636;">
-        <VBox alignment="CENTER" layoutX="7.0" layoutY="66.0" prefHeight="97.0" prefWidth="165.0" style="-fx-spacing: 5;">
+        <VBox alignment="CENTER" layoutX="9.0" layoutY="81.0" prefHeight="97.0" prefWidth="165.0" style="-fx-spacing: 5;">
             <HBox alignment="CENTER" prefHeight="27.0" prefWidth="275.0" style="-fx-spacing: 10;">
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="X" />
                 <TextField fx:id="X_Label" prefHeight="25.0" prefWidth="87.0" text="800" />
@@ -64,8 +64,8 @@
                 <TextField fx:id="Y_Label" prefHeight="25.0" prefWidth="87.0" text="600" />
             </HBox>
         </VBox>
-        <CheckBox fx:id="Fullscrean_Checkbox" layoutX="155.0" layoutY="87.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="225.0" text="Полноэкранный режим" />
-        <Button fx:id="Save_Button" layoutX="155.0" layoutY="116.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="сохранить" />
+        <CheckBox fx:id="Fullscrean_Checkbox" layoutX="152.0" layoutY="104.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="225.0" text="Полноэкранный режим" />
+        <Button fx:id="Save_Button" layoutX="559.0" layoutY="320.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="сохранить" />
         <Slider fx:id="Ozu_Slider" blockIncrement="512.0" layoutX="33.0" layoutY="20.0" majorTickUnit="512.0" max="4096" min="1024" minorTickCount="0" prefHeight="37.0" prefWidth="538.0" showTickLabels="true" showTickMarks="true" />
         <TextField fx:id="OzuCount_Label" layoutX="583.0" layoutY="15.0" prefHeight="25.0" prefWidth="87.0" style="-fx-background-color: #363636; -fx-text-fill: white;" />
         <Pane fx:id="infoTextPane" layoutX="161.0" layoutY="344.0" prefHeight="148.0" prefWidth="404.0" style="-fx-border-color: white; -fx-background-color: black;" visible="false">
@@ -86,11 +86,11 @@
             <Text fx:id="warningText" layoutX="22.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-origin: center; -fx-text-alignment: center;" text="Обнаружено критически малое количество свободного места на диске.бнаружено критически малое количество свободного места на диске." textAlignment="CENTER" wrappingWidth="404.0" />
          </children>
       </Pane>
-      <CheckBox fx:id="hideLauncherCheckBox" layoutX="380.0" layoutY="88.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="302.0" text="Сворачивать лаунчер при запуске" />
-      <Button fx:id="openLauncherDirButton" layoutX="380.0" layoutY="117.0" mnemonicParsing="false" text="открыть папку лаунчера" />
-      <CheckBox fx:id="autoConnectCheckBox" layoutX="33.0" layoutY="155.0" mnemonicParsing="false" text="Автоматичеси заходить на сервер" />
-      <Hyperlink fx:id="pathToClientHyperLink" layoutX="33.0" layoutY="215.0" text="Hyperlink" />
-      <Button fx:id="resetBtn" layoutX="583.0" layoutY="160.0" mnemonicParsing="false" text="сбросить" />
-      <Text layoutX="33.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Путь до клиента:" />
+      <CheckBox fx:id="hideLauncherCheckBox" layoutX="460.0" layoutY="104.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="302.0" text="Сворачивать лаунчер" />
+      <Button fx:id="openLauncherDirButton" layoutX="152.0" layoutY="131.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="260.0" style="-fx-wrap-text: 160;" text="открыть папку лаунчера" />
+      <CheckBox fx:id="autoConnectCheckBox" layoutX="460.0" layoutY="135.0" mnemonicParsing="false" text="Авто-вход на сервер" />
+      <Hyperlink fx:id="pathToClientHyperLink" layoutX="33.0" layoutY="262.0" prefHeight="23.0" prefWidth="515.0" style="-fx-wrap-text: 500;" text="Hyperlink" />
+      <Button fx:id="resetBtn" layoutX="559.0" layoutY="354.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="136.0" text="сбросить" />
+      <Text layoutX="33.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Путь до клиента:" />
     </Pane>
 </AnchorPane>

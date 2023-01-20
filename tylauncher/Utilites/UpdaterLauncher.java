@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.stage.Window;
 import tylauncher.Controllers.UpdaterController;
 import tylauncher.Main;
+import tylauncher.Utilites.Managers.ManagerFlags;
 import tylauncher.Utilites.Managers.ManagerWeb;
 import tylauncher.Utilites.Managers.ManagerWindow;
 
@@ -29,7 +30,7 @@ public class UpdaterLauncher {
                         Main.launcher_version));
                 updateManagerWeb.request();
 
-                String line = updateManagerWeb.getAnswer();
+                String line = updateManagerWeb.getFullAnswer();
                 System.err.println(line);
                 if(!line.equalsIgnoreCase("1")){
                     Platform.runLater(()-> updaterController.setUpdateAvailable(true));
@@ -69,6 +70,7 @@ public class UpdaterLauncher {
                     fw.close();
 
                     Runtime.getRuntime().exec(new String[]{"cmd","/c","start","cmd","/k","java -jar \"" + client.getAbsolutePath() + "\" " + "\"" + UserPC._pathToLauncher + "\"" +  " " + "\"" + Main.getLauncherDir().getAbsolutePath()+ "\""});
+                    ManagerFlags.updateAvailable = false;
                     Main.exit();
                 }
             } catch (IOException e) {

@@ -42,17 +42,11 @@ public class PlayController extends BaseController{
     @FXML
     void initialize() {
         ManagerZip.playController = this;
-        ManagerWindow.currentController = this;
         ManagerStart.playController = this;
         ManagerUpdate.playController = this;
-        //все кнопки в 1 массив!
-        ButtonPageController buttonPageController = new ButtonPageController();
-        buttonPageController.addButton(Account_Img);
-        buttonPageController.addButton(News_Img);
-        buttonPageController.addButton(Forum_Img);
-        buttonPageController.addButton(Message_Img);
-        buttonPageController.addButton(Settings_Img);
-        buttonPageController.addButton(Play_Img);
+
+        initPageButton();
+
         //Проверка на статус.. Чего? а, на статус того, что вообще происходит в лаунчере
         if (ManagerFlags.gameIsStart){
             UdpateProgressBar(1);

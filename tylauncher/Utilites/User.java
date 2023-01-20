@@ -48,9 +48,11 @@ public class User {
         JsonObject user = null;
         JsonObject privilege = null;
 
+
+
         if (answerFromServer.get("user") != null){
             user = (JsonObject) JsonParser.parseString(answerFromServer.get("user").toString());
-            privilege = (JsonObject) JsonParser.parseString(user.get("privilege").toString());
+            privilege = (JsonObject) JsonParser.parseString(user.get("ty_privilege").toString());
         }
         System.err.println("------------------------JSON--------------------------");
         System.err.println(answerFromServer);
@@ -71,20 +73,18 @@ public class User {
             if(user.get("email") != null) _email = user.get("email").toString().replace("\"", "");
             if(user.get("ty_coin") != null) _balance = "Баланс: " + user.get("ty_coin").toString();
 
-            if(privilege.get("privilegeDonate") != null) _group = "Роль: " + privilege.get("privilegeDonate").toString()
+
+            if(!privilege.get("donate").isJsonNull()) _group = "Роль: " + privilege.get("donate").toString()
                     .replaceFirst("\"", "[").replaceFirst("\"", "]");
 
-            if (!privilege.get("privilegeAdmin").toString().contains("null")){
-                _group = _group + " [" + privilege.get("privilegeAdmin").toString().replace("\"", "") + "]";
+            if (!privilege.get("admin").toString().contains("null")){
+                _group = _group + " [" + privilege.get("admin").toString().replace("\"", "") + "]";
             }
-            if(!privilege.get("end_time").toString().contains("null")){
+            if(!privilege.get("end_time").toString().contains("null") && !privilege.get("privilegeAdmin").isJsonNull()){
                 _endDonateTime = privilege.get("end_time").toString();
                 _group = _group + "\n\nИстекает: " + _endDonateTime.replace("\"", "");
             }
         }
-
-
-
 
         System.err.println("-----------------------------AUTH-INFO-----------------------------");
         System.err.println(authManagerWeb);

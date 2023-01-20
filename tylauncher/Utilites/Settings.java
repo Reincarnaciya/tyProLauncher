@@ -23,6 +23,10 @@ public class Settings {
             _ozu = Math.round(UserPC.getOzu() / 1536) * 512;
             throw new Exception("Попытка выставить ОЗУ больше, чем имеешь на ПК может вызвать к синему экрану\nP.s Я проверяла");
         }
+        if (Math.round((float) ozu / 512) * 512 < 1024) {
+            _ozu = Math.round(UserPC.getOzu() / 1536) * 512;
+            throw new Exception("Попытка выставить ОЗУ меньше, чем 1024 может вызвать к синему экрану\nP.s Я проверяла");
+        }
         _ozu = Math.round((float) ozu / 512) * 512;
     }
 

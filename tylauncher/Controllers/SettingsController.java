@@ -91,16 +91,7 @@ public class SettingsController extends BaseController {
     @FXML
     void initialize() {
         updateVisual();
-        ManagerWindow.currentController = this;
-        //все кнопки в 1 массив!
-        ButtonPageController buttonPageController = new ButtonPageController();
-
-        buttonPageController.addButton(Account_Img);
-        buttonPageController.addButton(News_Img);
-        buttonPageController.addButton(Forum_Img);
-        buttonPageController.addButton(Message_Img);
-        buttonPageController.addButton(Settings_Img);
-        buttonPageController.addButton(Play_Img);
+        initPageButton();
         //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
         if(ManagerFlags.hellishTheme) SettingsPane.setStyle("-fx-background-color:  ff0000;");//Пасхалка тип
 
@@ -123,7 +114,7 @@ public class SettingsController extends BaseController {
             Sound.playSound(Sound.SUCCESS_CLICK);
             Settings.reset();
             Main.resetClientDir();
-            updateVisual();
+
             try {
                 updateLogicalSettings();
             } catch (Exception e) {
@@ -131,6 +122,7 @@ public class SettingsController extends BaseController {
                 ManagerWindow.currentController.setInfoText(e.getMessage());
                 e.printStackTrace();
             }
+            updateVisual();
             writeSettingsToFile();
             reset = false;
         });
@@ -185,6 +177,7 @@ public class SettingsController extends BaseController {
                 updateVisual();
                 return;
             }
+            updateVisual();
             writeSettingsToFile();
 
             ManagerWindow.currentController.setInfoText("Настройки успешно сохранены :)");
