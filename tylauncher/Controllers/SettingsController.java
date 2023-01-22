@@ -83,8 +83,10 @@ public class SettingsController extends BaseController {
     private CheckBox hideLauncherCheckBox;
     @FXML
     private Button resetBtn;
+    @FXML
+    private CheckBox soundMute;
     public static final File settingsFile = new File(Main.getLauncherDir() + File.separator + "settings.json");
-    private static final int settingsCount = 7;
+    private static final int settingsCount = 8;
     private boolean reset = false;
     @FXML
     void initialize() {
@@ -225,6 +227,7 @@ public class SettingsController extends BaseController {
         hideLauncherCheckBox.setSelected(Settings.getHide());
         autoConnectCheckBox.setSelected(Settings.isAutoConnect());
         pathToClientHyperLink.setText(Main.getClientDir().getAbsolutePath());
+        soundMute.setSelected(Settings.isMuted());
     }
     public void updateLogicalSettings() throws Exception {
         Settings.setFsc(Fullscrean_Checkbox.isSelected());
@@ -241,6 +244,7 @@ public class SettingsController extends BaseController {
         Settings.setOzu(Integer.parseInt(OzuCount_Label.getText()));
         Settings.setHide(hideLauncherCheckBox.isSelected());
         Settings.setAutoConnect(autoConnectCheckBox.isSelected());
+        Settings.setMuted(soundMute.isSelected());
         Main.setClientDir(new File(pathToClientHyperLink.getText()));
     }
     public static void writeSettingsToFile(){
@@ -258,6 +262,8 @@ public class SettingsController extends BaseController {
             writer.value(Settings.getHide());
             writer.name("autoConnect");
             writer.value(Settings.isAutoConnect());
+            writer.name("muted");
+            writer.value(Settings.isMuted());
             writer.name("clientDir");
             writer.value(Main.getClientDir().getAbsolutePath());
             writer.endObject();
@@ -284,6 +290,7 @@ public class SettingsController extends BaseController {
                 Settings.setFsc(Boolean.parseBoolean(settings.get("fsc").toString()));
                 Settings.setHide(Boolean.parseBoolean(settings.get("hide").toString()));
                 Settings.setAutoConnect(Boolean.parseBoolean(settings.get("autoConnect").toString()));
+                Settings.setMuted(Boolean.parseBoolean(settings.get("muted").toString()));
                 Main.setClientDir(new File(settings.get("clientDir").toString().replace("\"", "")));
             }catch (Exception e){
                 settingsFile.delete();

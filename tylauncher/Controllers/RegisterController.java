@@ -4,18 +4,17 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import tylauncher.Managers.ManagerWeb;
 import tylauncher.Managers.ManagerWindow;
+import tylauncher.Utilites.Utils;
 import tylauncher.Utilites.WebAnswer;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 public class RegisterController extends BaseController{
@@ -62,7 +61,10 @@ public class RegisterController extends BaseController{
     private Text PasswordText;
     @FXML
     private Text LoginText;
-
+    @FXML
+    private CheckBox acceptCheckBox;
+    @FXML
+    private Hyperlink eula;
 
     @FXML
     void initialize() {
@@ -91,6 +93,15 @@ public class RegisterController extends BaseController{
 
         CheckPass_Text.textProperty().addListener((observable, oldValue, newValue) -> {
             if (ShowPass_CheckBox.isSelected()) Password_Field.setText(newValue);
+        });
+
+        eula.setOnMouseClicked(event -> {
+            eula.setVisited(false);
+            try {
+                Utils.openUrl("https://typro.space//markup/regulations/UserAgreement.php");
+            } catch (IOException e) {
+                ManagerWindow.currentController.setInfoText("Не удалось открыть ссылку. У Вас есть браузер на пк?..");
+            }
         });
 
         Register_Button.setOnMouseClicked(mouseEvent -> {
@@ -122,8 +133,8 @@ public class RegisterController extends BaseController{
         WebAnswer.Reset();
         ManagerWeb regUser = new ManagerWeb("regUser");
         regUser.setUrl("https://typro.space/vendor/launcher/register_launcher.php");
-        regUser.putAllParams(Arrays.asList("login", "password", "email", "repeat_password"),
-                Arrays.asList(username, password, email, repeatPassword));
+        regUser.putAllParams(Arrays.asList("login", "password", "email", "repeat_password", "accepted"),
+                Arrays.asList(username, password, email, repeatPassword, acceptCheckBox.isSelected() ? "true" : "false"));
         regUser.request();
 
         JsonObject object = (JsonObject) JsonParser.parseString(regUser.getFullAnswer());

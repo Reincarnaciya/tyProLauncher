@@ -13,6 +13,7 @@ public class Sound {
 
 
     public static void playSound(String sound){
+        if(Settings.isMuted()) return;
         new Thread(()->{
             URL file = Main.class.getResource(String.format("assets/sounds/%s", sound));
             Media media = new Media(file.toString());

@@ -92,5 +92,6 @@
                 <Image url="@../assets/TyMasunya.png" />
             </ImageView>
         </Pane>
+      <CheckBox fx:id="soundMute" layoutX="39.0" layoutY="170.0" mnemonicParsing="false" text="Выкл. звук эффекты" />
     </Pane>
 </AnchorPane>

@@ -7,12 +7,23 @@ public class Settings {
     private static boolean _fsc = false;
     private static boolean hide = false;
     private static boolean autoConnect = false;
+    private static boolean muted = false;
+
+    public static boolean isMuted() {
+        return muted;
+    }
+
+    public static void setMuted(boolean muted) {
+        Settings.muted = muted;
+    }
+
     public static void setHide(boolean bool){
         hide = bool;
     }
     public static boolean getHide(){
         return hide;
     }
+
 
     public static int getOzu() {
         return _ozu;
