@@ -59,6 +59,10 @@ public class ManagerStart {
     }
     private void getUserHashes() throws Exception{
         ManagerWeb userHashes = new ManagerWeb("userHashes");
+
+        userHashes.setUrl("https://typro.space/vendor/launcher/login_get_hash_launcher.php");
+        userHashes.request();
+
         JsonObject requestObject = (JsonObject) JsonParser.parseString(userHashes.getFullAnswer());
         if(requestObject.get("status") == null || requestObject.get("status").toString().equalsIgnoreCase("false"))
             throw new Exception("Не удалось получить сессию. Обратитесь к администрации");
