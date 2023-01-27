@@ -10,6 +10,7 @@ import tylauncher.Utilites.UserPC;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.Arrays;
 
 import static tylauncher.Main.user;
 public class ManagerStart {
@@ -61,6 +62,7 @@ public class ManagerStart {
         ManagerWeb userHashes = new ManagerWeb("userHashes");
 
         userHashes.setUrl("https://typro.space/vendor/launcher/login_get_hash_launcher.php");
+        userHashes.putAllParams(Arrays.asList("login", "password"), Arrays.asList(user.GetLogin(), user.GetPassword()));
         userHashes.request();
 
         JsonObject requestObject = (JsonObject) JsonParser.parseString(userHashes.getFullAnswer());
@@ -106,7 +108,7 @@ public class ManagerStart {
                     + pathToVersion + "\\libraries\\net\\sf\\jopt-simple\\jopt-simple\\5.0.4\\jopt-simple-5.0.4.jar;"
                     + pathToVersion + "\\libraries\\org\\spongepowered\\mixin\\0.8.4\\mixin-0.8.4.jar;"
                     + pathToVersion + "\\libraries\\net\\minecraftforge\\nashorn-core-compat\\15.1.1.1\\nashorn-core-compat-15.1.1.1.jar;"
-                    + pathToVersion + "\\libraries\\org\\tlauncher\\patchy\\1.3.9\\patchy-1.3.9.jar;"
+                    //+ pathToVersion + "\\libraries\\org\\tlauncher\\patchy\\1.3.9\\patchy-1.3.9.jar;"
                     + pathToVersion + "\\libraries\\oshi-project\\oshi-core\\1.1\\oshi-core-1.1.jar;"
                     + pathToVersion + "\\libraries\\net\\java\\dev\\jna\\jna\\4.4.0\\jna-4.4.0.jar;"
                     + pathToVersion + "\\libraries\\net\\java\\dev\\jna\\platform\\3.4.0\\platform-3.4.0.jar;"

@@ -18,8 +18,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
+import java.security.NoSuchAlgorithmException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.Objects;
 
 import static tylauncher.Utilites.Utils.CheckLogs;
@@ -31,6 +33,8 @@ public class Main extends Application {
     private static TrayIcon trayIcon;
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyPro");
     private static ManagerDirs _clientDir = new ManagerDirs("TyPro/clients/");
+
+
 
     public static final User user = new User();
     public static File getLauncherDir() {
@@ -44,9 +48,10 @@ public class Main extends Application {
     }
     public static void resetClientDir(){
         _clientDir = new ManagerDirs(String.format("TyPro%sclients%s", File.separator, File.separator));
-        System.err.println(_clientDir.toString());
+        System.err.println(_clientDir);
     }
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
+        System.err.println(HashCodeCheck.getHash("C:\\Users\\RC\\Desktop\\Client(server)\\.minecraft"));
 
         if(args.length > 0 && args[0].equalsIgnoreCase("love")){
             easter();
@@ -121,7 +126,6 @@ public class Main extends Application {
             throw new RuntimeException(e);
         }
     }
-
     private static PopupMenu poppupMenuCreate() throws IOException, FontFormatException {
         //Настройка выпоадающего списка при нажатии пкм на иконку трея
         java.awt.Font font = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, Objects.requireNonNull

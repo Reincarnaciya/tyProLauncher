@@ -12,9 +12,9 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class HashCodeCheck {
-    private static final StringBuilder hash = new StringBuilder(" ");
+    private static final StringBuilder hash = new StringBuilder();
 
-    public static void Hash(String checkingFile) throws IOException, NoSuchAlgorithmException {
+    private static void Hash(String checkingFile) throws IOException, NoSuchAlgorithmException {
         File dirClient = new File(checkingFile);
         if (!dirClient.exists()) return;
         File[] files;
@@ -41,7 +41,7 @@ public class HashCodeCheck {
         }
     }
 
-    public static String Checksum(String fileName) throws IOException, NoSuchAlgorithmException {
+    private static String Checksum(String fileName) throws IOException, NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("MD5");
         FileInputStream fis = new FileInputStream(fileName);
         byte[] dataBytes = new byte[1024];
@@ -59,13 +59,12 @@ public class HashCodeCheck {
         return sb.toString();
     }
 
-    public static String getHash(String checkingFile) throws IOException, NoSuchAlgorithmException {
-        Hash(checkingFile);
+    public static String getHash(String checkingFileOrDir) throws IOException, NoSuchAlgorithmException {
+        Hash(checkingFileOrDir);
         return hash.toString();
     }
 
     public static boolean CheckHashWithServer() throws Exception {
-        //getHash(Main.getClientDir() + File.separator + "TySci_1.16.5"
         String hash = getHash(Main.getClientDir() + File.separator + "TySci_1.16.5");
 
         ManagerWeb hashManagerWeb = new ManagerWeb("hashCodeCheck");
@@ -79,13 +78,13 @@ public class HashCodeCheck {
         System.err.println(hash);
         System.err.println("-----------------------------HASH-----------------------------");
 
-        switch (hashManagerWeb.getFullAnswer()){
+        switch (hashManagerWeb.getFullAnswer()) {
             case "0":
                 return false;
             case "1":
                 return true;
             default:
-                throw new Exception("Сервер лёг. Обратитесь к администрации!\n"  + hashManagerWeb.getFullAnswer());
+                throw new Exception(String.format("Сервер лёг. Обратитесь к администрации!\n%s", hashManagerWeb.getFullAnswer()));
         }
     }
 }

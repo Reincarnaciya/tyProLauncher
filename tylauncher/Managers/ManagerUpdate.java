@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.SocketException;
 import java.net.URL;
 
 public class ManagerUpdate {
@@ -62,11 +63,15 @@ public class ManagerUpdate {
                         UpdateInfo();
                     }
                     fw.close();
+                    bis.close();
+
+                    updcon.disconnect();
+
                     downloading = false;
                     ManagerZip.Unzip(Main.getClientDir().getAbsolutePath() + File.separator + "client1165.zip", Main.getClientDir().getAbsolutePath() + File.separator + version + File.separator);
                 }
 
-            } catch (java.net.SocketException e){
+            } catch (SocketException e){
                 playController.setInfoText("Соединение прервано, пробую повторить закачку.." + e.getMessage());
                 DownloadUpdate(version, urld);
             } catch (IOException e) {

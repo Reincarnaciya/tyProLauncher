@@ -5,6 +5,7 @@ import tylauncher.Utilites.Settings;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -34,9 +35,14 @@ public class ManagerZip {
             UpdateInfo();
             return;
         }
+        System.err.println("=========================UNZIPPING=========================");
+        System.err.println(String.format("ZIP = %s, pathToOut = %s", zip, pathToOut));
         unzipping = true;
-        try (ZipInputStream zis = new ZipInputStream(Files.newInputStream(Paths.get(zip)))) {
+        try{
+            ZipInputStream zis = new ZipInputStream(Files.newInputStream(Paths.get(zip)));
+            System.err.println(zis);
             ZipEntry entry = zis.getNextEntry();
+            System.err.println(entry);
             String[] name;
             while (entry != null) {
                 name = entry.getName().split("/");
@@ -47,9 +53,9 @@ public class ManagerZip {
                     file.mkdirs();
                 } else {
                     File parent = file.getParentFile();
-                    if (!parent.exists()) {
-                        parent.mkdirs();
-                    }
+
+                    if (!parent.exists()) parent.mkdirs();
+
                     try (BufferedOutputStream bos = new BufferedOutputStream(Files.newOutputStream(file.toPath()))) {
                         int bufferSize = Math.toIntExact(entry.getSize());
                         byte[] buffer = new byte[bufferSize > 0 ? bufferSize : 1];
@@ -63,18 +69,24 @@ public class ManagerZip {
             }
             ManagerWindow.currentController.setInfoText("Готово! Масюня желает Вам приятной игры!");
             zis.closeEntry();
+            zis.close();
             unzipping = false;
-        }
-        File file = new File(zip);
-        file.delete();
-        try {
-            ManagerStart starter = new ManagerStart(Settings.isAutoConnect(), Settings.getFsc(), "TySci_1.16.5");
-            starter.Start();
-        } catch (Exception e) {
-            unzipping = false;
-            ManagerWindow.currentController.setInfoText (e.getMessage());
+
+            File file = new File(zip);
+            file.delete();
+
+            try {
+                ManagerStart starter = new ManagerStart(Settings.isAutoConnect(), Settings.getFsc(), "TySci_1.16.5");
+                starter.Start();
+            } catch (Exception e) {
+                unzipping = false;
+                ManagerWindow.currentController.setInfoText (e.getMessage());
+                e.printStackTrace();
+            }
+        }catch (Exception e){
             e.printStackTrace();
         }
+
 
     }
 

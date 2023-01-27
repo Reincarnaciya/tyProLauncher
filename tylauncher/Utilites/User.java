@@ -37,7 +37,7 @@ public class User {
         //if (_login.equalsIgnoreCase("test"))return true;
 
 
-        if (_login.isEmpty() || _password.isEmpty()) throw new Exception("Логин или пароль не введены");
+        //if (_login.isEmpty() || _password.isEmpty()) throw new Exception("Логин или пароль не введены");
 
         ManagerWeb authManagerWeb = new ManagerWeb("auth");
         authManagerWeb.setUrl("https://typro.space/vendor/launcher/login_launcher.php");
