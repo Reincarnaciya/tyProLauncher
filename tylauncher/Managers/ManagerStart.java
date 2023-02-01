@@ -23,27 +23,35 @@ public class ManagerStart {
     private String fullScrean;
     private final String version;
 
+    private final String pathToVersion;
+
     public ManagerStart(boolean autoConnect, boolean fullScrean, String version) {
         if(autoConnect) this.autoConnect = "--server ip29.ip-146-59-75.eu --port 25574";
         if(!fullScrean) this.size = String.format(" --width %s --height %s", Settings.getX(), Settings.getY());
         else this.fullScrean = "--fullscreen";
+        pathToVersion =  Main.getClientDir().toString() + File.separator + version;
         this.version = version;
     }
 
     public void Start() throws Exception {
-        getUserHashes();
+        createUserHashes();
         new Thread(() -> {
             try {
+                System.err.printf("================STARTUP[%s]SETTINGS================\n%s%n", this.version, Settings.show());
                 Runtime runtime = Runtime.getRuntime();
                 Process p1;
                 if(!UserPC._os.contains("win")){
                     throw new Exception("Работает только на винде. сорри");
                 }
-                p1 = runtime.exec(getStartString());
+
+                String start = getStartString();
+                System.err.printf("================STARTUP[%s]STRING================\n%s%n", this.version, start);
+                p1 = runtime.exec(start);
 
                 InputStream is = p1.getInputStream();
 
                 ManagerFlags.gameIsStart = true;
+                ManagerWindow.currentController.setInfoText("Игра запущена");
                 int i;
                 while ((i = is.read()) != -1) {
                     System.out.print((char) i);
@@ -58,7 +66,7 @@ public class ManagerStart {
             }
         }).start();
     }
-    private void getUserHashes() throws Exception{
+    private void createUserHashes() throws Exception{
         ManagerWeb userHashes = new ManagerWeb("userHashes");
 
         userHashes.setUrl("https://typro.space/vendor/launcher/login_get_hash_launcher.php");
@@ -73,11 +81,8 @@ public class ManagerStart {
 
         this.UUID = String.valueOf(requestObject.get("uuid"));
         this.accessToken = String.valueOf(requestObject.get("accessToken"));
-
-
     }
     private String getStartString(){
-        String pathToVersion = Main.getClientDir().toString() + File.separator + this.version;
         if (UserPC._os.contains("win")){
             return pathToVersion + "\\runtime\\jre-legacy\\windows\\jre-legacy\\bin\\javaw.exe"
                     + " -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump -Xss1M "
@@ -108,7 +113,6 @@ public class ManagerStart {
                     + pathToVersion + "\\libraries\\net\\sf\\jopt-simple\\jopt-simple\\5.0.4\\jopt-simple-5.0.4.jar;"
                     + pathToVersion + "\\libraries\\org\\spongepowered\\mixin\\0.8.4\\mixin-0.8.4.jar;"
                     + pathToVersion + "\\libraries\\net\\minecraftforge\\nashorn-core-compat\\15.1.1.1\\nashorn-core-compat-15.1.1.1.jar;"
-                    //+ pathToVersion + "\\libraries\\org\\tlauncher\\patchy\\1.3.9\\patchy-1.3.9.jar;"
                     + pathToVersion + "\\libraries\\oshi-project\\oshi-core\\1.1\\oshi-core-1.1.jar;"
                     + pathToVersion + "\\libraries\\net\\java\\dev\\jna\\jna\\4.4.0\\jna-4.4.0.jar;"
                     + pathToVersion + "\\libraries\\net\\java\\dev\\jna\\platform\\3.4.0\\platform-3.4.0.jar;"
@@ -147,6 +151,7 @@ public class ManagerStart {
                     + " --add-exports=jdk.naming.dns/com.sun.jndi.dns=java.naming"
                     + " --add-opens=java.base/java.util.jar=ALL-UNNAMED"
                     + " -Xmx" + Settings.getOzu() + "M "
+                    + " -Xms" + (Settings.getOzu()-512) + "M "
                     + "-XX:+UnlockExperimentalVMOptions "
                     + "-XX:+UseG1GC "
                     + "-XX:G1NewSizePercent=20 "

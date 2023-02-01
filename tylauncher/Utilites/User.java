@@ -153,6 +153,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "_email='" + _email + '\'' + ", _id=" + _id + ", _password='" + _password + '\'' + ", _login='" + _login + '\'' + ", _session='" + _session + '\'' + ", _balance='" + _balance + '\'' + ", _group='" + _group + '\'' + ", _image=" + _image.toString() + '}';
+        return "User{" + "_email='" + _email + '\'' + ", _id=" + _id + ", _password='sex(не увидишь ты пароля в логах, гений)" + '\'' + ", _login='" + _login + '\'' + ", _session='" + _session + '\'' + ", _balance='" + _balance + '\'' + ", _group='" + _group + '\'' + ", _image=" + _image.toString() + '}';
     }
 }

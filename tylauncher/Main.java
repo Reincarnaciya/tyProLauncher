@@ -17,11 +17,13 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.security.NoSuchAlgorithmException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import static tylauncher.Utilites.Utils.CheckLogs;
@@ -33,8 +35,6 @@ public class Main extends Application {
     private static TrayIcon trayIcon;
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyPro");
     private static ManagerDirs _clientDir = new ManagerDirs("TyPro/clients/");
-
-
 
     public static final User user = new User();
     public static File getLauncherDir() {
@@ -51,8 +51,12 @@ public class Main extends Application {
         System.err.println(_clientDir);
     }
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
-        System.err.println(HashCodeCheck.getHash("C:\\Users\\RC\\Desktop\\Client(server)\\.minecraft"));
 
+        //HashCodeCheck hs = new HashCodeCheck(Lists.skippingFiles, Lists.skippingDirictories, Lists.allowedFiles, "TySCi");
+        //System.err.println(hs.calculateHashes("C:\\Users\\RC\\AppData\\Roaming\\.TyPro\\clients\\TySCi"));
+
+
+        //System.   err.println(HashCodeCheck.getHash("C:\\Users\\RC\\Desktop\\Client(server)\\.minecraft"));
         if(args.length > 0 && args[0].equalsIgnoreCase("love")){
             easter();
             System.exit(0);
@@ -60,7 +64,6 @@ public class Main extends Application {
 
         if(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar").exists())
             Utils.DeleteFile(new File(getClientDir() + File.separator + "TyUpdaterLauncher.jar"));
-
 
         splitOut();
 

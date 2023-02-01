@@ -10,6 +10,7 @@ import javafx.scene.text.Text;
 import tylauncher.Main;
 import tylauncher.Utilites.HashCodeCheck;
 import tylauncher.Managers.*;
+import tylauncher.Utilites.Lists;
 import tylauncher.Utilites.Settings;
 import tylauncher.Utilites.Utils;
 
@@ -79,7 +80,8 @@ public class PlayController extends BaseController{
                 return;
             }
             try {
-                if (!HashCodeCheck.CheckHashWithServer()) {
+                HashCodeCheck hashCodeCheck = new HashCodeCheck(Lists.skippingFiles, Lists.skippingDirictories,Lists.allowedFiles,"TySci_1.16.5");
+                if (!hashCodeCheck.CalcAndCheckWithServer(Main.getClientDir() + File.separator + "TySci_1.16.5")) {
                     if (new File(Main.getClientDir() + File.separator + "TySci_1.16.5").exists())
                         Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "TySci_1.16.5"));
                     if (new File(Main.getClientDir() + File.separator + "client1165.zip").exists())
@@ -107,7 +109,6 @@ public class PlayController extends BaseController{
             Play_Button.setVisible(false);
             Progressbar_Text.setText(text);
         });
-
     }
 
     public void PlayButtonEnabled(boolean bool) {

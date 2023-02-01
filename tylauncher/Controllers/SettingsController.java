@@ -2,6 +2,7 @@ package tylauncher.Controllers;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonWriter;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -276,11 +277,18 @@ public class SettingsController extends BaseController {
 
     public static void readSettingsFromFileToSettings() throws Exception{
         try(BufferedReader bfr = new BufferedReader(new FileReader(settingsFile))) {
-            JsonObject settings = (JsonObject) JsonParser.parseString(bfr.readLine());
+            JsonObject settings;
+
+            try {
+                settings = (JsonObject) JsonParser.parseString(bfr.readLine());
+            }catch (JsonSyntaxException e){
+                repairSettings();
+                throw new Exception("Файл настроек сломался, пересоздаю.");
+            }
+
 
             if (settings.size() != settingsCount) {
-                settingsFile.delete();
-                settingsFile.createNewFile();
+                repairSettings();
                 throw new Exception("Файл настроек сломался, пересоздаю.");
             }
             try {
@@ -293,14 +301,26 @@ public class SettingsController extends BaseController {
                 Settings.setMuted(Boolean.parseBoolean(settings.get("muted").toString()));
                 Main.setClientDir(new File(settings.get("clientDir").toString().replace("\"", "")));
             }catch (Exception e){
-                settingsFile.delete();
-                settingsFile.createNewFile();
+                repairSettings();
                 throw new Exception("Файл настроек сломался, пересоздаю.");
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        }catch (IOException e){
+            repairSettings();
+            throw new Exception("Файл настроек сломался, пересоздаю.");
         }
     }
+    private static void repairSettings(){
+        try {
+            settingsFile.delete();
+            settingsFile.createNewFile();
+            writeSettingsToFile();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+
+    }
+
     private void easterCheck(String newValue){
         if(newValue.trim().equalsIgnoreCase(String.valueOf(666))){
             SettingsPane.setStyle("-fx-background-color:  ff0000;");

@@ -66,6 +66,8 @@ public class RegisterController extends BaseController{
     @FXML
     private Hyperlink eula;
 
+
+
     @FXML
     void initialize() {
         initPageButton();
@@ -128,13 +130,12 @@ public class RegisterController extends BaseController{
 
         });
     }
-
     private boolean regUser(String username, String password, String repeatPassword, String email) throws Exception {
         WebAnswer.Reset();
         ManagerWeb regUser = new ManagerWeb("regUser");
-        regUser.setUrl("https://typro.space/vendor/launcher/register_launcher.php");
-        regUser.putAllParams(Arrays.asList("login", "password", "email", "repeat_password", "accepted"),
-                Arrays.asList(username, password, email, repeatPassword, acceptCheckBox.isSelected() ? "true" : "false"));
+        regUser.setUrl("https://typro.space/vendor/login/signup.php");//typro.space/vendor/launcher/register_launcher.php
+        regUser.putAllParams(Arrays.asList("login", "password", "email", "repeat_password", "agreement"),
+                Arrays.asList(username, password, email, repeatPassword, acceptCheckBox.isSelected() ? "checked" : "unchecked"));
         regUser.request();
 
         JsonObject object = (JsonObject) JsonParser.parseString(regUser.getFullAnswer());

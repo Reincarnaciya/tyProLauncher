@@ -4,87 +4,103 @@ import tylauncher.Main;
 import tylauncher.Managers.ManagerWeb;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class HashCodeCheck {
-    private static final StringBuilder hash = new StringBuilder();
+    private static final String[] skipFiles = {"saves","servers.dat", "shaderpacks", "META-INF", "fonts", };
+    private static final String[] checkFolders = {"runtime", "versions"};
+    private final MessageDigest messageDigest;
+    private final List<String> ignoredFiles;
+    private final List<Path> ignoredDirectories;
 
-    private static void Hash(String checkingFile) throws IOException, NoSuchAlgorithmException {
-        File dirClient = new File(checkingFile);
-        if (!dirClient.exists()) return;
-        File[] files;
-        files = dirClient.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                switch (file.getName()) {
-                    case "runtime":
-                    case "versions":
-                        ListFilesForFolder(file);
-                        break;
-                }
-            }
-        }
+    List<Path> allowedFiles;
+
+    public HashCodeCheck(List<String> ignoredFiles, List<String> ignoredDirectories, List<String> whatToCheck, String nameDir) throws NoSuchAlgorithmException {
+        this.ignoredFiles = ignoredFiles;
+        this.ignoredDirectories = new ArrayList<>();
+        this.allowedFiles = new ArrayList<>();
+        for(String str : whatToCheck)
+            this.allowedFiles.add(Paths.get(Main.getClientDir().getAbsolutePath() + File.separator + nameDir + File.separator + str));
+
+        for (String s : ignoredDirectories)
+            this.ignoredDirectories.add(Paths.get(Main.getClientDir().getAbsolutePath() + File.separator + nameDir + File.separator + s));
+
+        messageDigest = MessageDigest.getInstance("SHA-256");
     }
 
-    private static void ListFilesForFolder(final File folder) throws IOException, NoSuchAlgorithmException {
-        for (final File fileEntry : Objects.requireNonNull(folder.listFiles())) {
-            if (fileEntry.isDirectory()) {
-                ListFilesForFolder(fileEntry);
-            } else {
-                hash.append(Checksum(fileEntry.getAbsolutePath()));
-            }
-        }
-    }
 
-    private static String Checksum(String fileName) throws IOException, NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        FileInputStream fis = new FileInputStream(fileName);
-        byte[] dataBytes = new byte[1024];
-        int nread;
-        while ((nread = fis.read(dataBytes)) != -1) {
-            md.update(dataBytes, 0, nread);
-        }
-        byte[] mdbytes = md.digest();
-        //байты в хексы ебат
+
+
+    public String calculateHashes(String directoryPath) throws IOException {
+        System.err.println("directoryPath = " + directoryPath);
+        System.err.println(this);
+        if (!new File(directoryPath).exists()) return "";
+        List<Path> files = Files.walk(new File(directoryPath).toPath())
+                .filter(path -> Files.isRegularFile(path)
+                        && ignoredDirectories.stream().noneMatch(path::startsWith)
+                        && allowedFiles.stream().anyMatch(path::startsWith))
+                .collect(Collectors.toList());
+
         StringBuilder sb = new StringBuilder();
-        for (byte mdbyte : mdbytes) {
-            sb.append(Integer.toString((mdbyte & 0xff) + 0x100, 16).substring(1));
+        for (Path file1 : files) {
+            if (ignoredFiles.contains(file1.getFileName().toString())) {
+                continue;
+            }
+            System.err.println("FileToHex = " + file1.getFileName());
+            messageDigest.reset();
+            byte[] hash = messageDigest.digest(Files.readAllBytes(file1));
+            sb.append(toHexString(hash));
         }
-        fis.close();
         return sb.toString();
     }
 
-    public static String getHash(String checkingFileOrDir) throws IOException, NoSuchAlgorithmException {
-        Hash(checkingFileOrDir);
-        return hash.toString();
-    }
+    public boolean CalcAndCheckWithServer(String directoryPath) throws Exception {
+        String hash = calculateHashes(directoryPath);
 
-    public static boolean CheckHashWithServer() throws Exception {
-        String hash = getHash(Main.getClientDir() + File.separator + "TySci_1.16.5");
 
-        ManagerWeb hashManagerWeb = new ManagerWeb("hashCodeCheck");
-        hashManagerWeb.setUrl("https://typro.space/vendor/server/check_hash_client.php");
-        hashManagerWeb.putAllParams(Arrays.asList("mod", "hash"), Arrays.asList("TY_SCI", hash));
-        hashManagerWeb.setConnectTimeout(2000);
-        hashManagerWeb.request();
+        ManagerWeb hashManager = new ManagerWeb("hashRequest");
+        hashManager.setUrl("https://typro.space/vendor/server/check_hash_client.php");
+        hashManager.putAllParams(Arrays.asList("mod", "hash"), Arrays.asList("TY_SCI", hash));
+        hashManager.request();
 
         System.err.println("-----------------------------HASH-----------------------------");
-        System.err.println(hashManagerWeb.getFullAnswer());
+        System.err.println(hashManager.getFullAnswer());
         System.err.println(hash);
         System.err.println("-----------------------------HASH-----------------------------");
 
-        switch (hashManagerWeb.getFullAnswer()) {
+        switch (hashManager.getFullAnswer()) {
             case "0":
                 return false;
             case "1":
                 return true;
             default:
-                throw new Exception(String.format("Сервер лёг. Обратитесь к администрации!\n%s", hashManagerWeb.getFullAnswer()));
+                throw new Exception(String.format("Сервер лёг. Обратитесь к администрации!\n%s", hashManager.getFullAnswer()));
         }
+    }
+
+    private static String toHexString(byte[] hash) {
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : hash) {
+            hexString.append(String.format("%02x", b));
+        }
+        return hexString.toString();
+    }
+    @Override
+    public String toString() {
+        return "HashCodeCheck{" +
+                "messageDigest=" + messageDigest +
+                ", ignoredFiles=" + ignoredFiles +
+                ", ignoredDirectories=" + ignoredDirectories +
+                ", allowedFiles=" + allowedFiles +
+                '}';
     }
 }

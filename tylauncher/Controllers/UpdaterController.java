@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -13,6 +14,8 @@ import tylauncher.Managers.ManagerWindow;
 import tylauncher.Utilites.UpdaterLauncher;
 
 public class UpdaterController extends BaseController{
+
+
     @FXML
     private ProgressIndicator IndicatorUpdater;
 
@@ -55,6 +58,8 @@ public class UpdaterController extends BaseController{
             UpdateOrNoPane.setDisable(false);
         }
     }
+    @Override
+    void initPageButton(){System.err.println("nothing to init");}
     @Override
     public void setInfoText(String info){
         TextUpdater.setText(info);
