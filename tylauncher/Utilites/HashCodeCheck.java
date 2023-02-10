@@ -16,8 +16,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class HashCodeCheck {
-    private static final String[] skipFiles = {"saves","servers.dat", "shaderpacks", "META-INF", "fonts", };
-    private static final String[] checkFolders = {"runtime", "versions"};
     private final MessageDigest messageDigest;
     private final List<String> ignoredFiles;
     private final List<Path> ignoredDirectories;
@@ -31,12 +29,28 @@ public class HashCodeCheck {
         for(String str : whatToCheck)
             this.allowedFiles.add(Paths.get(Main.getClientDir().getAbsolutePath() + File.separator + nameDir + File.separator + str));
 
-        for (String s : ignoredDirectories)
-            this.ignoredDirectories.add(Paths.get(Main.getClientDir().getAbsolutePath() + File.separator + nameDir + File.separator + s));
+        System.err.println(ignoredDirectories);
+
+        if(ignoredDirectories != null) {
+            for (String s : ignoredDirectories)
+                this.ignoredDirectories.add(Paths.get(Main.getClientDir().getAbsolutePath() + File.separator + nameDir + File.separator + s));
+        }
+
 
         messageDigest = MessageDigest.getInstance("SHA-256");
     }
+    public HashCodeCheck(List<String> whatToCheck, String namePath) throws NoSuchAlgorithmException {
+        this.allowedFiles = new ArrayList<>();
+        this.ignoredFiles = null;
+        this.ignoredDirectories = new ArrayList<>();
 
+
+        for(String str : whatToCheck)
+            this.allowedFiles.add(Paths.get(Main.getLauncherDir().getAbsolutePath() + File.separator + namePath + File.separator + str));
+
+
+        messageDigest = MessageDigest.getInstance("SHA-256");
+    }
 
 
 
@@ -52,12 +66,15 @@ public class HashCodeCheck {
 
         StringBuilder sb = new StringBuilder();
         for (Path file1 : files) {
-            if (ignoredFiles.contains(file1.getFileName().toString())) {
-                continue;
+            if(ignoredFiles != null){
+                if (ignoredFiles.contains(file1.getFileName().toString())) {
+                    continue;
+                }
             }
-            System.err.println("FileToHex = " + file1.getFileName());
+
             messageDigest.reset();
             byte[] hash = messageDigest.digest(Files.readAllBytes(file1));
+            System.err.println("FileToHex = " + file1.getFileName() + ": " + toHexString(hash));
             sb.append(toHexString(hash));
         }
         return sb.toString();
@@ -87,7 +104,7 @@ public class HashCodeCheck {
         }
     }
 
-    private static String toHexString(byte[] hash) {
+    private String toHexString(byte[] hash) {
         StringBuilder hexString = new StringBuilder();
         for (byte b : hash) {
             hexString.append(String.format("%02x", b));

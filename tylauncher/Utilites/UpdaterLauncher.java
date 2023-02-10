@@ -2,7 +2,6 @@ package tylauncher.Utilites;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.stage.Window;
 import tylauncher.Controllers.UpdaterController;
 import tylauncher.Main;
 import tylauncher.Managers.ManagerFlags;
@@ -26,8 +25,7 @@ public class UpdaterLauncher {
             try {
                 //"https://typro.space/vendor/launcher/CheckingVersion.php"
                 updateManagerWeb.setUrl("https://typro.space/vendor/launcher/CheckingVersion.php");
-                updateManagerWeb.putAllParams(Arrays.asList("hash", "version"), Arrays.asList("rehtrjtkykyjhtjhjotrjhoitrjoihjoith",
-                        Main.launcher_version));
+                updateManagerWeb.putAllParams(Arrays.asList("hash", "version"), Arrays.asList("rehtrjtkykyjhtjhjotrjhoitrjoihjoith", Main.launcher_version));
                 updateManagerWeb.request();
 
                 String line = updateManagerWeb.getFullAnswer();
@@ -35,11 +33,13 @@ public class UpdaterLauncher {
                 if(!line.equalsIgnoreCase("1")){
                     Platform.runLater(()-> updaterController.setUpdateAvailable(true));
                 }else Platform.runLater(() ->{
-                    Window w = ManagerWindow.currentController.getA1().getScene().getWindow();
-                    w.setWidth(800);
-                    w.setHeight(535);
-                    w.centerOnScreen();
-                    ManagerWindow.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1());
+                    try {
+                        if (RuntimeDownload.checkRuntime()) ManagerWindow.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1());
+                        else ManagerWindow.OpenNew("runtimeDownload.fxml", ManagerWindow.currentController.getA1());
+                    } catch (Exception e) {
+                        System.err.println(e.getMessage());
+                        e.printStackTrace();
+                    }
                 });
             } catch (Exception e) {
                 ManagerWindow.currentController.setInfoText(e.getMessage());

@@ -1,24 +1,19 @@
 package tylauncher.Managers;
 
+import javafx.scene.control.ProgressBar;
+import javafx.scene.text.Text;
 import tylauncher.Controllers.PlayController;
 import tylauncher.Main;
+import tylauncher.Utilites.Settings;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.SocketException;
-import java.net.URL;
 
 public class ManagerUpdate {
 
     private static final String suffix = "[ManagerUpdate] ";
     public static PlayController playController;
-    public static boolean downloading = false;
 
-    private static long clientLength = 0;
-    private static long cllweb = 0;
+    public static ManagerDownload update;
 
     /**
      * Коннект, скачать, разархивировать, что не понятно?
@@ -27,68 +22,22 @@ public class ManagerUpdate {
      * @param urld
      * Ссылка на файл
      */
-    public static void DownloadUpdate(String version, String urld) {
-        if (downloading) {
-            UpdateInfo();
-            return;
+    public static void DownloadUpdate(String version, String urld, ProgressBar progressBar, Text text) {
+        try {
+            update = new ManagerDownload(urld,
+                    Main.getClientDir().getAbsolutePath(), progressBar, text);
+            update.download();
+
+            ManagerZip mz = new ManagerZip(Main.getClientDir().getAbsolutePath() + File.separator + update.getFileName(),
+                    Main.getClientDir().getAbsolutePath() + File.separator + version, text, playController);
+            System.err.println("===================UNZIP (DOWNLOAD UPD)===================\n" + mz);
+            mz.unzip();
+            ManagerStart starter = new ManagerStart(Settings.isAutoConnect(), Settings.getFsc(), version);
+            starter.Start();
+        } catch (Exception e) {
+            e.printStackTrace();
+            ManagerWindow.currentController.setInfoText(e.getMessage());
         }
-        new Thread(() -> {
-            try {
-                ManagerWindow.currentController.setInfoText("Инициализация загрузки");
-                downloading = true;
-                playController.PlayButtonEnabled(false);
-                URL url = new URL(urld);
-                HttpURLConnection updcon = (HttpURLConnection) url.openConnection();
-                System.out.println(updcon);
-                File client = new File(Main.getClientDir().getAbsolutePath() + File.separator, "client1165.zip");
-                long cll_web = updcon.getContentLength();
-                if ((client.length() != cll_web) && cll_web > 1) {
-                    BufferedInputStream bis = new BufferedInputStream(updcon.getInputStream());
-                    FileOutputStream fw = new FileOutputStream(client);
-                    playController.getA1().getScene().getWindow().setOnCloseRequest(event -> {
-                        try {
-                            fw.close();
-                            bis.close();
-                            Main.exit();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
-                    byte[] by = new byte[1024];
-                    int count;
-                    while ((count = bis.read(by)) != -1) {
-                        fw.write(by, 0, count);
-                        clientLength = client.length();
-                        cllweb = cll_web;
-                        UpdateInfo();
-                    }
-                    fw.close();
-                    bis.close();
 
-                    updcon.disconnect();
-
-                    downloading = false;
-                    ManagerZip.Unzip(Main.getClientDir().getAbsolutePath() + File.separator + "client1165.zip", Main.getClientDir().getAbsolutePath() + File.separator + version + File.separator);
-                }
-
-            } catch (SocketException e){
-                playController.setInfoText("Соединение прервано, пробую повторить закачку.." + e.getMessage());
-                DownloadUpdate(version, urld);
-            } catch (IOException e) {
-                playController.setInfoText(e.getMessage());
-                e.printStackTrace();
-            }
-
-        }).start();
-    }
-    public static void UpdateInfo() {
-        new Thread(() -> {
-            if (!downloading) {
-                return;
-            }
-            playController.setInfoText(("Скачано " + ((int) clientLength / 1048576) + "Мбайт из " + (cllweb / 1048576) + "Мб"));
-            playController.UdpateProgressBar((double) ((clientLength / 10485) / (cllweb / 1048576)) / 100);
-            ManagerZip.UpdateInfo();
-        }).start();
     }
 }

@@ -1,11 +1,14 @@
 package tylauncher.Controllers;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import tylauncher.Main;
+import tylauncher.Managers.ManagerFlags;
 import tylauncher.Managers.ManagerWindow;
 import tylauncher.Utilites.Utils;
 
@@ -40,12 +43,24 @@ public class AccountController extends BaseController{
     private Text Group_Text;
     @FXML
     private Button Exit_Button;
+
+    private static boolean firstOpen = true; //Флаг, определяющий впервые ли открыта сцена
     @FXML
     void initialize() {
         //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
         AccountAuthController.accountController = this;
 
         initPageButton();
+
+        Platform.runLater(()->{
+            Stage stage = (Stage) A1.getScene().getWindow();
+            //Меняем размеры окна и текст окна
+            stage.setWidth(800);
+            stage.setHeight(535);
+            if(firstOpen) stage.centerOnScreen();
+            if(ManagerFlags.updateAvailable) stage.setTitle("Typical Launcher (Доступно обновление)");
+            else stage.setTitle("Typical Launcher");
+        });
 
         Exit_Button.setOnMouseClicked(mouseEvent -> logout());
 
@@ -57,6 +72,7 @@ public class AccountController extends BaseController{
                 e.printStackTrace();
             }
         });
+        firstOpen = false;
     }
     //Обновление информации о юзере
     public void UpdateData() {

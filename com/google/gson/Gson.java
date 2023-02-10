@@ -232,14 +232,14 @@ public final class Gson {
    */
   public Gson() {
     this(Excluder.DEFAULT, DEFAULT_FIELD_NAMING_STRATEGY,
-        Collections.<Type, InstanceCreator<?>>emptyMap(), DEFAULT_SERIALIZE_NULLS,
+        Collections.emptyMap(), DEFAULT_SERIALIZE_NULLS,
         DEFAULT_COMPLEX_MAP_KEYS, DEFAULT_JSON_NON_EXECUTABLE, DEFAULT_ESCAPE_HTML,
         DEFAULT_PRETTY_PRINT, DEFAULT_LENIENT, DEFAULT_SPECIALIZE_FLOAT_VALUES,
         DEFAULT_USE_JDK_UNSAFE,
         LongSerializationPolicy.DEFAULT, DEFAULT_DATE_PATTERN, DateFormat.DEFAULT, DateFormat.DEFAULT,
-        Collections.<TypeAdapterFactory>emptyList(), Collections.<TypeAdapterFactory>emptyList(),
-        Collections.<TypeAdapterFactory>emptyList(), DEFAULT_OBJECT_TO_NUMBER_STRATEGY, DEFAULT_NUMBER_TO_NUMBER_STRATEGY,
-        Collections.<ReflectionAccessFilter>emptyList());
+        Collections.emptyList(), Collections.emptyList(),
+        Collections.emptyList(), DEFAULT_OBJECT_TO_NUMBER_STRATEGY, DEFAULT_NUMBER_TO_NUMBER_STRATEGY,
+        Collections.emptyList());
   }
 
   Gson(Excluder excluder, FieldNamingStrategy fieldNamingStrategy,

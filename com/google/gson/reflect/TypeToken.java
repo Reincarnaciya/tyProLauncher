@@ -278,7 +278,7 @@ public class TypeToken<T> {
       exceptionMessage.append(clazz.getName()).append(", ");
     }
     exceptionMessage.append("but got: ").append(token.getClass().getName())
-        .append(", for type token: ").append(token.toString()).append('.');
+        .append(", for type token: ").append(token).append('.');
 
     return new AssertionError(exceptionMessage.toString());
   }

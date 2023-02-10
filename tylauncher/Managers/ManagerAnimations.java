@@ -2,7 +2,6 @@ package tylauncher.Managers;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
-import javafx.animation.Timeline;
 import javafx.scene.Node;
 import javafx.util.Duration;
 

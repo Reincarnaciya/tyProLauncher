@@ -8,8 +8,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
-import tylauncher.Utilites.HashCodeCheck;
 import tylauncher.Managers.*;
+import tylauncher.Utilites.HashCodeCheck;
 import tylauncher.Utilites.Lists;
 import tylauncher.Utilites.Settings;
 import tylauncher.Utilites.Utils;
@@ -40,35 +40,45 @@ public class PlayController extends BaseController{
     @FXML
     private ProgressBar Download_ProgressBar;
 
+    private static ProgressBar fpb;
+
+    private static Text ftx;
+
     @FXML
     void initialize() {
+        initPageButton();
+        ManagerDownload.playController = this;
+
+
         ManagerZip.playController = this;
         ManagerStart.playController = this;
         ManagerUpdate.playController = this;
 
-        initPageButton();
+
+
+        if (ManagerZip.unzipping){
+            Play_Button.setVisible(false);
+            ManagerZip.updateInfo(this);
+            System.err.println("status = unzipping");
+            return;
+        }
+
+        if(ManagerDownload.download) {
+            ManagerUpdate.update.updateInfo();
+            System.err.println("status = download");
+            return;
+        }
 
         //Проверка на статус.. Чего? а, на статус того, что вообще происходит в лаунчере
         if (ManagerFlags.gameIsStart){
             UdpateProgressBar(1);
             ManagerWindow.currentController.setInfoText("Игра запущена");
         }
-        if (ManagerZip.unzipping){
-            UdpateProgressBar(1);
-            ManagerZip.UpdateInfo();
-        }
 
         //Улавливаем ивент нажатия на кнопку "Играть"
         Play_Button.setOnMouseClicked(mouseEvent -> {
             ManagerWindow.currentController.setInfoText("Инициализация..");
-            if (ManagerFlags.gameIsStart) {
-                ManagerWindow.currentController.setInfoText("Игра запущена");
-                return;
-            }
-            if (ManagerZip.unzipping) {
-                ManagerZip.UpdateInfo();
-                return;
-            }
+
             try {
                 if (!user.auth()) {
                     ManagerWindow.currentController.setInfoText("Необходимо авторизоваться, прежде чем начать играть");
@@ -86,9 +96,13 @@ public class PlayController extends BaseController{
                         Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "TySci_1.16.5"));
                     if (new File(Main.getClientDir() + File.separator + "client1165.zip").exists())
                         Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "client1165.zip"));
-                    ManagerUpdate.DownloadUpdate("TySci_1.16.5", "https://www.typro.space/files/client_mc/client1165.zip");
+                    new Thread(()->
+                            ManagerUpdate.DownloadUpdate("TySci_1.16.5", "https://www.typro.space/files/client_mc/client1165.zip",
+                                    Download_ProgressBar, Progressbar_Text)).start();
+
                     return;
                 }
+
             } catch (Exception e) {
                 ManagerWindow.currentController.setInfoText(e.getMessage());
                 e.printStackTrace();
@@ -105,10 +119,16 @@ public class PlayController extends BaseController{
     }
     @Override
     public void setInfoText(String text) {
-        Platform.runLater(()->{
-            Play_Button.setVisible(false);
-            Progressbar_Text.setText(text);
-        });
+        try {
+            Platform.runLater(()->{
+                Play_Button.setVisible(false);
+                Progressbar_Text.textProperty().setValue(text);
+            });
+        }catch (Exception e){
+            System.err.println("Не вышло");
+            e.printStackTrace();
+        }
+
     }
 
     public void PlayButtonEnabled(boolean bool) {

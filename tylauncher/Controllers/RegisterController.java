@@ -135,7 +135,7 @@ public class RegisterController extends BaseController{
         ManagerWeb regUser = new ManagerWeb("regUser");
         regUser.setUrl("https://typro.space/vendor/login/signup.php");//typro.space/vendor/launcher/register_launcher.php
         regUser.putAllParams(Arrays.asList("login", "password", "email", "repeat_password", "agreement"),
-                Arrays.asList(username, password, email, repeatPassword, acceptCheckBox.isSelected() ? "checked" : "unchecked"));
+                Arrays.asList(username, password, email, repeatPassword, acceptCheckBox.isSelected() ? "on" : "off"));
         regUser.request();
 
         JsonObject object = (JsonObject) JsonParser.parseString(regUser.getFullAnswer());

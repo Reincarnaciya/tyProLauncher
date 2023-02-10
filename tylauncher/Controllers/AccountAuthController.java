@@ -11,7 +11,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import tylauncher.Main;
 import tylauncher.Managers.ManagerFlags;
 import tylauncher.Managers.ManagerWindow;
@@ -67,21 +66,18 @@ public class AccountAuthController extends BaseController{
     @FXML
     void initialize() {
         initPageButton();
-
         //Выполняем в основном потоке(javafx)
         Platform.runLater(()->{
-            Window window = A1.getScene().getWindow();
+            Stage stage = (Stage) A1.getScene().getWindow();
             //Меняем размеры окна и текст окна
-            window.setWidth(800);
-            window.setHeight(535);
-            Stage stage = (Stage) window;
-            if(firstOpen) window.centerOnScreen();
+            stage.setWidth(800);
+            stage.setHeight(535);
+            if(firstOpen) stage.centerOnScreen();
             if(ManagerFlags.updateAvailable) stage.setTitle("Typical Launcher (Доступно обновление)");
             else stage.setTitle("Typical Launcher");
         });
 
-        //Проверка на существование файла авторизации и последующая попытка авторизацииtry(BufferedReader bfr = new BufferedReader(new FileReader(settingsFile))) {
-        //            JsonObject settings = (JsonObject) JsonParser.parseString(bfr.readLine());
+        //Проверка на существование файла авторизации и последующая попытка авторизации
         if (AuthFile.exists() && firstOpen) {
             try(BufferedReader brf = new BufferedReader(new FileReader(AuthFile))) {
                 JsonObject auth = (JsonObject) JsonParser.parseString(brf.readLine());
@@ -141,9 +137,7 @@ public class AccountAuthController extends BaseController{
 
         //Синхронизация значение текста между 2-я полями пароля и показа пароля
         ShowPassText.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (ShowPass_CheckBox.isSelected()) {
-                Password_Field.setText(newValue);
-            }
+            if (ShowPass_CheckBox.isSelected()) Password_Field.setText(newValue);
         });
         //При нажатии на гиперссылку регистрации
         Reg_HyperLynk.setOnMouseClicked(mouseEvent -> {
@@ -151,9 +145,10 @@ public class AccountAuthController extends BaseController{
             ManagerWindow.OpenNew("Register.fxml", A1);
         });
         firstOpen = false;
+
     }
 
-    //Функция сейва пароля
+    //Функция сейва пароляы
     void savePass() throws Exception {
         if(!AuthFile.exists()) AuthFile.createNewFile();
         try(JsonWriter writer = new JsonWriter(new FileWriter(AuthFile))) {

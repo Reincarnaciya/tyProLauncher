@@ -58,7 +58,7 @@ public class UserPC {
     }
 
     public static float getOzu(){
-        if(_javaBit.equalsIgnoreCase("32") && _ozu > 4096.0) return 4096;
+        if(_javaBit.equalsIgnoreCase("32") && _ozu > 4096.0) return 1536;
         return _ozu;
     }
 

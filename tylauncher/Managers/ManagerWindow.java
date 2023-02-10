@@ -33,6 +33,8 @@ public class ManagerWindow {
                 pane1 = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("FXMLfiles/" + fxml)));
                 pane.getChildren().setAll(pane1);
 
+
+
                 List<Node> buttons = getAllButtons(pane1);
                 for (Node button : buttons){
                     Button btn = (Button) button;

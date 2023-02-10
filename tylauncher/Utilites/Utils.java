@@ -6,14 +6,13 @@ import tylauncher.Managers.ManagerWindow;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.Objects;
 
 public class Utils {
-    private static Desktop desktop = Desktop.getDesktop();
+    private static final Desktop desktop = Desktop.getDesktop();
 
     //unicode символы в понятные буковки
     public static String UniToText(String message) {
@@ -43,7 +42,27 @@ public class Utils {
         }
     }
     public static void openUrl(String url) throws IOException {
-        desktop.browse(URI.create(url));
+        Runtime rt = Runtime.getRuntime();
+        String os = System.getProperty("os.name").toLowerCase();
+        try {
+            if (os.contains("win")) {
+                // не поддерживаются ссылки формата "leodev.html#someTag"
+                rt.exec("rundll32 url.dll,FileProtocolHandler " + url); // если windows, открываем урлу через командную строку
+            } else if (os.contains("mac")) {
+                rt.exec("open " + url); // аналогично в MAC
+            } else if (os.contains("nix") || os.contains("nux")) {
+                // c nix системами все несколько проблемотичнее
+                String[] browsers = {"epiphany", "firefox", "mozilla", "konqueror", "netscape", "opera", "links", "lynx"};
+                // Формируем строку с вызовом всем браузеров через логическое ИЛИ в shell консоли
+                // "browser0 "URI" || browser1 "URI" ||..."
+                StringBuilder cmd = new StringBuilder();
+                for (int i = 0; i < browsers.length; i++)
+                    cmd.append(i == 0 ? "" : " || ").append(browsers[i]).append(" \"").append(url).append("\" ");
+                rt.exec(new String[]{"sh", "-c", cmd.toString()});
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     public static String bytesToString(String message){
         StringBuilder mssage = new StringBuilder();

@@ -52,6 +52,7 @@ public class ButtonPageController {
                         if(user.wasAuth){
                             ManagerWindow.OpenNew("Account.fxml", ManagerWindow.currentController.getA1());
                             accountController.UpdateData();
+                            user.wasAuth = false;
                         }
                         new Thread(()->{
                             try {
@@ -61,9 +62,11 @@ public class ButtonPageController {
                                         accountController.UpdateData();
                                     });
                                 }else {
+                                    user.wasAuth = false;
                                     Platform.runLater(()-> ManagerWindow.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1()));
                                 }
                             } catch (Exception e) {
+                                user.wasAuth = false;
                                 System.err.println("Except when click \"Account\": " + e.getMessage());
                                 Platform.runLater(()-> ManagerWindow.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1()));
                             }

@@ -169,7 +169,7 @@ public final class ConstructorConstructor {
               T set = (T) EnumSet.noneOf((Class)elementType);
               return set;
             } else {
-              throw new JsonIOException("Invalid EnumSet type: " + type.toString());
+              throw new JsonIOException("Invalid EnumSet type: " + type);
             }
           } else {
             throw new JsonIOException("Invalid EnumSet type: " + type.toString());
@@ -189,7 +189,7 @@ public final class ConstructorConstructor {
               T map = (T) new EnumMap((Class) elementType);
               return map;
             } else {
-              throw new JsonIOException("Invalid EnumMap type: " + type.toString());
+              throw new JsonIOException("Invalid EnumMap type: " + type);
             }
           } else {
             throw new JsonIOException("Invalid EnumMap type: " + type.toString());

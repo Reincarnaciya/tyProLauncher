@@ -10,20 +10,16 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import tylauncher.Controllers.SettingsController;
-import tylauncher.Utilites.*;
 import tylauncher.Managers.ManagerDirs;
+import tylauncher.Utilites.*;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
-import java.security.NoSuchAlgorithmException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 import static tylauncher.Utilites.Utils.CheckLogs;
@@ -36,7 +32,13 @@ public class Main extends Application {
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyPro");
     private static ManagerDirs _clientDir = new ManagerDirs("TyPro/clients/");
 
+    private static final ManagerDirs runtimeDir = new ManagerDirs("TyPro/runtime");
+
     public static final User user = new User();
+
+    public static File getRuntimeDir(){
+        return runtimeDir.getWorkDir();
+    }
     public static File getLauncherDir() {
         return _launcherDir.getWorkDir();
     }
@@ -50,11 +52,11 @@ public class Main extends Application {
         _clientDir = new ManagerDirs(String.format("TyPro%sclients%s", File.separator, File.separator));
         System.err.println(_clientDir);
     }
-    public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
 
-        //HashCodeCheck hs = new HashCodeCheck(Lists.skippingFiles, Lists.skippingDirictories, Lists.allowedFiles, "TySCi");
-        //System.err.println(hs.calculateHashes("C:\\Users\\RC\\AppData\\Roaming\\.TyPro\\clients\\TySCi"));
-
+    static void test(){
+    }
+    public static void main(String[] args) throws IOException {
+        test();
 
         //System.   err.println(HashCodeCheck.getHash("C:\\Users\\RC\\Desktop\\Client(server)\\.minecraft"));
         if(args.length > 0 && args[0].equalsIgnoreCase("love")){
@@ -75,6 +77,8 @@ public class Main extends Application {
         }
         UserPC.Show();
         launch();
+
+
     }
     /**
      * полностью закрывает всё, удаляет иконку из трея.. Да блять, сам посмотри что оно делает..

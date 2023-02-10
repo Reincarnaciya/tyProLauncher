@@ -2,13 +2,12 @@ package tylauncher.Controllers;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonWriter;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -91,6 +90,11 @@ public class SettingsController extends BaseController {
     private boolean reset = false;
     @FXML
     void initialize() {
+
+
+
+
+
         updateVisual();
         initPageButton();
         //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
@@ -210,9 +214,15 @@ public class SettingsController extends BaseController {
 
 
         openLauncherDirButton.setOnMouseClicked(event -> {
+            System.err.println("open Launcher Dir");
             try {
-                Desktop.getDesktop().open(new File(Main.getLauncherDir().getAbsolutePath()));
-            } catch (IOException e) {
+                File f = new File(Main.getLauncherDir().getPath() + File.separator);
+                System.err.println(f.getPath());
+                System.err.println(f);
+                System.err.println(Desktop.isDesktopSupported());
+                System.err.println(Desktop.getDesktop().isSupported(Desktop.Action.OPEN));
+                Desktop.getDesktop().open(f);
+            } catch (Exception e) {
                 ManagerWindow.currentController.setInfoText(e.getMessage());
                 e.printStackTrace();
             }
@@ -277,11 +287,13 @@ public class SettingsController extends BaseController {
 
     public static void readSettingsFromFileToSettings() throws Exception{
         try(BufferedReader bfr = new BufferedReader(new FileReader(settingsFile))) {
+            if(!settingsFile.exists()) settingsFile.createNewFile();
             JsonObject settings;
+            System.err.println("readSettingsFromFileToSettings");
 
             try {
                 settings = (JsonObject) JsonParser.parseString(bfr.readLine());
-            }catch (JsonSyntaxException e){
+            }catch (Exception e){
                 repairSettings();
                 throw new Exception("Файл настроек сломался, пересоздаю.");
             }
@@ -310,15 +322,11 @@ public class SettingsController extends BaseController {
         }
     }
     private static void repairSettings(){
-        try {
-            settingsFile.delete();
-            settingsFile.createNewFile();
-            writeSettingsToFile();
-        }catch (IOException e){
+        try(BufferedWriter bfw = new BufferedWriter(new FileWriter(settingsFile))) {
+            bfw.write("");
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     private void easterCheck(String newValue){

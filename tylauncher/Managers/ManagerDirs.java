@@ -40,7 +40,7 @@ public class ManagerDirs {
         if (UserPC._os.contains("win")) return OS.windows;
         else if (UserPC._os.contains("linux") || UserPC._os.contains("unix")) return OS.linux;
         else if (UserPC._os.contains("macos")) return OS.macos;
-        else return OS.unknow;
+        else return OS.unknown;
     }
     public File getWorkDir() {
         return _workDir;
@@ -50,6 +50,6 @@ public class ManagerDirs {
     }
 
     public enum OS {
-        windows, linux, macos, unknow
+        windows, linux, macos, unknown
     }
 }
