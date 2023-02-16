@@ -7,55 +7,50 @@ import tylauncher.Main;
 import tylauncher.Managers.ManagerFlags;
 import tylauncher.Managers.ManagerWeb;
 import tylauncher.Managers.ManagerWindow;
+import tylauncher.Utilites.Constants.URLS;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Arrays;
 
 public class UpdaterLauncher {
-    public static UpdaterController updaterController;
+    private static final Logger logger = new Logger(UpdaterLauncher.class);
     private static final ManagerWeb updateManagerWeb = new ManagerWeb("checkLauncherUpdate");
+    public static UpdaterController updaterController;
+
     @FXML
     public static void checkUpdate() {
-        new Thread (()->{
+        new Thread(() -> {
             try {
                 //"https://typro.space/vendor/launcher/CheckingVersion.php"
-                updateManagerWeb.setUrl("https://typro.space/vendor/launcher/CheckingVersion.php");
+                updateManagerWeb.setUrl(URLS.CHECK_LAUCHER_VERS);
                 updateManagerWeb.putAllParams(Arrays.asList("hash", "version"), Arrays.asList("rehtrjtkykyjhtjhjotrjhoitrjoihjoith", Main.launcher_version));
                 updateManagerWeb.request();
 
                 String line = updateManagerWeb.getFullAnswer();
-                System.err.println(line);
-                if(!line.equalsIgnoreCase("1")){
-                    Platform.runLater(()-> updaterController.setUpdateAvailable(true));
-                }else Platform.runLater(() ->{
-                    try {
-                        if (RuntimeDownload.checkRuntime()) ManagerWindow.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1());
-                        else ManagerWindow.OpenNew("runtimeDownload.fxml", ManagerWindow.currentController.getA1());
-                    } catch (Exception e) {
-                        System.err.println(e.getMessage());
-                        e.printStackTrace();
-                    }
-                });
+                if (!line.equalsIgnoreCase("1")) {
+                    Platform.runLater(() -> updaterController.setUpdateAvailable(true));
+                } else
+                    new Thread(() -> {
+                        if (RuntimeDownload.checkRuntime()) ManagerWindow.ACCOUNT_AUTH.open();
+                        else ManagerWindow.RUNTIME_DOWNLOAD.open();
+                    }).start();
             } catch (Exception e) {
-                ManagerWindow.currentController.setInfoText(e.getMessage());
-                e.printStackTrace();
+                logger.logInfo(e, ManagerWindow.currentController);
             }
         }).start();
     }
-    public static void UpdateLauncher(){
+
+    public static void UpdateLauncher() {
         new Thread(() -> {
             try {
-                URL url = new URL("https://www.typro.space/files/Update/TyUpdaterLauncher.jar");
-                HttpURLConnection updcon = (HttpURLConnection) url.openConnection();
-                System.out.println(updcon);
+                HttpURLConnection updcon = (HttpURLConnection) URLS.UPDATER_LAUNCHER_DOWNLOAD.openConnection();
                 File client = new File(Main.getClientDir().getAbsolutePath() + File.separator, "TyUpdaterLauncher.jar");
 
-                if(client.exists()) client.delete();
+                if (client.exists()) client.delete();
 
                 long cll_web = updcon.getContentLength();
                 if ((client.length() != cll_web) && cll_web > 1) {
@@ -69,13 +64,12 @@ public class UpdaterLauncher {
                     }
                     fw.close();
 
-                    Runtime.getRuntime().exec(new String[]{"cmd","/c","start","cmd","/k","java -jar \"" + client.getAbsolutePath() + "\" " + "\"" + UserPC._pathToLauncher + "\"" +  " " + "\"" + Main.getLauncherDir().getAbsolutePath()+ "\""});
+                    Runtime.getRuntime().exec(new String[]{"cmd", "/c", "start", "cmd", "/k", "java -jar \"" + client.getAbsolutePath() + "\" " + "\"" + UserPC._pathToLauncher + "\"" + " " + "\"" + Main.getLauncherDir().getAbsolutePath() + "\""});
                     ManagerFlags.updateAvailable = false;
                     Main.exit();
                 }
             } catch (IOException e) {
-                ManagerWindow.currentController.setInfoText (e.getMessage());
-                e.printStackTrace();
+                logger.logInfo(e, ManagerWindow.currentController);
             }
         }).start();
     }

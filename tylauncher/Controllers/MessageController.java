@@ -5,7 +5,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
-public class MessageController extends BaseController{
+public class MessageController extends BaseController {
+    private final String suffix = "[" + this.getClass().getName() + "] ";
     @FXML
     private AnchorPane A1;
     @FXML

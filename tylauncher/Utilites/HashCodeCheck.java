@@ -2,6 +2,7 @@ package tylauncher.Utilites;
 
 import tylauncher.Main;
 import tylauncher.Managers.ManagerWeb;
+import tylauncher.Utilites.Constants.URLS;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class HashCodeCheck {
+    private static final Logger logger = new Logger(HashCodeCheck.class);
     private final MessageDigest messageDigest;
     private final List<String> ignoredFiles;
     private final List<Path> ignoredDirectories;
@@ -26,12 +28,10 @@ public class HashCodeCheck {
         this.ignoredFiles = ignoredFiles;
         this.ignoredDirectories = new ArrayList<>();
         this.allowedFiles = new ArrayList<>();
-        for(String str : whatToCheck)
+        for (String str : whatToCheck)
             this.allowedFiles.add(Paths.get(Main.getClientDir().getAbsolutePath() + File.separator + nameDir + File.separator + str));
 
-        System.err.println(ignoredDirectories);
-
-        if(ignoredDirectories != null) {
+        if (ignoredDirectories != null) {
             for (String s : ignoredDirectories)
                 this.ignoredDirectories.add(Paths.get(Main.getClientDir().getAbsolutePath() + File.separator + nameDir + File.separator + s));
         }
@@ -39,13 +39,14 @@ public class HashCodeCheck {
 
         messageDigest = MessageDigest.getInstance("SHA-256");
     }
+
     public HashCodeCheck(List<String> whatToCheck, String namePath) throws NoSuchAlgorithmException {
         this.allowedFiles = new ArrayList<>();
         this.ignoredFiles = null;
         this.ignoredDirectories = new ArrayList<>();
 
 
-        for(String str : whatToCheck)
+        for (String str : whatToCheck)
             this.allowedFiles.add(Paths.get(Main.getLauncherDir().getAbsolutePath() + File.separator + namePath + File.separator + str));
 
 
@@ -53,10 +54,8 @@ public class HashCodeCheck {
     }
 
 
-
     public String calculateHashes(String directoryPath) throws IOException {
-        System.err.println("directoryPath = " + directoryPath);
-        System.err.println(this);
+        logger.logInfo(this.toString());
         if (!new File(directoryPath).exists()) return "";
         List<Path> files = Files.walk(new File(directoryPath).toPath())
                 .filter(path -> Files.isRegularFile(path)
@@ -66,15 +65,13 @@ public class HashCodeCheck {
 
         StringBuilder sb = new StringBuilder();
         for (Path file1 : files) {
-            if(ignoredFiles != null){
+            if (ignoredFiles != null) {
                 if (ignoredFiles.contains(file1.getFileName().toString())) {
                     continue;
                 }
             }
-
             messageDigest.reset();
             byte[] hash = messageDigest.digest(Files.readAllBytes(file1));
-            System.err.println("FileToHex = " + file1.getFileName() + ": " + toHexString(hash));
             sb.append(toHexString(hash));
         }
         return sb.toString();
@@ -85,14 +82,10 @@ public class HashCodeCheck {
 
 
         ManagerWeb hashManager = new ManagerWeb("hashRequest");
-        hashManager.setUrl("https://typro.space/vendor/server/check_hash_client.php");
+        hashManager.setUrl(URLS.CLIENT_HASH);
+
         hashManager.putAllParams(Arrays.asList("mod", "hash"), Arrays.asList("TY_SCI", hash));
         hashManager.request();
-
-        System.err.println("-----------------------------HASH-----------------------------");
-        System.err.println(hashManager.getFullAnswer());
-        System.err.println(hash);
-        System.err.println("-----------------------------HASH-----------------------------");
 
         switch (hashManager.getFullAnswer()) {
             case "0":
@@ -111,6 +104,7 @@ public class HashCodeCheck {
         }
         return hexString.toString();
     }
+
     @Override
     public String toString() {
         return "HashCodeCheck{" +

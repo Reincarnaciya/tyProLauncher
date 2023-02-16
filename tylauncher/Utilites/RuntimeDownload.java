@@ -1,80 +1,85 @@
 package tylauncher.Utilites;
 
-import javafx.application.Platform;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.text.Text;
 import tylauncher.Controllers.RuntimeController;
 import tylauncher.Main;
 import tylauncher.Managers.*;
+import tylauncher.Utilites.Constants.URLS;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Collections;
 
 public class RuntimeDownload {
+    private static final Logger logger = new Logger(RuntimeDownload.class);
     public static RuntimeController runtimeController;
-    private static String urlDownload;
+    private static URL urlDownload;
 
     public static boolean checkRuntime() {
-        String hash = " ";
+        String hash;
         try {
             HashCodeCheck runtimeHashCheck = new HashCodeCheck(Collections.singletonList("jre8"), "runtime");
             hash = runtimeHashCheck.calculateHashes(Main.getRuntimeDir().getAbsolutePath());
-
-
         } catch (NoSuchAlgorithmException | IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            logger.logError(e);
+            throw new RuntimeException();
         }
-
         return checkWithServer(hash);
     }
 
     private static boolean checkWithServer(String hash) {
         ManagerWeb runtimeHashCheck = new ManagerWeb("runtimeHashCheck");
-        runtimeHashCheck.setUrl("https://typro.space/vendor/server/check_java_hash.php");
-        runtimeHashCheck.putAllParams(Arrays.asList("os","cpu","hash_runtime", "good_ozu"), Arrays.asList(String.valueOf(ManagerDirs.getPlatform()), System.getProperty("os.arch"), hash, String.valueOf(UserPC.getOzu()>4096)));
+        runtimeHashCheck.setUrl(URLS.JAVA_HASH);
+        runtimeHashCheck.putAllParams(Arrays.asList("os", "cpu", "hash_runtime", "good_ozu"), Arrays.asList(String.valueOf(ManagerDirs.getPlatform()), System.getProperty("os.arch"), hash, String.valueOf(UserPC.getOzu() > 4096)));
+        logger.logInfo(runtimeHashCheck.toString());
         try {
             runtimeHashCheck.request();
-        }catch (Exception e){
-            System.err.println(runtimeHashCheck);
+        } catch (Exception e) {
+            logger.logError(e);
         }
 
 
-        System.err.println("========================RUNTIME DOWNLOAD========================\n" + runtimeHashCheck);
+        if ("1".equals(runtimeHashCheck.getFullAnswer())) return true;
 
-        if ("1".equals(runtimeHashCheck.getFullAnswer())) {
-            return true;
+        try {
+            urlDownload = new URL(runtimeHashCheck.getFullAnswer());
+        } catch (MalformedURLException e) {
+            logger.logError(e);
+            throw new RuntimeException(e);
         }
-        urlDownload = runtimeHashCheck.getFullAnswer();
         return false;
     }
 
     public static void download(ProgressBar progressBar, Text infoText) {
         try {
             File runtime = new File(Main.getRuntimeDir() + File.separator + "jre8");
-            if(runtime.exists()){
+            if (runtime.exists()) {
                 Utils.DeleteFile(runtime);
-            }else {
-                System.err.println("Папка рантайма не найдена. Пропускаю удаление");
+            } else {
+                logger.logInfo("Папка рантайма не найдена. Пропускаю удаление");
             }
-        }catch (Exception e){
-            System.err.println("Не удалось удалить файл: " + e.getMessage());
+        } catch (Exception e) {
+            logger.logError("Не удалось удалить файл: ", e.getMessage(), e.toString());
         }
 
-        new Thread(()->{
+        new Thread(() -> {
             try {
-                ManagerDownload test = new ManagerDownload(urlDownload, Main.getRuntimeDir().getAbsolutePath(), progressBar, infoText);
-                test.download();
-                infoText.setText("Распаковываем рантаймы :D");
-                ManagerZip mz = new ManagerZip(Main.getRuntimeDir().getAbsolutePath() + File.separator + test.getFileName(),
-                        Main.getRuntimeDir().getAbsolutePath() + File.separator + "jre8", infoText, runtimeController);
+                ManagerDownload runtimeDownload = new ManagerDownload(urlDownload, Main.getRuntimeDir().getAbsolutePath(), progressBar, infoText);
+                runtimeDownload.download();
+                logger.logInfo("Распаковываем рантаймы :D");
+                ManagerZip mz = new ManagerZip(Main.getRuntimeDir().getAbsolutePath() + File.separator + runtimeDownload.getFileName(),
+                        Main.getRuntimeDir().getAbsolutePath() + File.separator + "jre8", infoText, runtimeController.getProgressBar(), runtimeController);
                 mz.unzip();
-                Platform.runLater(()-> ManagerWindow.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1()));
-            }catch (Exception e){
-                throw new RuntimeException(e);
+
+                Utils.setAllPermissions(Main.getRuntimeDir().toPath());
+                ManagerWindow.ACCOUNT_AUTH.open();
+            } catch (Exception e) {
+                logger.logError(e, ManagerWindow.currentController);
             }
 
         }).start();

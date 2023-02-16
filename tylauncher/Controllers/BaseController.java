@@ -10,6 +10,7 @@ import tylauncher.Managers.ManagerAnimations;
 import tylauncher.Managers.ManagerWindow;
 
 public abstract class BaseController {
+    private final String suffix = "[" + this.getClass().getName() + "] ";
     @FXML
     private AnchorPane A1;
     @FXML
@@ -29,7 +30,8 @@ public abstract class BaseController {
     private ImageView Play_Img;
     @FXML
     private ImageView Settings_Img;
-    void initPageButton(){
+
+    void initPageButton() {
         //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
         ManagerWindow.currentController = this;
         //все кнопки в 1 массив!
@@ -41,13 +43,14 @@ public abstract class BaseController {
         buttonPageController.addButton(Settings_Img);
         buttonPageController.addButton(Play_Img);
     }
+
     /**
      * Вывод информации
-     * @param info
-     * текст ошибки или информации для вывода
+     *
+     * @param info текст ошибки или информации для вывода
      */
     public void setInfoText(String info) {
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             infoTextPane.setDisable(false);
             infoTextPane.setVisible(true);
             infoText.setText(info);
@@ -55,10 +58,11 @@ public abstract class BaseController {
         });
     }
 
-    public void unsetText(){
+    public void unsetText() {
         infoTextPane.setVisible(false);
     }
-    public AnchorPane getA1(){
+
+    public AnchorPane getA1() {
         return this.A1;
     }
 

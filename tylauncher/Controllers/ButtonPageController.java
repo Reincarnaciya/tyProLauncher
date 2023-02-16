@@ -6,14 +6,15 @@ import javafx.scene.image.ImageView;
 import tylauncher.Main;
 import tylauncher.Managers.ManagerFlags;
 import tylauncher.Managers.ManagerWindow;
-import tylauncher.Utilites.Sound;
+import tylauncher.Utilites.Logger;
 
-import static tylauncher.Controllers.AccountAuthController.accountController;
 import static tylauncher.Main.user;
 
 public class ButtonPageController {
-    private int _buttonCount = 0;
+    private static final Logger logger = new Logger(ButtonPageController.class);
     private static int _pressedNum = 1;
+    private int _buttonCount = 0;
+
     //private final ImageView[] buttonsFx = new ImageView[6];
     public void addButton(ImageView button) {
         //buttonsFx[_buttonCount++] = button;
@@ -35,8 +36,10 @@ public class ButtonPageController {
                     button.setImage(new Image(String.valueOf(Main.class.getResource("assets/picked/message.png"))));
                     break;
                 case 5:
-                    if (ManagerFlags.updateAvailable || ManagerFlags.lowDiskSpace) button.setImage(new Image(String.valueOf(Main.class.getResource("assets/picked/settings.png"))));
-                    else button.setImage(new Image(String.valueOf(Main.class.getResource("assets/picked/settings.png"))));
+                    if (ManagerFlags.updateAvailable || ManagerFlags.lowDiskSpace)
+                        button.setImage(new Image(String.valueOf(Main.class.getResource("assets/picked/settings.png"))));
+                    else
+                        button.setImage(new Image(String.valueOf(Main.class.getResource("assets/picked/settings.png"))));
                     break;
                 case 6:
                     button.setImage(new Image(String.valueOf(Main.class.getResource("assets/picked/play.png"))));
@@ -47,59 +50,50 @@ public class ButtonPageController {
             switch (_buttonCount) {
                 case 1:
                     button.setOnMouseClicked(event -> {
-                        Sound.playSound(Sound.CLICK);
                         _pressedNum = 1;
-                        if(user.wasAuth){
-                            ManagerWindow.OpenNew("Account.fxml", ManagerWindow.currentController.getA1());
-                            accountController.UpdateData();
+                        if (user.wasAuth) {
+                            ManagerWindow.ACCOUNT.open();
                             user.wasAuth = false;
                         }
-                        new Thread(()->{
+                        new Thread(() -> {
                             try {
                                 if (user.auth()) {
-                                    Platform.runLater(()->{
-                                        ManagerWindow.OpenNew("Account.fxml", ManagerWindow.currentController.getA1());
-                                        accountController.UpdateData();
-                                    });
-                                }else {
+                                    Platform.runLater(() -> ManagerWindow.ACCOUNT.open());
+                                } else {
                                     user.wasAuth = false;
-                                    Platform.runLater(()-> ManagerWindow.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1()));
+                                    ManagerWindow.ACCOUNT_AUTH.open();
                                 }
                             } catch (Exception e) {
                                 user.wasAuth = false;
-                                System.err.println("Except when click \"Account\": " + e.getMessage());
-                                Platform.runLater(()-> ManagerWindow.OpenNew("AccountAuth.fxml", ManagerWindow.currentController.getA1()));
+                                logger.logError(e);
+                                ManagerWindow.ACCOUNT_AUTH.open();
                             }
                         }).start();
                     });
                     break;
                 case 2:
                     button.setOnMouseClicked(event -> {
-                        Sound.playSound(Sound.CLICK);
                         _pressedNum = 2;
-                        ManagerWindow.OpenNew("News.fxml", ManagerWindow.currentController.getA1());
+                        ManagerWindow.NEWS.open();
                     });
                     break;
                 case 3:
                     button.setOnMouseClicked(event -> {
-                        Sound.playSound(Sound.CLICK);
                         _pressedNum = 3;
-                        ManagerWindow.OpenNew("Forum.fxml", ManagerWindow.currentController.getA1());
+                        ManagerWindow.FORUM.open();
                     });
                     break;
                 case 4:
                     button.setOnMouseClicked(event -> {
-                        Sound.playSound(Sound.CLICK);
                         _pressedNum = 4;
-                        ManagerWindow.OpenNew("Message.fxml", ManagerWindow.currentController.getA1());
+                        ManagerWindow.MESSAGE.open();
 
                     });
                     break;
                 case 5:
                     button.setOnMouseClicked(event -> {
-                        Sound.playSound(Sound.CLICK);
                         _pressedNum = 5;
-                        ManagerWindow.OpenNew("Settings.fxml", ManagerWindow.currentController.getA1());
+                        ManagerWindow.SETTINGS.open();
 
                     });
                     if (ManagerFlags.updateAvailable || ManagerFlags.lowDiskSpace) {
@@ -108,15 +102,13 @@ public class ButtonPageController {
                     break;
                 case 6:
                     button.setOnMouseClicked(event -> {
-                        Sound.playSound(Sound.CLICK);
                         _pressedNum = 6;
-                        ManagerWindow.OpenNew("Play.fxml", ManagerWindow.currentController.getA1());
+                        ManagerWindow.PLAY.open();
                     });
                     break;
             }
         }
     }
-
 
 
 }

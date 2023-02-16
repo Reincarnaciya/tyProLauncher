@@ -7,23 +7,11 @@ public class Settings {
     private static boolean _fsc = false;
     private static boolean hide = false;
     private static boolean autoConnect = false;
-    private static boolean muted = false;
+    private final String suffix = "[" + this.getClass().getName() + "] ";
 
-    public static boolean isMuted() {
-        return muted;
-    }
-
-    public static void setMuted(boolean muted) {
-        Settings.muted = muted;
-    }
-
-    public static void setHide(boolean bool){
-        hide = bool;
-    }
-    public static boolean getHide(){
+    public static boolean getHide() {
         return hide;
     }
-
 
     public static int getOzu() {
         return _ozu;
@@ -63,7 +51,7 @@ public class Settings {
         } else _y = y;
     }
 
-    public static void reset(){
+    public static void reset() {
         _ozu = Math.round(UserPC.getOzu() / 1536) * 512;
         _x = 925;
         _y = 530;
@@ -71,6 +59,7 @@ public class Settings {
         hide = false;
         autoConnect = false;
     }
+
     public static int get_ozu() {
         return _ozu;
     }
@@ -89,6 +78,10 @@ public class Settings {
 
     public static boolean isHide() {
         return hide;
+    }
+
+    public static void setHide(boolean bool) {
+        hide = bool;
     }
 
     public static boolean isAutoConnect() {

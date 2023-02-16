@@ -3,6 +3,7 @@ package tylauncher.Utilites;
 import java.io.PrintStream;
 
 public class DualStream extends PrintStream {
+    private static final Logger logger = new Logger(DualStream.class);
     final PrintStream out;
 
     public DualStream(PrintStream out1, PrintStream out2) {
@@ -15,7 +16,7 @@ public class DualStream extends PrintStream {
             super.write(buf, off, len);
             out.write(buf, off, len);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.logError(e);
         }
     }
 

@@ -7,11 +7,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
+import tylauncher.Utilites.Constants.URLS;
 import tylauncher.Utilites.Utils;
 
 import java.io.IOException;
 
-public class NewsController extends BaseController{
+public class NewsController extends BaseController {
+    private final String suffix = "[" + this.getClass().getName() + "] ";
     @FXML
     private AnchorPane A1;
     @FXML
@@ -32,20 +34,21 @@ public class NewsController extends BaseController{
     private Button donateButton;
 
     private int clicks = 0;
+
     @FXML
     void initialize() {
         initPageButton();
         //Можно я не буду комментировать всё, что ниже..Это же элементарно, Ватсон..
-        inDevText.setOnMouseEntered(mouseEvent ->{
-            if (clicks >= 1){
+        inDevText.setOnMouseEntered(mouseEvent -> {
+            if (clicks >= 1) {
                 inDevText.setCursor(Cursor.HAND);
             }
         });
         inDevText.setOnMouseExited(mouseEvent -> inDevText.setCursor(Cursor.DEFAULT));
         inDevText.setOnMouseClicked(mouseEvent -> {
-            if(clicks>=1) inDevText.setCursor(Cursor.HAND);
+            if (clicks >= 1) inDevText.setCursor(Cursor.HAND);
             clicks++;
-            switch (clicks){
+            switch (clicks) {
                 case 2:
                     inDevText.setText("Ай   ಥ﹏ಥ");
                     break;
@@ -123,7 +126,7 @@ public class NewsController extends BaseController{
                     break;
                 case 180:
                     try {
-                        Utils.openUrl("http://www.youtube.com/watch?v=dQw4w9WgXcQ");
+                        Utils.openUrl(URLS.ROFL_URL);
                         inDevText.setText("Может это его отвлечет..");
                     } catch (IOException e) {
                         inDevText.setText("У ТЕБЯ БРАУЗЕР НЕ ОТКРЫВАЕТСЯ, КАК ТЫ ЖИВЕШЬ????");
@@ -139,7 +142,7 @@ public class NewsController extends BaseController{
                 case 210:
                     System.err.println("Да ну тебя знаешь куда? Пиздуй донат покупать за всю боль, которую ты мне причинил");
                     try {
-                        Utils.openUrl("http://typro.space");
+                        Utils.openUrl(URLS.DONATE);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -148,7 +151,7 @@ public class NewsController extends BaseController{
         });
         donateButton.setOnMouseClicked(mouseEvent -> {
             try {
-                Utils.openUrl("https://typro.space/vendor/donate/script_donate.php");
+                Utils.openUrl(URLS.DONATE);
             } catch (IOException e) {
                 e.printStackTrace();
             }

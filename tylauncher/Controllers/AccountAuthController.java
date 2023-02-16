@@ -10,10 +10,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import tylauncher.Main;
-import tylauncher.Managers.ManagerFlags;
 import tylauncher.Managers.ManagerWindow;
+import tylauncher.Utilites.Constants.Tooltips;
+import tylauncher.Utilites.Logger;
 import tylauncher.Utilites.WebAnswer;
 
 import java.io.BufferedReader;
@@ -23,8 +23,11 @@ import java.io.FileWriter;
 
 import static tylauncher.Main.user;
 
-public class AccountAuthController extends BaseController{
-
+public class AccountAuthController extends BaseController {
+    private static final Logger logger = new Logger(AccountAuthController.class);
+    public static AccountController accountController;
+    private static boolean firstOpen = true; //Флаг, определяющий впервые ли открыта сцена
+    private final File AuthFile = new File((Main.getLauncherDir() + File.separator + "auth.json"));//Файл, в котором хранятся настройки авторизации
     @FXML
     protected Text infoText;//Текст информации
     @FXML
@@ -58,44 +61,13 @@ public class AccountAuthController extends BaseController{
     @FXML
     private TextField ShowPassText;
 
-    public static AccountController accountController;
-    private final File AuthFile = new File((Main.getLauncherDir() + File.separator + "auth.json"));//Файл, в котором хранятся настройки авторизации
-
-    private static boolean firstOpen = true; //Флаг, определяющий впервые ли открыта сцена
     //Инициализация сцены
     @FXML
     void initialize() {
         initPageButton();
-        //Выполняем в основном потоке(javafx)
-        Platform.runLater(()->{
-            Stage stage = (Stage) A1.getScene().getWindow();
-            //Меняем размеры окна и текст окна
-            stage.setWidth(800);
-            stage.setHeight(535);
-            if(firstOpen) stage.centerOnScreen();
-            if(ManagerFlags.updateAvailable) stage.setTitle("Typical Launcher (Доступно обновление)");
-            else stage.setTitle("Typical Launcher");
-        });
 
-        //Проверка на существование файла авторизации и последующая попытка авторизации
-        if (AuthFile.exists() && firstOpen) {
-            try(BufferedReader brf = new BufferedReader(new FileReader(AuthFile))) {
-                JsonObject auth = (JsonObject) JsonParser.parseString(brf.readLine());
-                String login = auth.get("login").toString().replace("\"", "");
-                String password = auth.get("password").toString().replace("\"", "");
-                user.setLogin(login);
-                user.setPassword(password);
-                startAuth();  //Отдельная функция авторизации
-            } catch (Exception e) {
-                if(!e.getMessage().contains("Сайт")){
-                    ManagerWindow.currentController.setInfoText("Файл с логином и паролем поломался :(\nУдаляю..");
-                    AuthFile.delete();
-                }else {
-                    ManagerWindow.currentController.setInfoText(e.getMessage());
-                }
-                e.printStackTrace();
-            }
-        }
+        ShowPass_CheckBox.setTooltip(Tooltips.SHOW_PASSWORD);
+        AutoAuth_CheckBox.setTooltip(Tooltips.AUTO_AUTH);
 
         //Улавливаем событие нажатия на кнопку
         Auth_Button.setOnMouseClicked(mouseEvent -> {
@@ -104,16 +76,16 @@ public class AccountAuthController extends BaseController{
             user.setPassword(Password_Field.getText());
             try {
                 startAuth();
-                if (AutoAuth_CheckBox.isSelected() && user.auth()) savePass(); //При успешной авторизации и с поставленной галочкой
+                if (AutoAuth_CheckBox.isSelected() && user.auth())
+                    savePass(); //При успешной авторизации и с поставленной галочкой
                 // на запоминании пароля вызываем функцию сейва данных в файл и пропускаем юзера дальше в лаунчер
             } catch (Exception e) {
-                ManagerWindow.currentController.setInfoText (e.getMessage());
-                e.printStackTrace();
+                logger.logError(e, ManagerWindow.currentController);
             }
         });
         //Улавливаем событие изменение чекбокса Просмотра пароля
         ShowPass_CheckBox.setOnAction(event -> {
-            if (!ShowPass_CheckBox.isSelected()){
+            if (!ShowPass_CheckBox.isSelected()) {
                 Platform.runLater(() -> {
                     Password_Field.requestFocus();
                     Password_Field.selectEnd();
@@ -126,13 +98,13 @@ public class AccountAuthController extends BaseController{
             //Костыль, да-да, по-другому не знаю как сделать
             ShowPassText.setVisible(true);
             //выполняем всё в мэйн потоке
-                Platform.runLater(() -> {
-                    ShowPassText.requestFocus();
-                    ShowPassText.selectEnd();
-                    ShowPassText.deselect();
-                });
-                //Меняем текст
-                ShowPassText.setText(Password_Field.getText());
+            Platform.runLater(() -> {
+                ShowPassText.requestFocus();
+                ShowPassText.selectEnd();
+                ShowPassText.deselect();
+            });
+            //Меняем текст
+            ShowPassText.setText(Password_Field.getText());
         });
 
         //Синхронизация значение текста между 2-я полями пароля и показа пароля
@@ -142,36 +114,51 @@ public class AccountAuthController extends BaseController{
         //При нажатии на гиперссылку регистрации
         Reg_HyperLynk.setOnMouseClicked(mouseEvent -> {
             user.Reset();//Да-да
-            ManagerWindow.OpenNew("Register.fxml", A1);
+            ManagerWindow.REGISTER.open();
         });
-        firstOpen = false;
 
+        //Проверка на существование файла авторизации и последующая попытка авторизации
+        if (AuthFile.exists() && firstOpen) {
+            try (BufferedReader brf = new BufferedReader(new FileReader(AuthFile))) {
+                JsonObject auth = (JsonObject) JsonParser.parseString(brf.readLine());
+                String login = auth.get("login").toString().replace("\"", "");
+                String password = auth.get("password").toString().replace("\"", "");
+                user.setLogin(login);
+                user.setPassword(password);
+                startAuth();  //Отдельная функция авторизации
+            } catch (Exception e) {
+                if (!e.getMessage().contains("Сайт")) {
+                    logger.logInfo("Файл с логином и паролем поломался :(\nУдаляю..", ManagerWindow.currentController);
+                    AuthFile.delete();
+                } else {
+                    logger.logError(e.getMessage(), ManagerWindow.currentController);
+                }
+            }
+        }
+        firstOpen = false;
     }
 
     //Функция сейва пароляы
     void savePass() throws Exception {
-        if(!AuthFile.exists()) AuthFile.createNewFile();
-        try(JsonWriter writer = new JsonWriter(new FileWriter(AuthFile))) {
+        if (!AuthFile.exists()) AuthFile.createNewFile();
+        try (JsonWriter writer = new JsonWriter(new FileWriter(AuthFile))) {
             writer.beginObject();
             writer.name("login");
             writer.value(user.GetLogin());
             writer.name("password");
             writer.value(user.GetPassword());
             writer.endObject();
+        } catch (Exception e) {
+            logger.logError(e);
         }
     }
 
     public void startAuth() throws Exception {
         if (user.auth()) {
-            //Да-да, в классе юзера уже есть функция авторизации, но тут другое, вы не понимаете!
-            ManagerWindow.OpenNew("Account.fxml", A1);//пропускаем юзера дальше
-            accountController.UpdateData();//Обновляем информацию об аккаунте юзера
-            //Дебаг
-            WebAnswer.PrintAnswer();
-            System.err.println(user);
+            ManagerWindow.ACCOUNT.open();
         } else {
             user.Reset();
-            ManagerWindow.currentController.setInfoText (WebAnswer.getMessage());
+            logger.logInfo(WebAnswer.getMessage());
         }
     }
 

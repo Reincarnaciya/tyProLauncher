@@ -3,16 +3,62 @@ package tylauncher.Utilites;
 import tylauncher.Main;
 import tylauncher.Managers.ManagerWindow;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.PosixFilePermission;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class Utils {
-    private static final Desktop desktop = Desktop.getDesktop();
+    private static final Logger logger = new Logger(Utils.class);
+
+    public static void setAllPermissions(Path path) {
+        // Набор прав, которые нужно выдать
+        Set<PosixFilePermission> permissions = new HashSet<>();
+
+        permissions.add(PosixFilePermission.OWNER_READ);
+        permissions.add(PosixFilePermission.OWNER_WRITE);
+        permissions.add(PosixFilePermission.OWNER_EXECUTE);
+
+        permissions.add(PosixFilePermission.OTHERS_EXECUTE);
+        permissions.add(PosixFilePermission.OTHERS_READ);
+        permissions.add(PosixFilePermission.OTHERS_WRITE);
+
+        permissions.add(PosixFilePermission.GROUP_EXECUTE);
+        permissions.add(PosixFilePermission.GROUP_READ);
+        permissions.add(PosixFilePermission.GROUP_WRITE);
+
+        // Устанавливаем права на папку
+        try {
+            setPermissionsRecursive(path, permissions);
+        } catch (Exception e) {
+            logger.logError(e);
+        }
+    }
+
+    private static void setPermissionsRecursive(Path path, Set<PosixFilePermission> permissions) throws Exception {
+        // Устанавливаем права на текущую папку
+        Files.setPosixFilePermissions(path, permissions);
+
+        // Рекурсивно устанавливаем права на внутренние файлы и папки
+        Files.list(path).forEach(child -> {
+            try {
+                if (Files.isDirectory(child)) {
+                    setPermissionsRecursive(child, permissions);
+                } else {
+                    Files.setPosixFilePermissions(child, permissions);
+                }
+            } catch (Exception e) {
+                logger.logError(e);
+            }
+        });
+    }
 
     //unicode символы в понятные буковки
     public static String UniToText(String message) {
@@ -28,6 +74,7 @@ public class Utils {
         }
         return text.toString();
     }
+
     public static void DeleteFile(File file) {
         if (file.isDirectory()) {
             for (File f : Objects.requireNonNull(file.listFiles())) {
@@ -36,12 +83,12 @@ public class Utils {
         }
         try {
             Files.delete(Paths.get(file.getAbsolutePath()));
-        }catch (IOException e) {
-            ManagerWindow.currentController.setInfoText(e.getMessage());
-            e.printStackTrace();
+        } catch (IOException e) {
+            logger.logError(e, ManagerWindow.currentController);
         }
     }
-    public static void openUrl(String url) throws IOException {
+
+    public static void openUrl(URL url) throws IOException {
         Runtime rt = Runtime.getRuntime();
         String os = System.getProperty("os.name").toLowerCase();
         try {
@@ -61,10 +108,11 @@ public class Utils {
                 rt.exec(new String[]{"sh", "-c", cmd.toString()});
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IOException(e);
         }
     }
-    public static String bytesToString(String message){
+
+    public static String bytesToString(String message) {
         StringBuilder mssage = new StringBuilder();
         message = message.replace(".", "");
         String[] msg = message.split(" ");
@@ -95,8 +143,7 @@ public class Utils {
     }
 
 
-
-    public static void easter(){
+    public static void easter() {
         System.err.println("\n\n\n");
         System.err.println("                   .`\":l><~<!;,^'.                                .'^,;l><>iI:\"`.                   \n" +
                 "              `I{u&88&&88888888888#/+\".                      .\"<\\*88888888&&&&&&&&n};`              \n" +

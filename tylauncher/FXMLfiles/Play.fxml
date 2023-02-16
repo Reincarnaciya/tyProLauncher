@@ -9,11 +9,12 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="A1" maxHeight="-Infinity" maxWidth="-Infinity"
-            minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="A1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0"
+            stylesheets="@../StyleSheets/font.css" xmlns="http://javafx.com/javafx/8"
             fx:controller="tylauncher.Controllers.PlayController">
-    <VBox alignment="TOP_CENTER" fillWidth="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="500.0"
-          prefWidth="93.0" style="-fx-background-color: black; -fx-alignment: center; -fx-spacing: 4;">
+    <VBox alignment="TOP_CENTER" fillWidth="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="500.0" prefWidth="93.0"
+          style="-fx-background-color: black; -fx-alignment: center; -fx-spacing: 4;">
         <ImageView fx:id="Account_Img" fitWidth="75.0" nodeOrientation="INHERIT" pickOnBounds="true"
                    preserveRatio="true">
             <cursor>
@@ -21,15 +22,13 @@
             </cursor>
             <Image url="@../assets/notpick/account.png"/>
         </ImageView>
-        <ImageView fx:id="News_Img" fitWidth="75.0" nodeOrientation="INHERIT" pickOnBounds="true"
-                   preserveRatio="true">
+        <ImageView fx:id="News_Img" fitWidth="75.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
             <cursor>
                 <Cursor fx:constant="HAND"/>
             </cursor>
             <Image url="@../assets/notpick/news.png"/>
         </ImageView>
-        <ImageView fx:id="Forum_Img" fitWidth="75.0" nodeOrientation="INHERIT" pickOnBounds="true"
-                   preserveRatio="true">
+        <ImageView fx:id="Forum_Img" fitWidth="75.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
             <cursor>
                 <Cursor fx:constant="HAND"/>
             </cursor>
@@ -49,8 +48,7 @@
             </cursor>
             <Image url="@../assets/notpick/settings.png"/>
         </ImageView>
-        <ImageView fx:id="Play_Img" fitWidth="75.0" nodeOrientation="INHERIT" pickOnBounds="true"
-                   preserveRatio="true">
+        <ImageView fx:id="Play_Img" fitWidth="75.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
             <cursor>
                 <Cursor fx:constant="HAND"/>
             </cursor>
@@ -58,9 +56,8 @@
         </ImageView>
     </VBox>
     <Pane layoutX="93.0" prefHeight="500.0" prefWidth="708.0" style="-fx-background-color: #363636;">
-        <ProgressBar fx:id="Download_ProgressBar" layoutX="202.0" layoutY="387.0" prefHeight="77.0"
-                     prefWidth="243.0" progress="1.0"
-                     style="-fx-accent: black; -fx-control-inner-background: gray;"/>
+        <ProgressBar fx:id="Download_ProgressBar" layoutX="202.0" layoutY="387.0" prefHeight="77.0" prefWidth="243.0"
+                     progress="1.0" style="-fx-accent: black; -fx-control-inner-background: gray;"/>
         <Text id="downloadText" fx:id="Progressbar_Text" layoutX="202.0" layoutY="430.0" strokeType="OUTSIDE"
               strokeWidth="0.0" style="-fx-text-origin: center;" styleClass="downloadText" text="Text"
               textAlignment="CENTER" wrappingWidth="243.0"/>

@@ -1,22 +1,23 @@
 package tylauncher.Controllers;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import tylauncher.Main;
-import tylauncher.Managers.ManagerFlags;
 import tylauncher.Managers.ManagerWindow;
+import tylauncher.Utilites.Constants.URLS;
+import tylauncher.Utilites.Logger;
 import tylauncher.Utilites.Utils;
 
 import java.io.File;
 
 import static tylauncher.Main.user;
 
-public class AccountController extends BaseController{
+public class AccountController extends BaseController {
+    private static final Logger logger = new Logger(AccountController.class);
+    private static boolean firstOpen = true; //Флаг, определяющий впервые ли открыта сцена
     @FXML
     private Button donateButton;
     @FXML
@@ -44,38 +45,29 @@ public class AccountController extends BaseController{
     @FXML
     private Button Exit_Button;
 
-    private static boolean firstOpen = true; //Флаг, определяющий впервые ли открыта сцена
     @FXML
     void initialize() {
+        this.UpdateData();
         //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
         AccountAuthController.accountController = this;
 
         initPageButton();
 
-        Platform.runLater(()->{
-            Stage stage = (Stage) A1.getScene().getWindow();
-            //Меняем размеры окна и текст окна
-            stage.setWidth(800);
-            stage.setHeight(535);
-            if(firstOpen) stage.centerOnScreen();
-            if(ManagerFlags.updateAvailable) stage.setTitle("Typical Launcher (Доступно обновление)");
-            else stage.setTitle("Typical Launcher");
-        });
 
         Exit_Button.setOnMouseClicked(mouseEvent -> logout());
 
-        donateButton.setOnMouseClicked(event ->{
+        donateButton.setOnMouseClicked(event -> {
             try {
-                Utils.openUrl("https://typro.space/markup/donate.php");
+                Utils.openUrl(URLS.DONATE);
             } catch (Exception e) {
-                ManagerWindow.currentController.setInfoText(String.format("Невозможно открыть ссылку:  %s", e.getMessage()));
-                e.printStackTrace();
+                logger.logError("Невозможно открыть ссылку:", e.toString());
             }
         });
         firstOpen = false;
     }
+
     //Обновление информации о юзере
-    public void UpdateData() {
+    private void UpdateData() {
         Username_Text.setText(user.GetLogin());
         Balance_Text.setText(user.GetBalance());
         Group_Text.setText(user.GetGroup());
@@ -88,7 +80,7 @@ public class AccountController extends BaseController{
         f.delete();//Удалить нахуй
         user.Reset();//Ресетнуть всё
         user.wasAuth = false;//Флаг авторизации - не авторизовавылся
-        ManagerWindow.OpenNew("AccountAuth.fxml", A1);// Выкинуть в авторизацию
+        ManagerWindow.ACCOUNT_AUTH.open();// Выкинуть в авторизацию
     }
 
 

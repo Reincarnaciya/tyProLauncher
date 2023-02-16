@@ -5,10 +5,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
+import tylauncher.Managers.ManagerWindow;
 import tylauncher.Utilites.RuntimeDownload;
 
-public class RuntimeController extends BaseController{
+public class RuntimeController extends BaseController {
+    private final String suffix = "[" + this.getClass().getName() + "] ";
     @FXML
     private AnchorPane A1;
 
@@ -19,23 +20,18 @@ public class RuntimeController extends BaseController{
     private ProgressBar progressBar;
 
     @FXML
-    void initialize(){
+    void initialize() {
         RuntimeDownload.runtimeController = this;
-        Platform.runLater(()->{
-            Stage stage = (Stage) A1.getScene().getWindow();
-            //Меняем размеры окна и текст окна
-            stage.setWidth(343);
-            stage.setHeight(199);
-            stage.centerOnScreen();
-        });
-
-
+        ManagerWindow.currentController = this;
         RuntimeDownload.download(progressBar, infoText);
     }
 
     @Override
     public void setInfoText(String info) {
-        Platform.runLater(()-> infoText.setText(info));
+        Platform.runLater(() -> infoText.setText(info));
     }
 
+    public ProgressBar getProgressBar() {
+        return progressBar;
+    }
 }

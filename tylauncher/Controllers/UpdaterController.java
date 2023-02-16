@@ -12,24 +12,18 @@ import tylauncher.Managers.ManagerFlags;
 import tylauncher.Managers.ManagerWindow;
 import tylauncher.Utilites.UpdaterLauncher;
 
-public class UpdaterController extends BaseController{
-
-
-    @FXML
-    private ProgressIndicator IndicatorUpdater;
-
-    @FXML
-    private Text TextUpdater;
-
+public class UpdaterController extends BaseController {
+    private final String suffix = "[" + this.getClass().getName() + "] ";
     @FXML
     protected AnchorPane A1;
-
+    @FXML
+    private ProgressIndicator IndicatorUpdater;
+    @FXML
+    private Text TextUpdater;
     @FXML
     private Pane UpdateOrNoPane;
-
     @FXML
     private Pane UpdatingPane;
-
     @FXML
     private Button LaterButton;
 
@@ -37,18 +31,19 @@ public class UpdaterController extends BaseController{
     private Button UpdateButton;
 
     @FXML
-    void initialize(){
+    void initialize() {
         UpdaterLauncher.updaterController = this;
         ManagerWindow.currentController = this;
 
-        LaterButton.setOnMouseClicked(mouseEvent -> ManagerWindow.OpenNew("AccountAuth.fxml", A1));
+        LaterButton.setOnMouseClicked(mouseEvent -> ManagerWindow.ACCOUNT_AUTH.open());
 
         UpdateButton.setOnMouseClicked(mouseEvent -> UpdaterLauncher.UpdateLauncher());
     }
-    public void setUpdateAvailable(boolean available){
+
+    public void setUpdateAvailable(boolean available) {
         ManagerFlags.updateAvailable = available;
         TextUpdater.setText("Найдено обновление!");
-        if(available){
+        if (available) {
             Stage stage = (Stage) TextUpdater.getScene().getWindow();
             Platform.runLater(() -> stage.setTitle("Найдено обновление"));
             UpdatingPane.setVisible(false);
@@ -57,14 +52,18 @@ public class UpdaterController extends BaseController{
             UpdateOrNoPane.setDisable(false);
         }
     }
+
     @Override
-    void initPageButton(){System.err.println("nothing to init");}
-    @Override
-    public void setInfoText(String info){
-        TextUpdater.setText(info);
+    void initPageButton() {
+        System.err.println("nothing to init");
     }
 
-    public AnchorPane getA1(){
+    @Override
+    public void setInfoText(String info) {
+        Platform.runLater(() -> TextUpdater.setText(info));
+    }
+
+    public AnchorPane getA1() {
         return this.A1;
     }
 }

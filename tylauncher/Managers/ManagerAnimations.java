@@ -4,8 +4,11 @@ import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
 import javafx.scene.Node;
 import javafx.util.Duration;
+import tylauncher.Utilites.Logger;
 
 public class ManagerAnimations {
+    private static final Logger logger = new Logger(ManagerAnimations.class);
+
     //Спизженный код, который работает. НЕ ТРОГАТЬ
     //UPD я разобрался как оно работает
     public static FadeTransition CreateFader(Node node) {
@@ -17,7 +20,8 @@ public class ManagerAnimations {
 
         return fade;
     }
-    private static FadeTransition waitAnim(Node node){
+
+    private static FadeTransition waitAnim(Node node) {
 
         FadeTransition fadeTransition = new FadeTransition(Duration.seconds(3), node);
         fadeTransition.setFromValue(1);
@@ -31,7 +35,7 @@ public class ManagerAnimations {
         SequentialTransition Fade = new SequentialTransition(whatToFade, fader);
 
         FadeTransition f = waitAnim(whatToFade);
-        f.setOnFinished(event ->  Fade.play());
+        f.setOnFinished(event -> Fade.play());
         f.play();
     }
 }
