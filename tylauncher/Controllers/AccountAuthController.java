@@ -4,17 +4,22 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import sun.rmi.runtime.Log;
 import tylauncher.Main;
 import tylauncher.Managers.ManagerWindow;
 import tylauncher.Utilites.Constants.Tooltips;
 import tylauncher.Utilites.Logger;
 import tylauncher.Utilites.WebAnswer;
+import tylauncher.Utilites.Window;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -66,23 +71,26 @@ public class AccountAuthController extends BaseController {
     void initialize() {
         initPageButton();
 
+        Window.accountAuthController = this;
+
         ShowPass_CheckBox.setTooltip(Tooltips.SHOW_PASSWORD);
         AutoAuth_CheckBox.setTooltip(Tooltips.AUTO_AUTH);
 
+
         //Улавливаем событие нажатия на кнопку
         Auth_Button.setOnMouseClicked(mouseEvent -> {
-            //Юзеру задаем логин и пароль
-            user.setLogin(Login_Field.getText());
-            user.setPassword(Password_Field.getText());
             try {
                 startAuth();
                 if (AutoAuth_CheckBox.isSelected() && user.auth())
-                    savePass(); //При успешной авторизации и с поставленной галочкой
-                // на запоминании пароля вызываем функцию сейва данных в файл и пропускаем юзера дальше в лаунчер
+                    savePass();
             } catch (Exception e) {
                 logger.logError(e, ManagerWindow.currentController);
             }
         });
+
+        //btn.setOnMousePressed(event -> btn.setStyle("-fx-background-color: #444"));
+        //                    btn.setOnMouseEntered(event -> btn.setStyle("-fx-background-color: #1a1a1a;"));
+
         //Улавливаем событие изменение чекбокса Просмотра пароля
         ShowPass_CheckBox.setOnAction(event -> {
             if (!ShowPass_CheckBox.isSelected()) {
@@ -116,6 +124,9 @@ public class AccountAuthController extends BaseController {
             user.Reset();//Да-да
             ManagerWindow.REGISTER.open();
         });
+
+
+
 
         //Проверка на существование файла авторизации и последующая попытка авторизации
         if (AuthFile.exists() && firstOpen) {
@@ -153,14 +164,78 @@ public class AccountAuthController extends BaseController {
         }
     }
 
-    public void startAuth() throws Exception {
-        if (user.auth()) {
-            ManagerWindow.ACCOUNT.open();
-        } else {
-            user.Reset();
-            logger.logInfo(WebAnswer.getMessage());
+    public void startAuth() {
+        user.setLogin(Login_Field.getText());
+        user.setPassword(Password_Field.getText());
+        try {
+            if (user.auth()) {
+                ManagerWindow.ACCOUNT.open();
+            } else {
+                user.Reset();
+                logger.logInfo(WebAnswer.getMessage(), ManagerWindow.currentController);
+            }
+        }catch (Exception e){
+            logger.logError(e, ManagerWindow.currentController);
         }
+
     }
+
+
+    public void customInitController(){
+        Platform.runLater(()->{
+            setEnterTape();
+        });
+
+    }
+
+    public void setEnterTape(){
+        Login_Field.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+
+            if (event.isControlDown() && keyCode.equals(KeyCode.BACK_SPACE)){
+                Login_Field.clear();
+            }
+            if(keyCode.equals(KeyCode.ENTER) || keyCode.equals(KeyCode.DOWN)){
+                Password_Field.requestFocus();
+                Password_Field.selectEnd();
+                Password_Field.deselect();
+            }
+        });
+
+        Password_Field.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+
+            if (event.isControlDown() && keyCode.equals(KeyCode.BACK_SPACE)){
+                Password_Field.clear();
+            }
+            if (keyCode.equals(KeyCode.ENTER)){
+                startAuth();
+            }
+            if (keyCode.equals(KeyCode.UP)){
+                Login_Field.requestFocus();
+                Login_Field.selectEnd();
+                Login_Field.deselect();
+            }
+        });
+
+        ShowPassText.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+
+            if (event.isControlDown() && keyCode.equals(KeyCode.BACK_SPACE)){
+                ShowPassText.clear();
+            }
+            if (keyCode.equals(KeyCode.ENTER)){
+                startAuth();
+            }
+            if (keyCode.equals(KeyCode.UP)){
+                Login_Field.requestFocus();
+                Login_Field.selectEnd();
+                Login_Field.deselect();
+            }
+        });
+
+    }
+
 
 }
 

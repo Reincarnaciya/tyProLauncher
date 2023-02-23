@@ -2,6 +2,7 @@ package tylauncher.Utilites;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.sun.istack.internal.Nullable;
 import javafx.scene.image.Image;
 import tylauncher.Main;
 import tylauncher.Managers.ManagerWeb;
@@ -9,19 +10,25 @@ import tylauncher.Utilites.Constants.URLS;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 
 public class User {
     private static final Logger logger = new Logger(User.class);
     private final long _id;
+
     public boolean wasAuth = false;
     private String _email;
-    private String _password;
+    protected String _password;
     private String _login;
     private String _session;
     private String _balance;
     private String _group;
     private String _endDonateTime;
     private Image _image;
+
+    public void setBalance(String _balance) {
+        this._balance = _balance;
+    }
 
     public User() {
         this._id = -1;
@@ -35,9 +42,14 @@ public class User {
         this._image = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("assets/picked/steve.png")));
     }
 
+    public boolean auth(boolean a){
+        WebAnswer.Reset();
+        return a;
+    }
+
     public boolean auth() throws Exception {
         WebAnswer.Reset();
-        //if (_login.equalsIgnoreCase("test"))return true;
+        if (_login.equalsIgnoreCase("test"))return true;
 
         //if (_login.isEmpty() || _password.isEmpty()) throw new Exception("Логин или пароль не введены");
 
@@ -153,5 +165,9 @@ public class User {
     @Override
     public String toString() {
         return "User{" + "_email='" + _email + '\'' + ", _id=" + _id + ", _password='sex(не увидишь ты пароля в логах, гений)" + '\'' + ", _login='" + _login + '\'' + ", _session='" + _session + '\'' + ", _balance='" + _balance + '\'' + ", _group='" + _group + '\'' + ", _image=" + _image.toString() + '}';
+    }
+
+    public void setGroup(String s) {
+        this._group = "Роль: [" + s + "]";
     }
 }

@@ -10,8 +10,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
 import javafx.stage.Stage;
+import tylauncher.Controllers.AccountAuthController;
 import tylauncher.Main;
 import tylauncher.Managers.ManagerFlags;
+import tylauncher.Managers.ManagerStart;
 import tylauncher.Utilites.Constants.FXMLS;
 import tylauncher.Utilites.Constants.Titles;
 
@@ -21,11 +23,11 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Window {
+    public static AccountAuthController accountAuthController;
     private static final Logger logger = new Logger(Window.class);
     private final int width;
     private final int height;
     private final Stage globalStage;
-    private final boolean init = false;
     private boolean firstOpen = true;
     private String fxml;
     private Scene scene;
@@ -79,10 +81,6 @@ public class Window {
         return fxml;
     }
 
-    public void setFxml(String fxml) {
-        this.fxml = fxml;
-    }
-
     public void open() {
         Platform.runLater(() -> {
             try {
@@ -95,11 +93,15 @@ public class Window {
             if (!ManagerFlags.updateAvailable) globalStage.setTitle(title);
             else globalStage.setTitle(title + Titles.UPDATE_AVAILABLE_SUFFIX);
 
-
             globalStage.setScene(scene);
 
-            if ((fxml.equals(FXMLS.ACCOUNT) || fxml.equals(FXMLS.ACCOUNT_AUTH)) && firstOpen)
-                scene.getWindow().centerOnScreen();
+            if ((fxml.equals(FXMLS.ACCOUNT_AUTH))){
+                accountAuthController.customInitController();
+                if (firstOpen){
+                    scene.getWindow().centerOnScreen();
+                }
+            }
+
 
             firstOpen = false;
             root = scene.getRoot();
@@ -129,8 +131,6 @@ public class Window {
 
             logger.logInfo("Открыто окно: " + this);
         });
-
-
     }
 
     public void setTitle(String title) {

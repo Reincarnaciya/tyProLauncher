@@ -34,7 +34,7 @@ public class URLS {
             JAVA_HASH = new URL("https://typro.space/vendor/server/check_java_hash.php");
             CHECK_LAUCHER_VERS = new URL("https://typro.space/vendor/launcher/CheckingVersion.php");
             UPDATER_LAUNCHER_DOWNLOAD = new URL("https://www.typro.space/files/Update/TyUpdaterLauncher.jar");
-            CLIENT_TY_SCI_LINUX = new URL("https://google.com"); // TODO: 15.02.2023 ADD LINKS
+            CLIENT_TY_SCI_LINUX = new URL("https://typro.space/files/client_mc/ForgeLinux_1_16_5.zip"); // TODO: 15.02.2023 ADD LINKS
             CLIENT_TY_SCI_MACOS = new URL("https://google.com");
             ROFL_URL = new URL("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
             MAIN_SITE_PAGE = new URL("https://typro.space");

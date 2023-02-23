@@ -80,7 +80,6 @@ public class HashCodeCheck {
     public boolean CalcAndCheckWithServer(String directoryPath) throws Exception {
         String hash = calculateHashes(directoryPath);
 
-
         ManagerWeb hashManager = new ManagerWeb("hashRequest");
         hashManager.setUrl(URLS.CLIENT_HASH);
 

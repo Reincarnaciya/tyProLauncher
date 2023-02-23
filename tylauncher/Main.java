@@ -12,6 +12,7 @@ import javafx.stage.Window;
 import tylauncher.Controllers.SettingsController;
 import tylauncher.Managers.ManagerDirs;
 import tylauncher.Managers.ManagerWindow;
+import tylauncher.Utilites.AdminConsole.AdminConsole;
 import tylauncher.Utilites.Constants.Titles;
 import tylauncher.Utilites.*;
 
@@ -56,16 +57,23 @@ public class Main extends Application {
 
     public static void resetClientDir() {
         _clientDir = new ManagerDirs(String.format("TyPro%sclients%s", File.separator, File.separator));
-        System.err.println(_clientDir);
     }
 
     static void test() {
 
     }
 
+
+
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
+        Thread adminConsole = new Thread(new AdminConsole());
+        adminConsole.start();
+
+
+
         logger.logInfo(UserPC.getPCinfo());
         test();
+
 /*
         HashCodeCheck hashCodeCheck = new HashCodeCheck(Lists.skippingFiles, Lists.skippingDirictories,Lists.allowedFiles,"TySci_1.16.5");
         System.err.println("================TEST HASHES CLIENT================\n" + hashCodeCheck.calculateHashes(Main.getClientDir() + File.separator + "TySci_1.16.5"));

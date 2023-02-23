@@ -173,23 +173,19 @@ public class SettingsController extends BaseController {
 
         resetBtn.setOnMouseClicked(event -> {
             if (!reset) {
-                logger.logInfo("Точно хочешь сбросить все настройки? Если да, то нажми еще раз на кнопку!");
+                logger.logInfo("Точно хочешь сбросить все настройки? Если да, то нажми еще раз на кнопку!", ManagerWindow.currentController);
                 reset = true;
                 return;
             }
             ManagerWindow.currentController.unsetText();
+
             Settings.reset();
             Main.resetClientDir();
             pathToClientHyperLink.setText(Main.getClientDir().getAbsolutePath());
-
-            try {
-                updateLogicalSettings();
-            } catch (Exception e) {
-                logger.logError(e.getMessage(), ManagerWindow.currentController);
-                logger.logError(e);
-            }
-            updateVisual();
             writeSettingsToFile();
+            updateVisual();
+
+            logger.logInfo("Настройки успешно сброшены", ManagerWindow.currentController);
             reset = false;
         });
 

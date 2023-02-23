@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
+import tylauncher.Utilites.AdminConsole.AdminConsole;
 import tylauncher.Utilites.Constants.URLS;
 import tylauncher.Utilites.Utils;
 
@@ -33,10 +34,11 @@ public class NewsController extends BaseController {
     @FXML
     private Button donateButton;
 
-    private int clicks = 0;
+    public int clicks = 0;
 
     @FXML
     void initialize() {
+        AdminConsole.newsController = this;
         initPageButton();
         //Можно я не буду комментировать всё, что ниже..Это же элементарно, Ватсон..
         inDevText.setOnMouseEntered(mouseEvent -> {

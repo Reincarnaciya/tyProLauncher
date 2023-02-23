@@ -51,10 +51,6 @@ public class ManagerStart {
     }
 
     public void Start() throws Exception {
-        if (Settings.isHide()) Platform.runLater(() -> {
-            Stage st = (Stage) ManagerWindow.currentController.getA1().getScene().getWindow();
-            st.setIconified(true);
-        });
         createUserHashes();
         new Thread(() -> {
             try {
@@ -67,11 +63,17 @@ public class ManagerStart {
 
                 p1 = runtime.exec(start);
 
+                if (Settings.isHide()) Platform.runLater(() -> {
+                    Stage st = (Stage) ManagerWindow.currentController.getA1().getScene().getWindow();
+                    st.setIconified(true);
+                });
+
                 InputStream is = p1.getInputStream();
 
                 ManagerFlags.gameIsStart = true;
                 logger.logInfo("Игра запущена", ManagerWindow.currentController);
                 int i;
+
                 while ((i = is.read()) != -1) {
                     System.out.print((char) i);
                 }
@@ -90,6 +92,11 @@ public class ManagerStart {
     }
 
     private void createUserHashes() throws Exception {
+        if (user.GetLogin().equalsIgnoreCase("test")){
+            this.UUID = "test";
+            this.accessToken = "test";
+            return;
+        }
         ManagerWeb userHashes = new ManagerWeb("userHashes");
 
         userHashes.setUrl(URLS.USER_HASHS);

@@ -119,6 +119,7 @@ public class Logger {
         }
         for (int i = 0; i < (biggest / 2); i++) {
             stringBuilder.append(c);
+            if (i >= 50) break;
         }
 
         return stringBuilder.toString();

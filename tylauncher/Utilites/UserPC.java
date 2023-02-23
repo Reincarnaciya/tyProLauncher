@@ -38,9 +38,6 @@ public class UserPC {
         } catch (URISyntaxException e) {
             logger.logError(e);
         }
-    }
-
-    static {
         if (UserPC._usableDiskSpace < 1500) {
             logger.logInfo("Обнаружено малое кол-во места на диске");
             ManagerFlags.lowDiskSpace = true;

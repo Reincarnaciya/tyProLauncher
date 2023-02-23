@@ -1,5 +1,6 @@
 package tylauncher.Controllers;
 
+import com.sun.security.ntlm.Client;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -26,7 +27,6 @@ public class UpdaterController extends BaseController {
     private Pane UpdatingPane;
     @FXML
     private Button LaterButton;
-
     @FXML
     private Button UpdateButton;
 
