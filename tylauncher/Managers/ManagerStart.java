@@ -229,7 +229,7 @@ public class ManagerStart {
 
     private String linuxStartStr() {
         return Main.getRuntimeDir() + File.separator + "jre8" + File.separator + "bin" + File.separator + "java -Xss1M -Djava.library.path=" + pathToVersion
-                + "versions" + File.separator + "Forge 1.16.5" + File.separator + "natives -Dminecraft.launcher.brand=minecraft-launcher -Dminecraft.launcher.version=2.3.173 -cp "
+                + "versions" + File.separator + "Forge1.16.5" + File.separator + "natives -Dminecraft.launcher.brand=minecraft-launcher -Dminecraft.launcher.version=2.3.173 -cp "
                 + pathToVersion + "libraries" + File.separator + "net" + File.separator + "minecraftforge" + File.separator + "forge" + File.separator + "1.16.5-36.2.39" + File.separator + "forge-1.16.5-36.2.39.jar:"
                 + pathToVersion + "libraries" + File.separator + "org" + File.separator + "ow2" + File.separator + "asm" + File.separator + "asm" + File.separator + "9.1" + File.separator + "asm-9.1.jar:" + pathToVersion
                 + "libraries" + File.separator + "org" + File.separator + "ow2" + File.separator + "asm" + File.separator + "asm-commons" + File.separator + "9.1" + File.separator + "asm-commons-9.1.jar:" + pathToVersion
@@ -256,7 +256,6 @@ public class ManagerStart {
                 + "libraries" + File.separator + "net" + File.separator + "sf" + File.separator + "jopt-simple" + File.separator + "jopt-simple" + File.separator + "5.0.4" + File.separator + "jopt-simple-5.0.4.jar:" + pathToVersion
                 + "libraries" + File.separator + "org" + File.separator + "spongepowered" + File.separator + "mixin" + File.separator + "0.8.4" + File.separator + "mixin-0.8.4.jar:" + pathToVersion
                 + "libraries" + File.separator + "net" + File.separator + "minecraftforge" + File.separator + "nashorn-core-compat" + File.separator + "15.1.1.1" + File.separator + "nashorn-core-compat-15.1.1.1.jar:" + pathToVersion
-                + "libraries" + File.separator + "org" + File.separator + "tlauncher" + File.separator + "patchy" + File.separator + "1.3.9" + File.separator + "patchy-1.3.9.jar:" + pathToVersion
                 + "libraries" + File.separator + "oshi-project" + File.separator + "oshi-core" + File.separator + "1.1" + File.separator + "oshi-core-1.1.jar:" + pathToVersion
                 + "libraries" + File.separator + "net" + File.separator + "java" + File.separator + "dev" + File.separator + "jna" + File.separator + "jna" + File.separator + "4.4.0" + File.separator + "jna-4.4.0.jar:" + pathToVersion
                 + "libraries" + File.separator + "net" + File.separator + "java" + File.separator + "dev" + File.separator + "jna" + File.separator + "platform" + File.separator + "3.4.0" + File.separator + "platform-3.4.0.jar:" + pathToVersion
@@ -273,7 +272,6 @@ public class ManagerStart {
                 + "libraries" + File.separator + "com" + File.separator + "mojang" + File.separator + "brigadier" + File.separator + "1.0.17" + File.separator + "brigadier-1.0.17.jar:" + pathToVersion
                 + "libraries" + File.separator + "com" + File.separator + "mojang" + File.separator + "datafixerupper" + File.separator + "4.0.26" + File.separator + "datafixerupper-4.0.26.jar:" + pathToVersion
                 + "libraries" + File.separator + "com" + File.separator + "google" + File.separator + "code" + File.separator + "gson" + File.separator + "gson" + File.separator + "2.8.0" + File.separator + "gson-2.8.0.jar:" + pathToVersion
-                + "libraries" + File.separator + "org" + File.separator + "tlauncher" + File.separator + "authlib" + File.separator + "2.0.28.12" + File.separator + "authlib-2.0.28.12.jar:" + pathToVersion
                 + "libraries" + File.separator + "org" + File.separator + "apache" + File.separator + "commons" + File.separator + "commons-compress" + File.separator + "1.8.1" + File.separator + "commons-compress-1.8.1.jar:" + pathToVersion
                 + "libraries" + File.separator + "org" + File.separator + "apache" + File.separator + "httpcomponents" + File.separator + "httpclient" + File.separator + "4.3.3" + File.separator + "httpclient-4.3.3.jar:" + pathToVersion
                 + "libraries" + File.separator + "commons-logging" + File.separator + "commons-logging" + File.separator + "1.1.3" + File.separator + "commons-logging-1.1.3.jar:" + pathToVersion
@@ -289,7 +287,7 @@ public class ManagerStart {
                 + "libraries" + File.separator + "org" + File.separator + "lwjgl" + File.separator + "lwjgl-stb" + File.separator + "3.2.2" + File.separator + "lwjgl-stb-3.2.2.jar:" + pathToVersion
                 + "libraries" + File.separator + "org" + File.separator + "lwjgl" + File.separator + "lwjgl-tinyfd" + File.separator + "3.2.2" + File.separator + "lwjgl-tinyfd-3.2.2.jar:" + pathToVersion
                 + "libraries" + File.separator + "com" + File.separator + "mojang" + File.separator + "text2speech" + File.separator + "1.11.3" + File.separator + "text2speech-1.11.3.jar:" + pathToVersion
-                + "versions" + File.separator + "Forge 1.16.5" + File.separator + "Forge 1.16.5.jar  " +
+                + "versions" + File.separator + "Forge1.16.5" + File.separator + "Forge1.16.5.jar  " +
                 "-XX:+IgnoreUnrecognizedVMOptions " +
                 "--add-exports=java.base" + File.separator + "sun.security.util=ALL-UNNAMED " +
                 "--add-exports=jdk.naming.dns" + File.separator + "com.sun.jndi.dns=java.naming " +

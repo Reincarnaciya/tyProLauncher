@@ -24,6 +24,8 @@ import java.nio.file.Files;
 import java.security.NoSuchAlgorithmException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Objects;
 
 import static tylauncher.Utilites.Utils.CheckLogs;

@@ -121,7 +121,7 @@ public class AccountAuthController extends BaseController {
         });
         //При нажатии на гиперссылку регистрации
         Reg_HyperLynk.setOnMouseClicked(mouseEvent -> {
-            user.Reset();//Да-да
+            user.Reset();
             ManagerWindow.REGISTER.open();
         });
 
@@ -132,10 +132,12 @@ public class AccountAuthController extends BaseController {
         if (AuthFile.exists() && firstOpen) {
             try (BufferedReader brf = new BufferedReader(new FileReader(AuthFile))) {
                 JsonObject auth = (JsonObject) JsonParser.parseString(brf.readLine());
+                System.err.println(auth);
                 String login = auth.get("login").toString().replace("\"", "");
                 String password = auth.get("password").toString().replace("\"", "");
-                user.setLogin(login);
-                user.setPassword(password);
+                Login_Field.setText(login);
+                Password_Field.setText(password);
+                ShowPassText.setText(password);
                 startAuth();  //Отдельная функция авторизации
             } catch (Exception e) {
                 if (!e.getMessage().contains("Сайт")) {
