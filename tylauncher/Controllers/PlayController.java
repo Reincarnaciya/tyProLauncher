@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -56,16 +57,16 @@ public class PlayController extends BaseController {
         ManagerUpdate.playController = this;
 
 
+        if (ManagerDownload.download) {
+            ManagerUpdate.update.updateInfo();
+        }
+
         if (ManagerZip.unzipping) {
             Play_Button.setVisible(false);
             ManagerZip.updateInfo(this);
-            return;
+            Download_ProgressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         }
 
-        if (ManagerDownload.download) {
-            ManagerUpdate.update.updateInfo();
-            return;
-        }
 
         //Проверка на статус.. Чего? а, на статус того, что вообще происходит в лаунчере
         if (ManagerFlags.gameIsStart) {
@@ -76,7 +77,6 @@ public class PlayController extends BaseController {
         //Улавливаем ивент нажатия на кнопку "Играть"
         Play_Button.setOnMouseClicked(mouseEvent -> {
             logger.logInfo("Инициализация", ManagerWindow.currentController);
-
             try {
                 if (!user.auth()) {
                     logger.logInfo("Необходимо авторизоваться, прежде чем начать играть", ManagerWindow.currentController);
