@@ -117,6 +117,7 @@ public class SettingsController extends BaseController {
                 settings = (JsonObject) JsonParser.parseString(bfr.readLine());
             } catch (Exception e) {
                 repairSettings();
+                logger.logError(e);
                 throw new Exception("Файл настроек сломался, пересоздаю.");
             }
 
@@ -135,6 +136,7 @@ public class SettingsController extends BaseController {
                 Main.setClientDir(new File(settings.get("clientDir").toString().replace("\"", "")));
             } catch (Exception e) {
                 repairSettings();
+                logger.logError(e);
                 throw new Exception("Файл настроек сломался, пересоздаю.");
             }
         } catch (IOException e) {

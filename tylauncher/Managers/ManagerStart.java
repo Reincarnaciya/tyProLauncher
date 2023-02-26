@@ -120,7 +120,7 @@ public class ManagerStart {
             case linux:
                 return this.linuxStartStr();
             case macos:
-                // TODO: 15.02.2023 ADD MACOS
+                return this.linuxStartStr(); // TODO: 15.02.2023 ADD MACOS
             case unknown:
             default:
                 throw new Exception("Не удалось инициализировать строку запуска");

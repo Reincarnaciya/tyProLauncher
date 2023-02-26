@@ -24,8 +24,6 @@ import java.nio.file.Files;
 import java.security.NoSuchAlgorithmException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Objects;
 
 import static tylauncher.Utilites.Utils.CheckLogs;
@@ -33,6 +31,7 @@ import static tylauncher.Utilites.Utils.easter;
 
 public class Main extends Application {
     public static final String launcher_version = "0.0";
+
     public static final User user = new User();
     private static final Logger logger = new Logger(Main.class);
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyPro");

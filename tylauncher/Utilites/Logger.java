@@ -112,11 +112,16 @@ public class Logger {
     public String getSuffix(char c, String... s) {
         int biggest = 0;
         StringBuilder stringBuilder = new StringBuilder();
-        for (String s1 : s) {
-            for (String t : s1.split("\n")) {
-                if (t.length() > biggest) biggest = t.length();
+        try {
+            for (String s1 : s) {
+                for (String t : s1.split("\n")) {
+                    if (t.length() > biggest) biggest = t.length();
+                }
             }
+        }catch (Exception e){
+            biggest = 20;
         }
+
         for (int i = 0; i < (biggest / 2); i++) {
             stringBuilder.append(c);
             if (i >= 50) break;
