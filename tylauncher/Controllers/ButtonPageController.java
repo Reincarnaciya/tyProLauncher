@@ -1,48 +1,53 @@
 package tylauncher.Controllers;
 
 import javafx.application.Platform;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import tylauncher.Main;
 import tylauncher.Managers.ManagerFlags;
 import tylauncher.Managers.ManagerWindow;
+import tylauncher.Utilites.Constants.Images;
 import tylauncher.Utilites.Logger;
 
 import static tylauncher.Main.user;
 
 public class ButtonPageController {
+
     private static final Logger logger = new Logger(ButtonPageController.class);
     private static int _pressedNum = 1;
     private int _buttonCount = 0;
+    private final ImageView[] currentButtons = new ImageView[6];
 
+    public static ButtonPageController currentButtonPageController;
     //private final ImageView[] buttonsFx = new ImageView[6];
     public void addButton(ImageView button) {
-        //buttonsFx[_buttonCount++] = button;
+        currentButtonPageController = this;
+
+        currentButtons[_buttonCount] = button;
         _buttonCount++;
 
         //buttonsFx[ButtonPage._amountButtons] = new ButtonPage(button);
         if (_pressedNum == _buttonCount) {
             switch (_buttonCount) {
                 case 1:
-                    button.setImage(new Image(String.valueOf(Main.class.getResource("assets/picked/account.png"))));
+                    button.setImage(Images.ACCOUNT_BUTTON_PICKED);
                     break;
                 case 2:
-                    button.setImage(new Image(String.valueOf(Main.class.getResource("assets/picked/news.png"))));
+                    button.setImage(Images.NEWS_BUTTON_PICKED);
                     break;
                 case 3:
-                    button.setImage(new Image(String.valueOf(Main.class.getResource("assets/picked/forum.png"))));
+                    button.setImage(Images.FORUM_BUTTON_PICKED);
                     break;
                 case 4:
-                    button.setImage(new Image(String.valueOf(Main.class.getResource("assets/picked/message.png"))));
+                    button.setImage(Images.MESSAGE_BUTTON_PICKED);
                     break;
                 case 5:
                     if (ManagerFlags.updateAvailable || ManagerFlags.lowDiskSpace)
-                        button.setImage(new Image(String.valueOf(Main.class.getResource("assets/picked/settings.png"))));
+                        button.setImage(Images.SETTINGS_BUTTON_INFO);
                     else
-                        button.setImage(new Image(String.valueOf(Main.class.getResource("assets/picked/settings.png"))));
+                        button.setImage(Images.SETTINGS_BUTTON_PICKED);
                     break;
                 case 6:
-                    button.setImage(new Image(String.valueOf(Main.class.getResource("assets/picked/play.png"))));
+                    if (!user.wasAuth) button.setImage(Images.PLAY_BUTTON_BLOCKED);
+                    else button.setImage(Images.PLAY_BUTTON_PICKED);
                     break;
             }
 
@@ -97,7 +102,7 @@ public class ButtonPageController {
 
                     });
                     if (ManagerFlags.updateAvailable || ManagerFlags.lowDiskSpace) {
-                        button.setImage(new Image(String.valueOf(Main.class.getResource("assets/notpick/settingsUpdate.png"))));
+                        button.setImage(Images.SETTINGS_BUTTON_INFO);
                     }
                     break;
                 case 6:
@@ -109,6 +114,7 @@ public class ButtonPageController {
             }
         }
     }
-
-
+    public ImageView getButton(int button){
+        return currentButtons[button];
+    }
 }

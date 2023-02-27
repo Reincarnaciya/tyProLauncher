@@ -13,7 +13,6 @@ import javafx.stage.Stage;
 import tylauncher.Controllers.AccountAuthController;
 import tylauncher.Main;
 import tylauncher.Managers.ManagerFlags;
-import tylauncher.Managers.ManagerStart;
 import tylauncher.Utilites.Constants.FXMLS;
 import tylauncher.Utilites.Constants.Titles;
 
@@ -23,6 +22,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Window {
+    public static Window currentWindow;
     public static AccountAuthController accountAuthController;
     private static final Logger logger = new Logger(Window.class);
     private final int width;
@@ -130,12 +130,16 @@ public class Window {
             }).start();
 
             logger.logInfo("Открыто окно: " + this);
+            currentWindow = this;
         });
     }
 
     public void setTitle(String title) {
-        this.title = title;
-        globalStage.setTitle(title);
+        Platform.runLater(()->{
+            this.title = title;
+            globalStage.setTitle(title);
+        });
+
     }
 
     public void centerOnScreen() {
@@ -155,5 +159,11 @@ public class Window {
         sb.append(", root=").append(root);
         sb.append('}');
         return sb.toString();
+    }
+
+
+
+    public String getTitle() {
+        return this.title;
     }
 }

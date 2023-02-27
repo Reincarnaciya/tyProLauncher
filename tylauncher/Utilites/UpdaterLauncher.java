@@ -2,12 +2,14 @@ package tylauncher.Utilites;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import tylauncher.Controllers.SettingsController;
 import tylauncher.Controllers.UpdaterController;
 import tylauncher.Main;
 import tylauncher.Managers.ManagerFlags;
 import tylauncher.Managers.ManagerWeb;
 import tylauncher.Managers.ManagerWindow;
 import tylauncher.Utilites.Constants.URLS;
+import tylauncher.Utilites.Tasks.CheckUpdTask;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -15,11 +17,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Arrays;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class UpdaterLauncher {
     private static final Logger logger = new Logger(UpdaterLauncher.class);
     private static final ManagerWeb updateManagerWeb = new ManagerWeb("checkLauncherUpdate");
     public static UpdaterController updaterController;
+    public static SettingsController settingsController;
 
     @FXML
     public static void checkUpdate() {
@@ -40,8 +46,11 @@ public class UpdaterLauncher {
                     }).start();
             } catch (Exception e) {
                 logger.logInfo(e, ManagerWindow.currentController);
+            }finally {
+                checkUpdTask();
             }
         }).start();
+
     }
 
     public static void UpdateLauncher() {
@@ -73,4 +82,13 @@ public class UpdaterLauncher {
             }
         }).start();
     }
+
+
+    private static void checkUpdTask(){
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
+        executorService.scheduleAtFixedRate(new CheckUpdTask(), 10, 10, TimeUnit.MINUTES);
+    }
+
+
+
 }

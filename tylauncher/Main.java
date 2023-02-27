@@ -30,7 +30,7 @@ import static tylauncher.Utilites.Utils.CheckLogs;
 import static tylauncher.Utilites.Utils.easter;
 
 public class Main extends Application {
-    public static final String launcher_version = "0.0";
+    public static final String launcher_version = "0.2";
 
     public static final User user = new User();
     private static final Logger logger = new Logger(Main.class);
@@ -69,8 +69,6 @@ public class Main extends Application {
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
         Thread adminConsole = new Thread(new AdminConsole());
         adminConsole.start();
-
-
 
         logger.logInfo(UserPC.getPCinfo());
         test();
