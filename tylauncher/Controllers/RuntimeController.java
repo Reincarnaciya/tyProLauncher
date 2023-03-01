@@ -21,6 +21,7 @@ public class RuntimeController extends BaseController {
 
     @FXML
     void initialize() {
+        ManagerWindow.runtimeController = this;
         RuntimeDownload.runtimeController = this;
         ManagerWindow.currentController = this;
         RuntimeDownload.download(progressBar, infoText);

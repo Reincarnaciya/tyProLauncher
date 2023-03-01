@@ -25,9 +25,7 @@ public class UpdaterLauncher {
     private static final Logger logger = new Logger(UpdaterLauncher.class);
     private static final ManagerWeb updateManagerWeb = new ManagerWeb("checkLauncherUpdate");
     public static UpdaterController updaterController;
-    public static SettingsController settingsController;
 
-    @FXML
     public static void checkUpdate() {
         new Thread(() -> {
             try {
@@ -46,8 +44,6 @@ public class UpdaterLauncher {
                     }).start();
             } catch (Exception e) {
                 logger.logInfo(e, ManagerWindow.currentController);
-            }finally {
-                checkUpdTask();
             }
         }).start();
 
@@ -84,10 +80,6 @@ public class UpdaterLauncher {
     }
 
 
-    private static void checkUpdTask(){
-        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
-        executorService.scheduleAtFixedRate(new CheckUpdTask(), 10, 10, TimeUnit.MINUTES);
-    }
 
 
 

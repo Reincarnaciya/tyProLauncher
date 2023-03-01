@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
+import tylauncher.Managers.ManagerWindow;
 import tylauncher.Utilites.AdminConsole.AdminConsole;
 import tylauncher.Utilites.Constants.URLS;
 import tylauncher.Utilites.Utils;
@@ -38,6 +39,7 @@ public class NewsController extends BaseController {
 
     @FXML
     void initialize() {
+        ManagerWindow.newsController = this;
         AdminConsole.newsController = this;
         initPageButton();
         //Можно я не буду комментировать всё, что ниже..Это же элементарно, Ватсон..

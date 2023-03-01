@@ -29,7 +29,8 @@ public class ManagerDownload {
     private ProgressBar downloadBar;
     private Text infoText;
 
-    public ManagerDownload(URL url, String pathToOut, @Nullable ProgressBar downloadBar, @Nullable Text infoText) throws MalformedURLException {
+    public ManagerDownload(URL url, String pathToOut, @Nullable ProgressBar downloadBar, @Nullable Text infoText){
+        System.err.println(url + "\n" + pathToOut + "\n" + downloadBar + "\n" + infoText);
         this.url = url;
         this.fileName = url.toString().substring(url.toString().lastIndexOf('/') + 1);
         this.outputFile = new File(pathToOut, this.fileName);

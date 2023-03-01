@@ -13,8 +13,11 @@ import tylauncher.Controllers.SettingsController;
 import tylauncher.Managers.ManagerDirs;
 import tylauncher.Managers.ManagerWindow;
 import tylauncher.Utilites.AdminConsole.AdminConsole;
+import tylauncher.Utilites.Constants.FXMLS;
+import tylauncher.Utilites.Constants.Images;
 import tylauncher.Utilites.Constants.Titles;
 import tylauncher.Utilites.*;
+import tylauncher.Utilites.Tasks.CheckUpdTask;
 
 import java.awt.*;
 import java.io.File;
@@ -24,6 +27,7 @@ import java.nio.file.Files;
 import java.security.NoSuchAlgorithmException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Objects;
 
 import static tylauncher.Utilites.Utils.CheckLogs;
@@ -188,14 +192,14 @@ public class Main extends Application {
         Font.loadFont(getClass().getResourceAsStream("Minecraft.ttf"), 16);
         Parent root = null;
         try {
-            root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("FXMLfiles/Updater.fxml")));
+            root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource(FXMLS.UPDATER)));
         } catch (IOException e) {
             logger.logError(e);
             exit();
         }
         Scene scene = new Scene(Objects.requireNonNull(root), 350, 100);
         primaryStage.setTitle(Titles.BASE_LAUNCHER_TITLE);
-        primaryStage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("assets/icoNewYear.png"))));
+        primaryStage.getIcons().add(Images.ICON_DEFAULT);
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.getScene().getWindow().centerOnScreen();
@@ -210,7 +214,8 @@ public class Main extends Application {
         } catch (IOException | FontFormatException e) {
             logger.logError(e);
         }
-
         UpdaterLauncher.checkUpdate();
+
+        new CheckUpdTask();
     }
 }

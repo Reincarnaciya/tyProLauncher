@@ -32,6 +32,7 @@ public class UpdaterController extends BaseController {
 
     @FXML
     void initialize() {
+        ManagerWindow.updaterController = this;
         UpdaterLauncher.updaterController = this;
         ManagerWindow.currentController = this;
 

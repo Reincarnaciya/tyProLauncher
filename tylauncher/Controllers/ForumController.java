@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import tylauncher.Managers.ManagerWindow;
 
 public class ForumController extends BaseController {
     private final String suffix = "[" + this.getClass().getName() + "] ";
@@ -26,6 +27,7 @@ public class ForumController extends BaseController {
 
     @FXML
     void initialize() {
+        ManagerWindow.forumController = this;
         initPageButton();
     }
 }

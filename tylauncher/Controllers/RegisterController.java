@@ -72,6 +72,7 @@ public class RegisterController extends BaseController {
 
     @FXML
     void initialize() {
+        ManagerWindow.registerController = this;
         initPageButton();
 
         Cancel_Button.setOnMouseClicked(mouseEvent -> ManagerWindow.ACCOUNT_AUTH.open());
@@ -128,8 +129,7 @@ public class RegisterController extends BaseController {
                 logger.logError("Ошибка при регистрации:", e.getMessage());
                 return;
             }
-            ManagerWindow.ACCOUNT_AUTH.open();
-            logger.logInfo(WebAnswer.getMessage(), ManagerWindow.currentController);
+            ManagerWindow.ACCOUNT_AUTH.open(WebAnswer.getMessage());
         });
     }
 

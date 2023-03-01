@@ -48,6 +48,7 @@ public class PlayController extends BaseController {
 
     @FXML
     void initialize() {
+        ManagerWindow.playController = this;
         initPageButton();
         ManagerDownload.playController = this;
 

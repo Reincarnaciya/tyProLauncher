@@ -1,5 +1,6 @@
 package tylauncher.Controllers;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
@@ -48,6 +49,7 @@ public class AccountController extends BaseController {
     @FXML
     void initialize() {
         this.UpdateData();
+        ManagerWindow.accountController = this;
         //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
         AccountAuthController.accountController = this;
 
@@ -68,10 +70,10 @@ public class AccountController extends BaseController {
 
     //Обновление информации о юзере
     private void UpdateData() {
-        Username_Text.setText(user.GetLogin());
-        Balance_Text.setText(user.GetBalance());
-        Group_Text.setText(user.GetGroup());
-        Skin_Image.setImage(user.GetImage());
+            Username_Text.setText(user.GetLogin());
+            Balance_Text.setText(user.GetBalance());
+            Group_Text.setText(user.GetGroup());
+            Skin_Image.setImage(user.GetImage());
     }
 
     //Функция выхода из аккаунта

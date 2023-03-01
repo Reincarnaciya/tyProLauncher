@@ -58,12 +58,13 @@ public class ButtonPageController {
                         _pressedNum = 1;
                         if (user.wasAuth) {
                             ManagerWindow.ACCOUNT.open();
-                            user.wasAuth = false;
+                        }else {
+                            ManagerWindow.ACCOUNT_AUTH.open();
                         }
                         new Thread(() -> {
                             try {
                                 if (user.auth()) {
-                                    Platform.runLater(() -> ManagerWindow.ACCOUNT.open());
+                                    ManagerWindow.ACCOUNT.open();
                                 } else {
                                     user.wasAuth = false;
                                     ManagerWindow.ACCOUNT_AUTH.open();

@@ -69,9 +69,9 @@ public class AccountAuthController extends BaseController {
     //Инициализация сцены
     @FXML
     void initialize() {
-        initPageButton();
-
         Window.accountAuthController = this;
+        ManagerWindow.accountAuthController = this;
+        initPageButton();
 
         ShowPass_CheckBox.setTooltip(Tooltips.SHOW_PASSWORD);
         AutoAuth_CheckBox.setTooltip(Tooltips.AUTO_AUTH);

@@ -115,7 +115,10 @@ public class SettingsController extends BaseController {
 
             try {
                 settings = (JsonObject) JsonParser.parseString(bfr.readLine());
-            } catch (Exception e) {
+            }catch (NullPointerException ignore){
+                repairSettings();
+                throw new Exception("Файл настроек сломался, пересоздаю.");
+            }catch (Exception e) {
                 repairSettings();
                 logger.logError(e);
                 throw new Exception("Файл настроек сломался, пересоздаю.");
@@ -141,6 +144,7 @@ public class SettingsController extends BaseController {
             }
         } catch (IOException e) {
             repairSettings();
+            logger.logError(e);
             throw new Exception("Файл настроек сломался, пересоздаю.");
         }
     }
@@ -148,19 +152,22 @@ public class SettingsController extends BaseController {
     private static void repairSettings() {
         try (BufferedWriter bfw = new BufferedWriter(new FileWriter(settingsFile))) {
             bfw.write("");
+            writeSettingsToFile();
         } catch (IOException e) {
             logger.logError(e);
         }
     }
-
-    @FXML
-    void initialize() {
-        updateVisual();
-        initPageButton();
-
+    private void setToolTips(){
         hideLauncherCheckBox.setTooltip(Tooltips.COLLAPSE_LAUNCHER);
         autoConnectCheckBox.setTooltip(Tooltips.AUTO_CONNECT_TO_SERVER);
         pathToClientHyperLink.setTooltip(Tooltips.DONT_DID_IT);
+    }
+    @FXML
+    void initialize() {
+        ManagerWindow.settingsController = this;
+        updateVisual();
+        initPageButton();
+        setToolTips();
 
         //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
         if (ManagerFlags.hellishTheme) SettingsPane.setStyle("-fx-background-color:  ff0000;");//Пасхалка тип

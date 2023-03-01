@@ -1,5 +1,6 @@
 package tylauncher.Utilites;
 
+import com.sun.istack.internal.Nullable;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -13,6 +14,7 @@ import javafx.stage.Stage;
 import tylauncher.Controllers.AccountAuthController;
 import tylauncher.Main;
 import tylauncher.Managers.ManagerFlags;
+import tylauncher.Managers.ManagerWindow;
 import tylauncher.Utilites.Constants.FXMLS;
 import tylauncher.Utilites.Constants.Titles;
 
@@ -41,6 +43,8 @@ public class Window {
         this.width = width;
         this.height = height;
         this.fxml = fxml;
+
+
     }
 
     private static List<Node> getAllCheckbox(Parent parent) {
@@ -95,43 +99,69 @@ public class Window {
 
             globalStage.setScene(scene);
 
-            if ((fxml.equals(FXMLS.ACCOUNT_AUTH))){
-                accountAuthController.customInitController();
-                if (firstOpen){
-                    scene.getWindow().centerOnScreen();
-                }
+
+            checkWindow();
+        });
+    }
+
+    public void open(String infoToShow) {
+        Platform.runLater(() -> {
+            try {
+                scene = new Scene(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource(fxml))), width, height);
+            } catch (IOException e) {
+                logger.logInfo(e);
+                return;
             }
 
 
-            firstOpen = false;
-            root = scene.getRoot();
-            new Thread(() -> {
-                List<Node> buttons = getAllButtons(root);
-                for (Node button : buttons) {
-                    Button btn = (Button) button;
-                    btn.setOnMousePressed(event -> btn.setStyle("-fx-background-color: #444"));
-                    btn.setOnMouseEntered(event -> btn.setStyle("-fx-background-color: #1a1a1a;"));
-                    btn.setOnMouseReleased(event -> btn.setStyle(" "));
-                    btn.setOnMouseExited(event -> btn.setStyle(" "));
-                }
+            if (!ManagerFlags.updateAvailable) globalStage.setTitle(title);
+            else globalStage.setTitle(title + Titles.UPDATE_AVAILABLE_SUFFIX);
 
-                List<Node> hyperlinks = getAllHyperlinks(root);
-                for (Node hyplink : hyperlinks) {
-                    Hyperlink hl = (Hyperlink) hyplink;
-                    hl.setOnMouseEntered(event -> hl.setStyle("-fx-text-fill: gray;"));
-                    hl.setOnMouseExited(event -> hl.setStyle(""));
-                }
+            globalStage.setScene(scene);
 
-                List<Node> cbox = getAllCheckbox(root);
-                for (Node cb : cbox) {
-                    CheckBox checkBox = (CheckBox) cb;
-                    checkBox.setCursor(Cursor.HAND);
-                }
-            }).start();
+            logger.logInfo(infoToShow, ManagerWindow.currentController);
 
-            logger.logInfo("Открыто окно: " + this);
-            currentWindow = this;
+            checkWindow();
         });
+    }
+
+    private void checkWindow() {
+        if ((fxml.equals(FXMLS.ACCOUNT_AUTH))){
+            accountAuthController.customInitController();
+            if (firstOpen){
+                scene.getWindow().centerOnScreen();
+            }
+        }
+
+
+        firstOpen = false;
+        root = scene.getRoot();
+        new Thread(() -> {
+            List<Node> buttons = getAllButtons(root);
+            for (Node button : buttons) {
+                Button btn = (Button) button;
+                btn.setOnMousePressed(event -> btn.setStyle("-fx-background-color: #444"));
+                btn.setOnMouseEntered(event -> btn.setStyle("-fx-background-color: #1a1a1a;"));
+                btn.setOnMouseReleased(event -> btn.setStyle(" "));
+                btn.setOnMouseExited(event -> btn.setStyle(" "));
+            }
+
+            List<Node> hyperlinks = getAllHyperlinks(root);
+            for (Node hyplink : hyperlinks) {
+                Hyperlink hl = (Hyperlink) hyplink;
+                hl.setOnMouseEntered(event -> hl.setStyle("-fx-text-fill: gray;"));
+                hl.setOnMouseExited(event -> hl.setStyle(""));
+            }
+
+            List<Node> cbox = getAllCheckbox(root);
+            for (Node cb : cbox) {
+                CheckBox checkBox = (CheckBox) cb;
+                checkBox.setCursor(Cursor.HAND);
+            }
+        }).start();
+
+        logger.logInfo("Открыто окно: " + this);
+        currentWindow = this;
     }
 
     public void setTitle(String title) {
