@@ -92,5 +92,6 @@
                 <Image url="@../assets/TyMasunya.png" />
             </ImageView>
         </Pane>
+      <Text fx:id="launcherVersionText" layoutX="11.0" layoutY="484.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Версия лаунчера: " />
     </Pane>
 </AnchorPane>

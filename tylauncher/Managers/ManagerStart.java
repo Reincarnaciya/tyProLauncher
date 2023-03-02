@@ -29,7 +29,7 @@ public class ManagerStart {
 
 
     public ManagerStart(boolean autoConnect, boolean fullScrean, String version) {
-        if (autoConnect) this.autoConnect = "--server ip29.ip-146-59-75.eu --port 25574";
+        if (autoConnect) this.autoConnect = "--server tyscitypro.joinserver.xyz --port 25574";
         if (!fullScrean) this.size = String.format(" --width %s --height %s", Settings.getX(), Settings.getY());
         else this.fullScrean = "--fullscreen";
         pathToVersion = Main.getClientDir().toString() + File.separator + version + File.separator;

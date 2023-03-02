@@ -81,6 +81,8 @@ public class SettingsController extends BaseController {
     private CheckBox hideLauncherCheckBox;
     @FXML
     private Button resetBtn;
+    @FXML
+    private Text launcherVersionText;
     private boolean reset = false;
 
     public static void writeSettingsToFile() {
@@ -168,6 +170,7 @@ public class SettingsController extends BaseController {
         updateVisual();
         initPageButton();
         setToolTips();
+        launcherVersionText.setText(launcherVersionText.getText() + Main.launcher_version);
 
         //Передача данного контроллера в другие классы, для доступа к функциям этого контроллера
         if (ManagerFlags.hellishTheme) SettingsPane.setStyle("-fx-background-color:  ff0000;");//Пасхалка тип

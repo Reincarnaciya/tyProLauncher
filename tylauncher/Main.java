@@ -29,12 +29,13 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Stack;
 
 import static tylauncher.Utilites.Utils.CheckLogs;
 import static tylauncher.Utilites.Utils.easter;
 
 public class Main extends Application {
-    public static final String launcher_version = "0.2";
+    public static final String launcher_version = "0.3";
 
     public static final User user = new User();
     private static final Logger logger = new Logger(Main.class);
@@ -65,7 +66,6 @@ public class Main extends Application {
     }
 
     static void test() {
-
     }
 
 

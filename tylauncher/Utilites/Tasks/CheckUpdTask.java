@@ -36,7 +36,7 @@ public class CheckUpdTask implements Runnable{
         } catch (Exception ignore) {} // TODO: 27.02.2023 Catch obrabotat' 
 
         String line = updateTaskWeb.getFullAnswer();
-        if (line.equalsIgnoreCase("1")) {
+        if (!line.equalsIgnoreCase("1")) {
             Platform.runLater(()-> ButtonPageController.currentButtonPageController.getButton(ButtonPageButtons.SETTINGS).setImage(Images.SETTINGS_BUTTON_INFO));
             ManagerFlags.updateAvailable = true;
         }
