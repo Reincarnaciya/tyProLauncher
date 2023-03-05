@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,11 +24,12 @@ public class RuntimeDownload {
     public static boolean checkRuntime() {
         String hash;
         try {
-            HashCodeCheck runtimeHashCheck = new HashCodeCheck(Collections.singletonList("jre8"), "runtime");
-            hash = runtimeHashCheck.calculateHashes(Main.getRuntimeDir().getAbsolutePath());
+            HashCodeCheck runtimeHashCheck = new HashCodeCheck(Main.getRuntimeDir().toPath());
+            hash = runtimeHashCheck.calculateHashCode();
+            logger.logInfo("RUNTIME HASH " + hash);
         } catch (NoSuchAlgorithmException | IOException e) {
             logger.logError(e);
-            throw new RuntimeException();
+            return false;
         }
         return checkWithServer(hash);
     }
@@ -73,7 +75,7 @@ public class RuntimeDownload {
                 runtimeDownload.download();
                 logger.logInfo("Распаковываем рантаймы :D");
                 ManagerZip mz = new ManagerZip(Main.getRuntimeDir().getAbsolutePath() + File.separator + runtimeDownload.getFileName(),
-                        Main.getRuntimeDir().getAbsolutePath() + File.separator + "jre8", infoText, runtimeController.getProgressBar(), runtimeController);
+                        Main.getRuntimeDir().getAbsolutePath() + File.separator, infoText, runtimeController.getProgressBar(), runtimeController);
                 mz.unzip();
 
                 Utils.setAllPermissions(Main.getRuntimeDir().toPath());

@@ -12,4 +12,6 @@ public class FXMLS {
     public static final String RUNTIME_DOWNLOAD = pathToFXMLS + "runtimeDownload.fxml";
     public static final String SETTINGS = pathToFXMLS + "Settings.fxml";
     public static final String UPDATER = pathToFXMLS + "Updater.fxml";
+
+    public static final String CONFIRM = pathToFXMLS + "Confirm.fxml";
 }

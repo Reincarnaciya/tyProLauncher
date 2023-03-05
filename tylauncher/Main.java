@@ -35,12 +35,12 @@ import static tylauncher.Utilites.Utils.CheckLogs;
 import static tylauncher.Utilites.Utils.easter;
 
 public class Main extends Application {
-    public static final String launcher_version = "0.3";
+    public static final String launcher_version = "0.4";
 
     public static final User user = new User();
     private static final Logger logger = new Logger(Main.class);
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyPro");
-    private static final ManagerDirs runtimeDir = new ManagerDirs(String.format("TyPro%sruntime", File.separator));
+    private static final ManagerDirs runtimeDir = new ManagerDirs(String.format("TyPro%sruntime%sjre8%s", File.separator,File.separator,File .separator));
     public static Stage mainStage = null;
     private static TrayIcon trayIcon;
     private static ManagerDirs _clientDir = new ManagerDirs(String.format("TyPro%sclients%s", File.separator, File.separator));
@@ -65,22 +65,17 @@ public class Main extends Application {
         _clientDir = new ManagerDirs(String.format("TyPro%sclients%s", File.separator, File.separator));
     }
 
-    static void test() {
-    }
+    static void test() {}
 
 
 
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
+        logger.logInfo("START LAUNCHER");
         Thread adminConsole = new Thread(new AdminConsole());
         adminConsole.start();
 
         logger.logInfo(UserPC.getPCinfo());
         test();
-
-/*
-        HashCodeCheck hashCodeCheck = new HashCodeCheck(Lists.skippingFiles, Lists.skippingDirictories,Lists.allowedFiles,"TySci_1.16.5");
-        System.err.println("================TEST HASHES CLIENT================\n" + hashCodeCheck.calculateHashes(Main.getClientDir() + File.separator + "TySci_1.16.5"));
- */
 
         if (args.length > 0 && args[0].equalsIgnoreCase("love")) {
             logger.logInfo("Пасхалка");

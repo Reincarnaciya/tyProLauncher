@@ -5,16 +5,14 @@ import javafx.fxml.FXML;
 import tylauncher.Controllers.SettingsController;
 import tylauncher.Controllers.UpdaterController;
 import tylauncher.Main;
+import tylauncher.Managers.ManagerDirs;
 import tylauncher.Managers.ManagerFlags;
 import tylauncher.Managers.ManagerWeb;
 import tylauncher.Managers.ManagerWindow;
 import tylauncher.Utilites.Constants.URLS;
 import tylauncher.Utilites.Tasks.CheckUpdTask;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.util.Arrays;
 import java.util.concurrent.Executors;
@@ -69,7 +67,24 @@ public class UpdaterLauncher {
                     }
                     fw.close();
 
-                    Runtime.getRuntime().exec(new String[]{"cmd", "/c", "start", "cmd", "/k", "java -jar \"" + client.getAbsolutePath() + "\" " + "\"" + UserPC._pathToLauncher + "\"" + " " + "\"" + Main.getLauncherDir().getAbsolutePath() + "\""});
+                    if(ManagerDirs.getPlatform().equals(ManagerDirs.OS.windows)) Runtime.getRuntime().exec(new String[]{"cmd", "/c", "start", "cmd", "/k", "java -jar \"" + client.getAbsolutePath() + "\" " + "\"" + UserPC._pathToLauncher + "\"" + " " + "\"" + Main.getLauncherDir().getAbsolutePath() + "\""});
+                    else if (ManagerDirs.getPlatform().equals(ManagerDirs.OS.linux)) {
+                        System.err.println("OS = linux");
+                        String sudoUser = System.getenv("SUDO_USER");
+                        System.err.println("SudoUser = " + sudoUser);
+                        String command = "java -jar " + client.getAbsolutePath() + " \"" + File.separator + UserPC._pathToLauncher + "\" \"" + Main.getLauncherDir().getAbsolutePath() + "\"";
+                        System.err.println("command = " + command);
+                        String[] cmdArray;
+                        if (sudoUser != null) {
+                            cmdArray = new String[]{"sudo " + command};
+                            System.err.println("SudoUser != null;\n cmdArray = " + Arrays.toString(cmdArray));
+                        } else {
+                            cmdArray = new String[]{command};
+                            System.err.println("SudoUser == null;\n cmdArray = " + Arrays.toString(cmdArray));
+                        }
+                        Runtime.getRuntime().exec(cmdArray);
+                    }
+                    else Runtime.getRuntime().exec(new String[]{"open", "-a", "Terminal.app", "-n", "java -jar \"" + client.getAbsolutePath() + "\" " + "\"" + UserPC._pathToLauncher + "\"" + " " + "\" " + Main.getLauncherDir().getAbsolutePath() + "\""});
                     ManagerFlags.updateAvailable = false;
                     Main.exit();
                 }

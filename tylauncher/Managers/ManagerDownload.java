@@ -13,13 +13,13 @@ import java.io.FileOutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ManagerDownload {
     private static final Logger logger = new Logger(ManagerDownload.class);
     public static PlayController playController;
     public static boolean download = false;
-    private static int cll;
-    private static int webL;
     private final URL url;
     private final File outputFile;
     private final String fileName;
@@ -52,7 +52,6 @@ public class ManagerDownload {
         HttpURLConnection updcon = (HttpURLConnection) this.url.openConnection();
 
         this.webLength = updcon.getContentLength();
-        webL = this.webLength;
 
         download = true;
 
@@ -65,7 +64,7 @@ public class ManagerDownload {
             while ((count = bufferedInputStream.read(bytes)) != -1) {
                 fileOutputStream.write(bytes, 0, count);
                 clientLength = (int) outputFile.length();
-                cll = this.clientLength;
+                int cll = this.clientLength;
                 if (!type) updateInfo();
 
             }
@@ -80,17 +79,15 @@ public class ManagerDownload {
     }
 
     public void updateInfo() {
-        new Thread(() -> {
-            Platform.runLater(() -> {
-                try {
-                    playController.UdpateProgressBar((double) ((clientLength / 10485) / (webLength / 1048576)) / 100);
-                    playController.setInfoText(("Скачано " + (clientLength / 1048576) + "Мбайт из " + (webLength / 1048576) + "Мб"));
-                } catch (Exception e) {
-                    this.downloadBar.setProgress(((double) ((clientLength / 10485) / (webLength / 1048576)) / 100));
-                    this.infoText.setText(("Скачано " + (clientLength / 1048576) + "Мбайт из " + (webLength / 1048576) + "Мб"));
-                }
-            });
-        }).start();
+        new Thread(() -> Platform.runLater(() -> {
+            try {
+                playController.UdpateProgressBar((double) ((clientLength / 10485) / (webLength / 1048576)) / 100);
+                playController.setInfoText(("Скачано " + (clientLength / 1048576) + "Мбайт из " + (webLength / 1048576) + "Мб"));
+            } catch (Exception e) {
+                this.downloadBar.setProgress(((double) ((clientLength / 10485) / (webLength / 1048576)) / 100));
+                this.infoText.setText(("Скачано " + (clientLength / 1048576) + "Мбайт из " + (webLength / 1048576) + "Мб"));
+            }
+        })).start();
 
     }
 

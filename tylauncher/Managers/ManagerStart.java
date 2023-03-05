@@ -29,7 +29,7 @@ public class ManagerStart {
 
 
     public ManagerStart(boolean autoConnect, boolean fullScrean, String version) {
-        if (autoConnect) this.autoConnect = "--server tyscitypro.joinserver.xyz --port 25574";
+        if (autoConnect) this.autoConnect = "--server ip29.ip-146-59-75.eu--port 25574";
         if (!fullScrean) this.size = String.format(" --width %s --height %s", Settings.getX(), Settings.getY());
         else this.fullScrean = "--fullscreen";
         pathToVersion = Main.getClientDir().toString() + File.separator + version + File.separator;
@@ -82,7 +82,7 @@ public class ManagerStart {
                 Platform.runLater(() -> {
                     Stage st = (Stage) ManagerWindow.currentController.getA1().getScene().getWindow();
                     st.setIconified(false);
-                    playController.PlayButtonEnabled(true);
+                    playController.unsetText();
                 });
 
             } catch (Exception ex) {
@@ -205,7 +205,7 @@ public class ManagerStart {
                 + "-Dfml.ignoreInvalidMinecraftCertificates=true "
                 + "-Dfml.ignorePatchDiscrepancies=true "
                 + "-Djava.net.preferIPv4Stack=true "
-                + "-Dminecraft.applet.TargetDirectory=" + pathToVersion + ""
+                + "-Dminecraft.applet.TargetDirectory=" + pathToVersion
                 + " -Dlog4j.configurationFile=" + pathToVersion + "assets" + File.separator + "log_configs" + File.separator + "client-1.12.xml"
                 + " cpw.mods.modlauncher.Launcher "
                 + "--username " + user.GetLogin()

@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import tylauncher.Managers.ManagerFlags;
 import tylauncher.Managers.ManagerWindow;
+import tylauncher.Utilites.RuntimeDownload;
 import tylauncher.Utilites.UpdaterLauncher;
 
 public class UpdaterController extends BaseController {
@@ -36,7 +37,10 @@ public class UpdaterController extends BaseController {
         UpdaterLauncher.updaterController = this;
         ManagerWindow.currentController = this;
 
-        LaterButton.setOnMouseClicked(mouseEvent -> ManagerWindow.ACCOUNT_AUTH.open());
+        LaterButton.setOnMouseClicked(mouseEvent ->{
+            if (RuntimeDownload.checkRuntime()) ManagerWindow.ACCOUNT_AUTH.open();
+            else ManagerWindow.RUNTIME_DOWNLOAD.open();
+        });
 
         UpdateButton.setOnMouseClicked(mouseEvent -> UpdaterLauncher.UpdateLauncher());
     }
@@ -55,9 +59,7 @@ public class UpdaterController extends BaseController {
     }
 
     @Override
-    void initPageButton() {
-        System.err.println("nothing to init");
-    }
+    void initPageButton() {}
 
     @Override
     public void setInfoText(String info) {

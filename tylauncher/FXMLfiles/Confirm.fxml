@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="91.0" prefWidth="303.0" style="-fx-background-color: #363636;" stylesheets="@../StyleSheets/font.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tylauncher.Controllers.ConfirmController">
+   <children>
+      <Text layoutX="89.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Вы уверены?" />
+      <Button fx:id="yes" layoutX="31.0" layoutY="46.0" mnemonicParsing="false" text="YEEEES" />
+      <Button fx:id="cancel" layoutX="180.0" layoutY="46.0" mnemonicParsing="false" text="cancel" />
+   </children>
+</AnchorPane>

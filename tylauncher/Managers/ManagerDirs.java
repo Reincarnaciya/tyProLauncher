@@ -27,7 +27,7 @@ public class ManagerDirs {
             default:
                 workTempDir = new File(userHome, nameDir + "/");
         }
-        if ((!workTempDir.exists()) && (!workTempDir.mkdir()))
+        if ((!workTempDir.exists()) && (!workTempDir.mkdirs()))
             throw new RuntimeException("Рабочая директория не определена(" + workTempDir + ")");
         _workDir = workTempDir;
     }

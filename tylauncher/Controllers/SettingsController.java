@@ -21,6 +21,7 @@ import tylauncher.Utilites.Logger;
 import tylauncher.Utilites.Settings;
 import tylauncher.Utilites.UpdaterLauncher;
 import tylauncher.Utilites.UserPC;
+import tylauncher.Utilites.Window;
 
 import java.awt.*;
 import java.io.*;
@@ -83,87 +84,11 @@ public class SettingsController extends BaseController {
     private Button resetBtn;
     @FXML
     private Text launcherVersionText;
+
+
     private boolean reset = false;
 
-    public static void writeSettingsToFile() {
-        try (JsonWriter writer = new JsonWriter(new FileWriter(settingsFile))) {
-            writer.beginObject();
-            writer.name("ozu");
-            writer.value(Settings.getOzu());
-            writer.name("x");
-            writer.value(Settings.getX());
-            writer.name("y");
-            writer.value(Settings.getY());
-            writer.name("fsc");
-            writer.value(Settings.getFsc());
-            writer.name("hide");
-            writer.value(Settings.getHide());
-            writer.name("autoConnect");
-            writer.value(Settings.isAutoConnect());
-            writer.name("clientDir");
-            writer.value(Main.getClientDir().getAbsolutePath());
-            writer.endObject();
-            writer.close();
-            SettingsController.readSettingsFromFileToSettings();
-        } catch (Exception e) {
-            logger.logError(e);
-        }
-    }
 
-    public static void readSettingsFromFileToSettings() throws Exception {
-        try (BufferedReader bfr = new BufferedReader(new FileReader(settingsFile))) {
-            if (!settingsFile.exists()) settingsFile.createNewFile();
-            JsonObject settings;
-
-            try {
-                settings = (JsonObject) JsonParser.parseString(bfr.readLine());
-            }catch (NullPointerException ignore){
-                repairSettings();
-                throw new Exception("Файл настроек сломался, пересоздаю.");
-            }catch (Exception e) {
-                repairSettings();
-                logger.logError(e);
-                throw new Exception("Файл настроек сломался, пересоздаю.");
-            }
-
-
-            if (settings.size() != settingsCount) {
-                repairSettings();
-                throw new Exception("Файл настроек сломался, пересоздаю.");
-            }
-            try {
-                Settings.setOzu(Integer.parseInt(settings.get("ozu").toString()));
-                Settings.setX(Integer.parseInt(settings.get("x").toString()));
-                Settings.setY(Integer.parseInt(settings.get("y").toString()));
-                Settings.setFsc(Boolean.parseBoolean(settings.get("fsc").toString()));
-                Settings.setHide(Boolean.parseBoolean(settings.get("hide").toString()));
-                Settings.setAutoConnect(Boolean.parseBoolean(settings.get("autoConnect").toString()));
-                Main.setClientDir(new File(settings.get("clientDir").toString().replace("\"", "")));
-            } catch (Exception e) {
-                repairSettings();
-                logger.logError(e);
-                throw new Exception("Файл настроек сломался, пересоздаю.");
-            }
-        } catch (IOException e) {
-            repairSettings();
-            logger.logError(e);
-            throw new Exception("Файл настроек сломался, пересоздаю.");
-        }
-    }
-
-    private static void repairSettings() {
-        try (BufferedWriter bfw = new BufferedWriter(new FileWriter(settingsFile))) {
-            bfw.write("");
-            writeSettingsToFile();
-        } catch (IOException e) {
-            logger.logError(e);
-        }
-    }
-    private void setToolTips(){
-        hideLauncherCheckBox.setTooltip(Tooltips.COLLAPSE_LAUNCHER);
-        autoConnectCheckBox.setTooltip(Tooltips.AUTO_CONNECT_TO_SERVER);
-        pathToClientHyperLink.setTooltip(Tooltips.DONT_DID_IT);
-    }
     @FXML
     void initialize() {
         ManagerWindow.settingsController = this;
@@ -200,6 +125,8 @@ public class SettingsController extends BaseController {
             logger.logInfo("Настройки успешно сброшены", ManagerWindow.currentController);
             reset = false;
         });
+
+
 
         if (ManagerFlags.lowDiskSpace) {
             warningPane.setVisible(true);
@@ -324,6 +251,96 @@ public class SettingsController extends BaseController {
         Settings.setHide(hideLauncherCheckBox.isSelected());
         Settings.setAutoConnect(autoConnectCheckBox.isSelected());
         Main.setClientDir(new File(pathToClientHyperLink.getText()));
+    }
+    public static void writeSettingsToFile() {
+        try (JsonWriter writer = new JsonWriter(new FileWriter(settingsFile))) {
+            writer.beginObject();
+            writer.name("ozu");
+            writer.value(Settings.getOzu());
+            writer.name("x");
+            writer.value(Settings.getX());
+            writer.name("y");
+            writer.value(Settings.getY());
+            writer.name("fsc");
+            writer.value(Settings.getFsc());
+            writer.name("hide");
+            writer.value(Settings.getHide());
+            writer.name("autoConnect");
+            writer.value(Settings.isAutoConnect());
+            writer.name("clientDir");
+            writer.value(Main.getClientDir().getAbsolutePath());
+            writer.endObject();
+            writer.close();
+            SettingsController.readSettingsFromFileToSettings();
+        } catch (Exception e) {
+            logger.logError(e);
+        }
+    }
+
+    public static void readSettingsFromFileToSettings() throws Exception {
+        try (BufferedReader bfr = new BufferedReader(new FileReader(settingsFile))) {
+            if (!settingsFile.exists()) settingsFile.createNewFile();
+            JsonObject settings;
+
+            try {
+                settings = (JsonObject) JsonParser.parseString(bfr.readLine());
+            }catch (NullPointerException ignore){
+                repairSettings();
+                throw new Exception("Файл настроек сломался, пересоздаю.");
+            }catch (Exception e) {
+                repairSettings();
+                logger.logError(e);
+                throw new Exception("Файл настроек сломался, пересоздаю.");
+            }
+
+
+            if (settings.size() != settingsCount) {
+                repairSettings();
+                throw new Exception("Файл настроек сломался, пересоздаю.");
+            }
+            try {
+                Settings.setOzu(Integer.parseInt(settings.get("ozu").toString()));
+                Settings.setX(Integer.parseInt(settings.get("x").toString()));
+                Settings.setY(Integer.parseInt(settings.get("y").toString()));
+                Settings.setFsc(Boolean.parseBoolean(settings.get("fsc").toString()));
+                Settings.setHide(Boolean.parseBoolean(settings.get("hide").toString()));
+                Settings.setAutoConnect(Boolean.parseBoolean(settings.get("autoConnect").toString()));
+                Main.setClientDir(new File(settings.get("clientDir").toString().replace("\"", "")));
+            } catch (Exception e) {
+                repairSettings();
+                logger.logError(e);
+                throw new Exception("Файл настроек сломался, пересоздаю.");
+            }
+        } catch (IOException e) {
+            repairSettings();
+            logger.logError(e);
+            throw new Exception("Файл настроек сломался, пересоздаю.");
+        }
+    }
+
+    private static void repairSettings() {
+        if (!settingsFile.exists()){
+            try {
+                if (settingsFile.createNewFile()){
+                    logger.logInfo("Файл настроек успешно создан");
+                }else {
+                    logger.logError("Не удалось создать файл настроек. И че делать?");
+                }
+            }catch (Exception e){
+                logger.logError(e);
+                throw new RuntimeException(e);
+            }
+        }
+        try (BufferedWriter bfw = new BufferedWriter(new FileWriter(settingsFile))) {
+            bfw.write("");
+        } catch (IOException e) {
+            logger.logError(e);
+        }
+    }
+    private void setToolTips(){
+        hideLauncherCheckBox.setTooltip(Tooltips.COLLAPSE_LAUNCHER);
+        autoConnectCheckBox.setTooltip(Tooltips.AUTO_CONNECT_TO_SERVER);
+        pathToClientHyperLink.setTooltip(Tooltips.DONT_DID_IT);
     }
 
     private void easterCheck(String newValue) {

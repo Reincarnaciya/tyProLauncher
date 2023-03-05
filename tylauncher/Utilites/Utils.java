@@ -20,6 +20,7 @@ public class Utils {
     private static final Logger logger = new Logger(Utils.class);
 
     public static void setAllPermissions(Path path) {
+
         // Набор прав, которые нужно выдать
         Set<PosixFilePermission> permissions = new HashSet<>();
 

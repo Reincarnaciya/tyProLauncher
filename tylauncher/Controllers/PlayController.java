@@ -10,7 +10,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import tylauncher.Main;
 import tylauncher.Managers.*;
-import tylauncher.Utilites.Constants.Lists;
+import tylauncher.Utilites.Constants.Dirs;
+import tylauncher.Utilites.Constants.HashCodeCheckerConstants;
+import tylauncher.Utilites.Constants.Menus;
 import tylauncher.Utilites.Constants.URLS;
 import tylauncher.Utilites.HashCodeCheck;
 import tylauncher.Utilites.Logger;
@@ -18,6 +20,8 @@ import tylauncher.Utilites.Settings;
 import tylauncher.Utilites.Utils;
 
 import java.io.File;
+import java.nio.file.Paths;
+import java.util.Arrays;
 
 import static tylauncher.Main.user;
 
@@ -45,6 +49,8 @@ public class PlayController extends BaseController {
     private Text Progressbar_Text;
     @FXML
     private ProgressBar Download_ProgressBar;
+    @FXML
+    private Text TySciClientSettings;
 
     @FXML
     void initialize() {
@@ -68,80 +74,160 @@ public class PlayController extends BaseController {
             Download_ProgressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         }
 
-
-        //Проверка на статус.. Чего? а, на статус того, что вообще происходит в лаунчере
         if (ManagerFlags.gameIsStart) {
             UdpateProgressBar(1);
             ManagerWindow.currentController.setInfoText("Игра запущена");
         }
 
+        TySciClientSettings.setOnContextMenuRequested(event -> {
+            Menus.TySciSettings.getContextMenu().show(TySciClientSettings, event.getScreenX(), event.getScreenY());
+        });
+
         //Улавливаем ивент нажатия на кнопку "Играть"
         Play_Button.setOnMouseClicked(mouseEvent -> {
             logger.logInfo("Инициализация", ManagerWindow.currentController);
+            if (!userAuthed()) return;
             try {
-                if (!user.auth()) {
-                    logger.logInfo("Необходимо авторизоваться, прежде чем начать играть", ManagerWindow.currentController);
-                    return;
+                StringBuilder clientHash = new StringBuilder();
+                for (int i = 0; i < HashCodeCheckerConstants.clientWhatToCheck.length; i++){
+                    System.err.println(i);
+                    clientHash.append(new HashCodeCheck(Paths.get(
+                            Main.getClientDir().getAbsolutePath()
+                                    + File.separator
+                                    + Dirs.TYSCI
+                                    + File.separator
+                                    + HashCodeCheckerConstants.clientWhatToCheck[i])
+                    ).calculateHashCode());
                 }
-            } catch (Exception e) {
-                logger.logInfo("Необходимо авторизоваться, прежде чем начать играть", ManagerWindow.currentController);
-                logger.logError(e);
-                return;
-            }
-            try {
-                HashCodeCheck hashCodeCheck = new HashCodeCheck(Lists.skippingFiles, Lists.skippingDirictories, Lists.allowedFiles, "TySci_1.16.5");
-                if (!hashCodeCheck.CalcAndCheckWithServer(Main.getClientDir() + File.separator + "TySci_1.16.5")) {
-                    if (new File(Main.getClientDir() + File.separator + "TySci_1.16.5").exists())
-                        Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "TySci_1.16.5"));
-                    if (new File(Main.getClientDir() + File.separator + "client1165.zip").exists())
-                        Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "client1165.zip"));
-                    new Thread(() -> {
-                        switch (ManagerDirs.getPlatform()) {
-                            case windows:
-                                ManagerUpdate.DownloadUpdate("TySci_1.16.5", URLS.CLIENT_TY_SCI_WIN,
-                                        Download_ProgressBar, Progressbar_Text);
-                                return;
-                            case linux:
-                                ManagerUpdate.DownloadUpdate("TySci_1.16.5", URLS.CLIENT_TY_SCI_LINUX,
-                                        Download_ProgressBar, Progressbar_Text);
-                                return;
-                            case macos:
-                                ManagerUpdate.DownloadUpdate("TySci_1.16.5", URLS.CLIENT_TY_SCI_MACOS,
-                                        Download_ProgressBar, Progressbar_Text);
-                                return;
-                            default:
-                                throw new RuntimeException("Не удалось инициализировать ОС");
-                        }
+                String hash = clientHash.toString();
+                logger.logInfo("CLIENT[" + Dirs.TYSCI + "]HASH", hash);
+
+                if (!hashNorm(hash, Dirs.TYSCI)){
+                    TySciClientSettings.setDisable(true);
+                    deleteClient();
+
+                    Thread download = new Thread(downloadClient());
+                    download.start();
+                    new Thread(()->{
+                        try {
+                            download.join();
+                            TySciClientSettings.setDisable(false);
+                        } catch (InterruptedException ignore) {}
+
                     }).start();
-                    return;
+
+
+                }else {
+                    startMinecraft(Dirs.TYSCI);
                 }
-            } catch (Exception e) {
-                logger.logError(e, ManagerWindow.currentController);
-                return;
-            }
-            try {
-                ManagerStart starter = new ManagerStart(Settings.isAutoConnect(), Settings.getFsc(), "TySci_1.16.5");
-                starter.Start();
             } catch (Exception e) {
                 logger.logError(e, ManagerWindow.currentController);
             }
         });
     }
 
-    @Override
-    public void setInfoText(String text) {
+    private void startMinecraft(String version){
         try {
-            Platform.runLater(() -> {
-                Play_Button.setVisible(false);
-                Progressbar_Text.textProperty().setValue(text);
-            });
-        } catch (Exception e) {
-            logger.logError(e);
+            ManagerStart starter = new ManagerStart(Settings.isAutoConnect(), Settings.getFsc(), version);
+            starter.Start();
+        }catch (Exception e){
+            logger.logError(e, ManagerWindow.currentController);
         }
+
     }
 
-    public void PlayButtonEnabled(boolean bool) {
-        Play_Button.setVisible(bool);
+    private Runnable downloadClient(){
+        return () -> {
+            switch (ManagerDirs.getPlatform()) {
+                case windows:
+                    ManagerUpdate.DownloadUpdate("TySci_1.16.5", URLS.CLIENT_TY_SCI_WIN,
+                            Download_ProgressBar, Progressbar_Text);
+                    return;
+                case linux:
+                    ManagerUpdate.DownloadUpdate("TySci_1.16.5", URLS.CLIENT_TY_SCI_LINUX,
+                            Download_ProgressBar, Progressbar_Text);
+                    return;
+                case macos:
+                    ManagerUpdate.DownloadUpdate("TySci_1.16.5", URLS.CLIENT_TY_SCI_MACOS,
+                            Download_ProgressBar, Progressbar_Text);
+                    return;
+                default:
+                    logger.logError("Не удалось инициализировать ОС", ManagerWindow.currentController);
+            }
+        };
+    }
+
+    private void deleteClient(){
+        if (new File(Main.getClientDir() + File.separator + "TySci_1.16.5").exists())
+            Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "TySci_1.16.5"));
+        if (new File(Main.getClientDir() + File.separator + "client1165.zip").exists())
+            Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "client1165.zip"));
+    }
+    private boolean hashNorm(String hash, String client){
+        try {
+            ManagerWeb hashManager = new ManagerWeb("hashRequest");
+            hashManager.setUrl(URLS.CLIENT_HASH);
+
+            String vers;
+            switch (client){
+                case Dirs.TYSCI:
+                    vers = "TY_SCI";
+                    break;
+                default:
+                    vers = " ";
+                    break;
+            }
+
+            hashManager.putAllParams(Arrays.asList("mod", "hash"), Arrays.asList(vers, hash));
+            hashManager.request();
+
+            switch (hashManager.getFullAnswer()) {
+                case "0":
+                    return false;
+                case "1":
+                    return true;
+                default:
+                    logger.logError("Сервер лёг. Обратитесь к администрации!\n" + hashManager.getFullAnswer(), ManagerWindow.currentController);
+            }
+        }catch (Exception e){
+            logger.logError("Чет пошло не так: " + e.getMessage(), ManagerWindow.currentController);
+            logger.logError(e);
+        }
+        return false;
+    }
+
+
+    private boolean userAuthed(){
+        try {
+            if (!user.auth()) {
+                logger.logInfo("Необходимо авторизоваться, прежде чем начать играть", ManagerWindow.currentController);
+                return false;
+            }
+        } catch (Exception e) {
+            logger.logInfo("Необходимо авторизоваться, прежде чем начать играть", ManagerWindow.currentController);
+            logger.logError(e);
+            return false;
+        }
+        return true;
+    }
+    private boolean checkHashWithServer(String hash){
+
+        return false;
+    }
+
+
+
+    @Override
+    public void setInfoText(String text) {
+        Platform.runLater(() -> {
+            Play_Button.setVisible(false);
+            Progressbar_Text.textProperty().setValue(text);
+        });
+    }
+
+    @Override
+    public void unsetText(){
+        Platform.runLater(()-> Play_Button.setVisible(true));
     }
 
     public ProgressBar getProgressBar() {
@@ -149,7 +235,7 @@ public class PlayController extends BaseController {
     }
 
     public void UdpateProgressBar(double progress) {
-        this.Download_ProgressBar.setProgress(progress);
+        Platform.runLater(()-> this.Download_ProgressBar.setProgress(progress));
     }
 
     public AnchorPane getA1() {

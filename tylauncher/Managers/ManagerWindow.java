@@ -16,10 +16,9 @@ public class ManagerWindow {
     public static RuntimeController runtimeController;
     public static SettingsController settingsController;
     public static UpdaterController updaterController;
-
-
-
+    public static ConfirmController confirmController;
     public static BaseController currentController;
+
     public static Window ACCOUNT;
     public static Window ACCOUNT_AUTH;
     public static Window FORUM;
@@ -30,6 +29,8 @@ public class ManagerWindow {
     public static Window RUNTIME_DOWNLOAD;
     public static Window SETTINGS;
     public static Window UPDATER;
+
+    public static Window CONFIRM;
 
 
     public static void initWindows() {
@@ -43,6 +44,7 @@ public class ManagerWindow {
         RUNTIME_DOWNLOAD = new Window(350, 140, Titles.BASE_LAUNCHER_TITLE, FXMLS.RUNTIME_DOWNLOAD);
         SETTINGS = new Window(800, 500, Titles.BASE_LAUNCHER_TITLE, FXMLS.SETTINGS);
         UPDATER = new Window(350, 100, Titles.BASE_LAUNCHER_TITLE, FXMLS.UPDATER);
+        CONFIRM = new Window(303, 91, Titles.CONFIRM, FXMLS.CONFIRM);
     }
 
 
