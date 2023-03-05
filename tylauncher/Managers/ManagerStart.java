@@ -129,7 +129,7 @@ public class ManagerStart {
 
 
     private String windowsStartStr() {
-        return Main.getRuntimeDir() + "" + File.separator + "jre8" + File.separator + "bin" + File.separator + "javaw.exe"
+        return Main.getRuntimeDir() + ""  + File.separator + "bin" + File.separator + "javaw.exe"
                 + " -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump -Xss1M "
                 + "-Djava.library.path=" + pathToVersion + "versions" + File.separator + "Forge1.16.5" + File.separator + "natives -Dminecraft.launcher.brand=minecraft-launcher -Dminecraft.launcher.version=2.3.173 -cp "
                 + pathToVersion + "libraries" + File.separator + "net" + File.separator + "minecraftforge" + File.separator + "forge" + File.separator + "1.16.5-36.2.39" + File.separator + "forge-1.16.5-36.2.39.jar;"

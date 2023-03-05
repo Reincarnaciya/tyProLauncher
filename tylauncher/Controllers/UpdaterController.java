@@ -38,8 +38,10 @@ public class UpdaterController extends BaseController {
         ManagerWindow.currentController = this;
 
         LaterButton.setOnMouseClicked(mouseEvent ->{
-            if (RuntimeDownload.checkRuntime()) ManagerWindow.ACCOUNT_AUTH.open();
-            else ManagerWindow.RUNTIME_DOWNLOAD.open();
+            new Thread(()->{
+                if (RuntimeDownload.checkRuntime()) ManagerWindow.ACCOUNT_AUTH.open();
+                else ManagerWindow.RUNTIME_DOWNLOAD.open();
+            }).start();
         });
 
         UpdateButton.setOnMouseClicked(mouseEvent -> UpdaterLauncher.UpdateLauncher());

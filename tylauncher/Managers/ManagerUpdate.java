@@ -32,8 +32,6 @@ public class ManagerUpdate {
             ManagerZip mz = new ManagerZip(Main.getClientDir().getAbsolutePath() + File.separator + update.getFileName(),
                     Main.getClientDir().getAbsolutePath() + File.separator + version, text, playController.getProgressBar(), playController);
             mz.unzip();
-            ManagerStart starter = new ManagerStart(Settings.isAutoConnect(), Settings.getFsc(), version);
-            starter.Start();
         } catch (Exception e) {
             logger.logError(e, ManagerWindow.currentController);
         }

@@ -35,7 +35,7 @@ import static tylauncher.Utilites.Utils.CheckLogs;
 import static tylauncher.Utilites.Utils.easter;
 
 public class Main extends Application {
-    public static final String launcher_version = "0.4";
+    public static final String launcher_version = "0.4.2";
 
     public static final User user = new User();
     private static final Logger logger = new Logger(Main.class);

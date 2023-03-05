@@ -101,25 +101,11 @@ public class PlayController extends BaseController {
                 }
                 String hash = clientHash.toString();
                 logger.logInfo("CLIENT[" + Dirs.TYSCI + "]HASH", hash);
-
-                if (!hashNorm(hash, Dirs.TYSCI)){
-                    TySciClientSettings.setDisable(true);
-                    deleteClient();
-
-                    Thread download = new Thread(downloadClient());
-                    download.start();
-                    new Thread(()->{
-                        try {
-                            download.join();
-                            TySciClientSettings.setDisable(false);
-                        } catch (InterruptedException ignore) {}
-
-                    }).start();
-
-
-                }else {
-                    startMinecraft(Dirs.TYSCI);
-                }
+                new Thread(()->{
+                    if (hashNorm(hash, Dirs.TYSCI)) {
+                        startMinecraft(Dirs.TYSCI);
+                    }
+                }).start();
             } catch (Exception e) {
                 logger.logError(e, ManagerWindow.currentController);
             }
@@ -136,7 +122,7 @@ public class PlayController extends BaseController {
 
     }
 
-    private Runnable downloadClient(){
+    private Runnable downloadClient(String url){
         return () -> {
             switch (ManagerDirs.getPlatform()) {
                 case windows:
@@ -178,22 +164,29 @@ public class PlayController extends BaseController {
                     break;
             }
 
-            hashManager.putAllParams(Arrays.asList("mod", "hash"), Arrays.asList(vers, hash));
+            hashManager.putAllParams(Arrays.asList("server", "os", "hash"), Arrays.asList(vers, ManagerDirs.getPlatform().toString(),hash));
+            System.err.println(hashManager);
             hashManager.request();
 
-            switch (hashManager.getFullAnswer()) {
-                case "0":
-                    return false;
-                case "1":
-                    return true;
-                default:
-                    logger.logError("Сервер лёг. Обратитесь к администрации!\n" + hashManager.getFullAnswer(), ManagerWindow.currentController);
+            if (hashManager.getFullAnswer().contains("ERROR")){
+                logger.logError(hashManager.getFullAnswer(), ManagerWindow.currentController);
+                return false;
             }
+
+            if (!"1".equals(hashManager.getFullAnswer())) {
+                TySciClientSettings.setDisable(true);
+                deleteClient();
+                Thread download = new Thread(downloadClient(hashManager.getFullAnswer()));
+                download.start();
+                download.join();
+            }
+            return true;
         }catch (Exception e){
             logger.logError("Чет пошло не так: " + e.getMessage(), ManagerWindow.currentController);
             logger.logError(e);
+            return false;
         }
-        return false;
+
     }
 
 
@@ -209,10 +202,6 @@ public class PlayController extends BaseController {
             return false;
         }
         return true;
-    }
-    private boolean checkHashWithServer(String hash){
-
-        return false;
     }
 
 
