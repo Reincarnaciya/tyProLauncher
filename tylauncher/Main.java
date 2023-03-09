@@ -35,7 +35,7 @@ import static tylauncher.Utilites.Utils.CheckLogs;
 import static tylauncher.Utilites.Utils.easter;
 
 public class Main extends Application {
-    public static final String launcher_version = "0.4.2";
+    public static final String launcher_version = "0.4.3";
 
     public static final User user = new User();
     private static final Logger logger = new Logger(Main.class);
@@ -76,6 +76,8 @@ public class Main extends Application {
 
         logger.logInfo(UserPC.getPCinfo());
         test();
+
+        System.setProperty("user.dir", getLauncherDir().getAbsolutePath());
 
         if (args.length > 0 && args[0].equalsIgnoreCase("love")) {
             logger.logInfo("Пасхалка");

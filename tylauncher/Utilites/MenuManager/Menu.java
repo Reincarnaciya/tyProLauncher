@@ -2,10 +2,8 @@ package tylauncher.Utilites.MenuManager;
 
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import tylauncher.Utilites.Constants.Menus;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Menu {

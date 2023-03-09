@@ -12,7 +12,7 @@ import tylauncher.Main;
 import tylauncher.Managers.*;
 import tylauncher.Utilites.Constants.Dirs;
 import tylauncher.Utilites.Constants.HashCodeCheckerConstants;
-import tylauncher.Utilites.Constants.Menus;
+import tylauncher.Utilites.MenuManager.Menus;
 import tylauncher.Utilites.Constants.URLS;
 import tylauncher.Utilites.HashCodeCheck;
 import tylauncher.Utilites.Logger;
@@ -122,7 +122,7 @@ public class PlayController extends BaseController {
 
     }
 
-    private Runnable downloadClient(String url){
+    public Runnable downloadTySciClient(){
         return () -> {
             switch (ManagerDirs.getPlatform()) {
                 case windows:
@@ -176,7 +176,7 @@ public class PlayController extends BaseController {
             if (!"1".equals(hashManager.getFullAnswer())) {
                 TySciClientSettings.setDisable(true);
                 deleteClient();
-                Thread download = new Thread(downloadClient(hashManager.getFullAnswer()));
+                Thread download = new Thread(downloadTySciClient());
                 download.start();
                 download.join();
             }

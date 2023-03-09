@@ -6,12 +6,15 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 import tylauncher.Controllers.PlayController;
 import tylauncher.Main;
+import tylauncher.Utilites.Constants.Dirs;
 import tylauncher.Utilites.Constants.URLS;
 import tylauncher.Utilites.Logger;
 import tylauncher.Utilites.Settings;
+import tylauncher.Utilites.Utils;
 
 import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 import static tylauncher.Main.user;
@@ -59,7 +62,11 @@ public class ManagerStart {
 
                 String start = getStartString();
 
-                logger.logInfo(this.toString(), "Settings:", Settings.show(), "Startup String:", start);
+                if (!new File(pathToVersion + "logs").exists()){
+                    new File(pathToVersion + "logs").mkdirs();
+                }
+                Utils.setAllPermissions(Paths.get(pathToVersion));
+
 
                 p1 = runtime.exec(start);
 
@@ -129,7 +136,7 @@ public class ManagerStart {
 
 
     private String windowsStartStr() {
-        return Main.getRuntimeDir() + ""  + File.separator + "bin" + File.separator + "javaw.exe"
+        return Main.getRuntimeDir()  + File.separator + "bin" + File.separator + "javaw.exe"
                 + " -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump -Xss1M "
                 + "-Djava.library.path=" + pathToVersion + "versions" + File.separator + "Forge1.16.5" + File.separator + "natives -Dminecraft.launcher.brand=minecraft-launcher -Dminecraft.launcher.version=2.3.173 -cp "
                 + pathToVersion + "libraries" + File.separator + "net" + File.separator + "minecraftforge" + File.separator + "forge" + File.separator + "1.16.5-36.2.39" + File.separator + "forge-1.16.5-36.2.39.jar;"
@@ -205,6 +212,7 @@ public class ManagerStart {
                 + "-Dfml.ignoreInvalidMinecraftCertificates=true "
                 + "-Dfml.ignorePatchDiscrepancies=true "
                 + "-Djava.net.preferIPv4Stack=true "
+                //+ "-Duser.dir=" + Main.getLauncherDir() + File.separator + " "        //FIXME fixi
                 + "-Dminecraft.applet.TargetDirectory=" + pathToVersion
                 + " -Dlog4j.configurationFile=" + pathToVersion + "assets" + File.separator + "log_configs" + File.separator + "client-1.12.xml"
                 + " cpw.mods.modlauncher.Launcher "
@@ -228,7 +236,7 @@ public class ManagerStart {
     }
 
     private String linuxStartStr() {
-        return Main.getRuntimeDir() + File.separator + "jre8" + File.separator + "bin" + File.separator + "java -Xss1M -Djava.library.path="
+        return Main.getRuntimeDir() + File.separator + "bin" + File.separator + "java -Xss1M -Djava.library.path="
                 + pathToVersion + "versions" + File.separator + "Forge1.16.5" + File.separator + "natives" +
                 " -Dminecraft.launcher.brand=minecraft-launcher -Dminecraft.launcher.version=2.3.173 -cp "
                 + pathToVersion + "libraries" + File.separator + "net" + File.separator + "minecraftforge" + File.separator + "forge" + File.separator + "1.16.5-36.2.39" + File.separator + "forge-1.16.5-36.2.39.jar:"
