@@ -9,7 +9,6 @@ import tylauncher.Managers.ManagerWindow;
 import tylauncher.Utilites.RuntimeDownload;
 
 public class RuntimeController extends BaseController {
-    private final String suffix = "[" + this.getClass().getName() + "] ";
     @FXML
     private AnchorPane A1;
 

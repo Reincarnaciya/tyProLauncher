@@ -52,14 +52,13 @@ public class RuntimeDownload {
             urlDownload = new URL(runtimeHashCheck.getFullAnswer());
         } catch (MalformedURLException e) {
             logger.logError(e);
-            throw new RuntimeException(e);
         }
         return false;
     }
 
     public static void download(ProgressBar progressBar, Text infoText) {
         try {
-            File runtime = new File(Main.getRuntimeDir() + File.separator + "jre8");
+            File runtime = new File(Main.getRuntimeDir().getAbsolutePath());
             if (runtime.exists()) {
                 Utils.DeleteFile(runtime);
             } else {

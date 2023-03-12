@@ -34,6 +34,7 @@ public class ManagerDownload {
         this.url = url;
         this.fileName = url.toString().substring(url.toString().lastIndexOf('/') + 1);
         this.outputFile = new File(pathToOut, this.fileName);
+        if (!outputFile.getParentFile().exists()) outputFile.getParentFile().mkdirs();
 
         if (downloadBar == null || infoText == null) {
             type = true;

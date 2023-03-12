@@ -10,6 +10,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.Date;
 import java.util.HashSet;
@@ -44,6 +45,27 @@ public class Utils {
         }
     }
 
+    public static File moveFile(String sourcePath, String destinationPath) throws IOException {
+        File sourceFile = new File(sourcePath);
+        File destinationDir = new File(destinationPath);
+
+        logger.logInfo("SourceFile = " + sourcePath + "\n" + "destDir = " + destinationPath);
+
+        if (!sourceFile.exists()) {
+            throw new IllegalArgumentException("Source file does not exist." + sourceFile.getAbsolutePath());
+        }
+
+        if (!destinationDir.isDirectory()) {
+            throw new IllegalArgumentException("Destination path is not a directory." + destinationDir.getAbsolutePath());
+        }
+
+        Path source = sourceFile.toPath();
+        Path destination = destinationDir.toPath().resolve(sourceFile.getName());
+
+        Files.move(source, destination, StandardCopyOption.REPLACE_EXISTING);
+
+        return destination.toFile();
+    }
     private static void setPermissionsRecursive(Path path, Set<PosixFilePermission> permissions) throws Exception {
         // Устанавливаем права на текущую папку
         Files.setPosixFilePermissions(path, permissions);

@@ -27,16 +27,16 @@ import java.nio.file.Files;
 import java.security.NoSuchAlgorithmException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
 
-import static tylauncher.Utilites.Utils.CheckLogs;
-import static tylauncher.Utilites.Utils.easter;
+import static tylauncher.Utilites.Utils.*;
 
 public class Main extends Application {
-    public static final String launcher_version = "0.4.3";
-
+    public static List<String> filesToDeleteOnExit = new ArrayList<>();
+    public static final String launcher_version = "0.4.4";
     public static final User user = new User();
     private static final Logger logger = new Logger(Main.class);
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyPro");
@@ -105,6 +105,14 @@ public class Main extends Application {
     public static void exit() {
         logger.logInfo("Вызван метод выхода");
         SystemTray.getSystemTray().remove(trayIcon);
+        filesToDeleteOnExit.forEach(s ->{
+            File delFile = new File(s);
+            if (delFile.exists()){
+                Utils.DeleteFile(new File(s));
+            }else {
+                System.err.println("Файл не найден: " + delFile.getAbsolutePath());
+            }
+        });
         Platform.exit();
         System.exit(0);
     }

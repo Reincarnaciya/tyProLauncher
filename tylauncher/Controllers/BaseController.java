@@ -10,7 +10,6 @@ import tylauncher.Managers.ManagerAnimations;
 import tylauncher.Managers.ManagerWindow;
 
 public abstract class BaseController {
-    private final String suffix = "[" + this.getClass().getName() + "] ";
     @FXML
     private AnchorPane A1;
     @FXML

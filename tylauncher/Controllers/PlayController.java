@@ -19,6 +19,7 @@ import tylauncher.Utilites.Logger;
 import tylauncher.Utilites.Settings;
 import tylauncher.Utilites.Utils;
 
+import javax.rmi.CORBA.Util;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -175,10 +176,55 @@ public class PlayController extends BaseController {
 
             if (!"1".equals(hashManager.getFullAnswer())) {
                 TySciClientSettings.setDisable(true);
+                File[] minecraftSettingsFiles;
+                File[] movedFiles = new File[3];
+                try {
+                    if(new File(Main.getClientDir().getAbsolutePath() + File.separator + client + File.separator + "options.txt").exists()){
+                        minecraftSettingsFiles = new File[]{
+                                new File(Main.getClientDir().getAbsolutePath() + File.separator + client + File.separator + "options.txt"),
+                                new File(Main.getClientDir().getAbsolutePath() + File.separator + client + File.separator + "optionsof.txt"),
+                                new File(Main.getClientDir().getAbsolutePath() + File.separator + client + File.separator + "optionsshaders.txt"),
+                        };
+
+                        for (int i = 0; i < minecraftSettingsFiles.length; i++){
+                            File temp = Utils.moveFile(minecraftSettingsFiles[i].getAbsolutePath(), Main.getLauncherDir().getAbsolutePath());
+                            movedFiles[i] = temp;
+                            Main.filesToDeleteOnExit.add(temp.getAbsolutePath());
+                        }
+
+                        for(File f : minecraftSettingsFiles){
+                            Utils.moveFile(f.getAbsolutePath(), Main.getLauncherDir().getAbsolutePath());
+                        }
+                    }
+
+                }catch (Exception e){
+                    logger.logInfo("Не удалось сохранить файлы настроек игры.\n" + e.getMessage());
+                    e.printStackTrace();
+                }
+
+
                 deleteClient();
-                Thread download = new Thread(downloadTySciClient());
-                download.start();
-                download.join();
+
+                Thread t = new Thread(()->{
+                    Thread download = new Thread(downloadTySciClient());
+                    download.start();
+                    try {
+                        download.join();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        for (File f : movedFiles){
+                            Utils.moveFile(f.getAbsolutePath(), Main.getClientDir().getAbsolutePath() + File.separator + client + File.separator);
+                        }
+                    }catch (Exception e){
+                        logger.logInfo("не удалось переместить файл обратно в клиент игры.\n" + e.getMessage());
+                        e.printStackTrace();
+                    }
+                });
+                t.start();
+                t.join();
+
             }
             return true;
         }catch (Exception e){

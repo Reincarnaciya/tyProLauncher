@@ -187,7 +187,6 @@ public class AccountAuthController extends BaseController {
         Platform.runLater(()->{
             setEnterTape();
         });
-
     }
 
     public void setEnterTape(){
