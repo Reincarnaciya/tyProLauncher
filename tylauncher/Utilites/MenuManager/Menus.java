@@ -22,7 +22,7 @@ public class Menus {
         TySciSettings.addMenuItem("Переустановить клиент");
 
         TySciSettings.addMenuItem("В РАЗРАБОТКЕ");
-        TySciSettings.confirm();
+        TySciSettings.create();
 
 
         TySciSettings.getMenuItem(0).setOnAction(Menus::delete);
@@ -40,6 +40,7 @@ public class Menus {
                 download.join();
             }catch (InterruptedException ignore){}
             ManagerWindow.playController.unsetText();
+
         }).start();
     }
 

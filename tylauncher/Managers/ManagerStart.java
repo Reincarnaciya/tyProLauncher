@@ -54,6 +54,7 @@ public class ManagerStart {
     }
 
     public void Start() throws Exception {
+
         createUserHashes();
         new Thread(() -> {
             try {
@@ -65,10 +66,11 @@ public class ManagerStart {
                 if (!new File(pathToVersion + "logs").exists()){
                     new File(pathToVersion + "logs").mkdirs();
                 }
+
                 Utils.setAllPermissions(Paths.get(pathToVersion));
 
 
-                p1 = runtime.exec(start);
+                p1 = runtime.exec(start, null, new File(pathToVersion));
 
                 if (Settings.isHide()) Platform.runLater(() -> {
                     Stage st = (Stage) ManagerWindow.currentController.getA1().getScene().getWindow();

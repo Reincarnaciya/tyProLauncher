@@ -18,7 +18,6 @@ import static tylauncher.Main.user;
 
 public class AccountController extends BaseController {
     private static final Logger logger = new Logger(AccountController.class);
-    private static boolean firstOpen = true; //Флаг, определяющий впервые ли открыта сцена
     @FXML
     private Button donateButton;
     @FXML
@@ -65,15 +64,14 @@ public class AccountController extends BaseController {
                 logger.logError("Невозможно открыть ссылку:", e.toString());
             }
         });
-        firstOpen = false;
     }
 
     //Обновление информации о юзере
     private void UpdateData() {
-            Username_Text.setText(user.GetLogin());
-            Balance_Text.setText(user.GetBalance());
-            Group_Text.setText(user.GetGroup());
-            Skin_Image.setImage(user.GetImage());
+        Username_Text.setText(user.GetLogin());
+        Balance_Text.setText(user.GetBalance());
+        Group_Text.setText(user.GetGroup());
+        Skin_Image.setImage(user.GetImage());
     }
 
     //Функция выхода из аккаунта

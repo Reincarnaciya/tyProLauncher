@@ -27,7 +27,7 @@ public class Menu {
         this.items = new ArrayList<>();
     }
 
-    public void confirm(){
+    public void create(){
         contextMenu.getItems().clear();
         items.forEach(item -> contextMenu.getItems().add(item));
     }

@@ -16,7 +16,6 @@ public class ManagerWindow {
     public static RuntimeController runtimeController;
     public static SettingsController settingsController;
     public static UpdaterController updaterController;
-    public static ConfirmController confirmController;
     public static BaseController currentController;
 
     public static Window ACCOUNT;

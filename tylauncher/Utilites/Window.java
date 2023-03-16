@@ -19,6 +19,8 @@ import tylauncher.Utilites.Constants.FXMLS;
 import tylauncher.Utilites.Constants.Titles;
 
 import java.io.IOException;
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -43,8 +45,6 @@ public class Window {
         this.width = width;
         this.height = height;
         this.fxml = fxml;
-
-
     }
 
     private static List<Node> getAllCheckbox(Parent parent) {

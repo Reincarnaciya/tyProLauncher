@@ -21,7 +21,7 @@ public class ManagerDownload {
     public static PlayController playController;
     public static boolean download = false;
     private final URL url;
-    private final File outputFile;
+    private File outputFile;
     private final String fileName;
     private int clientLength = 0;
     private int webLength = 0;
@@ -72,10 +72,13 @@ public class ManagerDownload {
             fileOutputStream.close();
             bufferedInputStream.close();
             updcon.disconnect();
+            outputFile = null;
+
         } else {
             download = false;
             throw new Exception("Веб файл хуйня");
         }
+
         download = false;
     }
 

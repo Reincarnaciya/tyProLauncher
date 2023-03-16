@@ -36,7 +36,7 @@ import static tylauncher.Utilites.Utils.*;
 
 public class Main extends Application {
     public static List<String> filesToDeleteOnExit = new ArrayList<>();
-    public static final String launcher_version = "0.4.4";
+    public static final String launcher_version = "0.4.5";
     public static final User user = new User();
     private static final Logger logger = new Logger(Main.class);
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyPro");
@@ -70,6 +70,7 @@ public class Main extends Application {
 
 
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
+
         logger.logInfo("START LAUNCHER");
         Thread adminConsole = new Thread(new AdminConsole());
         adminConsole.start();
@@ -118,7 +119,7 @@ public class Main extends Application {
     }
 
     private static void trayIconCreate(Window window) throws IOException, FontFormatException {
-        java.awt.Image img = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("assets/icoNewYear.png"));
+        java.awt.Image img = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("assets/ico.png"));
 
 
         trayIcon = new TrayIcon(img, "TypicalLauncher", poppupMenuCreate());

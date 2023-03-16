@@ -117,6 +117,8 @@ public class ManagerZip {
             zipInputStream.close();
             File file = new File(zip);
             file.delete();
+
+
             unzipping = false;
         } catch (Exception e) {
             logger.logError(e, ManagerWindow.currentController);
