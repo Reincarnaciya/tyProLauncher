@@ -91,7 +91,6 @@ public class ManagerWeb {
 
     /**
      * В общем это пизда
-     *
      * @param key   Имя переменной
      * @param value Значение переменное
      */
