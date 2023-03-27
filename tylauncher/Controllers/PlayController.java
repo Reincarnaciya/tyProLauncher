@@ -12,21 +12,22 @@ import tylauncher.Main;
 import tylauncher.Managers.*;
 import tylauncher.Utilites.Constants.Dirs;
 import tylauncher.Utilites.Constants.HashCodeCheckerConstants;
-import tylauncher.Utilites.MenuManager.Menus;
 import tylauncher.Utilites.Constants.URLS;
 import tylauncher.Utilites.HashCodeCheck;
 import tylauncher.Utilites.Logger;
+import tylauncher.Utilites.MenuManager.Menus;
 import tylauncher.Utilites.Settings;
 import tylauncher.Utilites.Utils;
 
-import javax.rmi.CORBA.Util;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
 import static tylauncher.Main.user;
 
-public class PlayController extends BaseController {
+public class PlayController extends tylauncher.Controllers.BaseController {
     private static final Logger logger = new Logger(PlayController.class);
     private static ProgressBar fpb;
     private static Text ftx;
@@ -103,7 +104,7 @@ public class PlayController extends BaseController {
                 String hash = clientHash.toString();
                 logger.logInfo("CLIENT[" + Dirs.TYSCI + "]HASH", hash);
                 new Thread(()->{
-                    if (hashNorm(hash, Dirs.TYSCI)) {
+                    if (hashNorm(hash, Dirs.TYSCI, getCurrentVersion())) {
                         startMinecraft(Dirs.TYSCI);
                     }
                 }).start();
@@ -111,6 +112,30 @@ public class PlayController extends BaseController {
                 logger.logError(e, ManagerWindow.currentController);
             }
         });
+    }
+
+    private String getCurrentVersion() {
+        try {
+            File f = new File(Main.getLauncherDir().getAbsolutePath() + File.separator + Dirs.TYSCI + "version.txt");
+            if (!f.exists()){
+                f.createNewFile();
+                return "-1";
+            }
+
+            try (FileReader reader = new FileReader(f)){
+                StringBuilder stringBuilder = new StringBuilder();
+                int c;
+                while ((c=reader.read()) != -1){
+                    stringBuilder.append((char) c);
+                }
+
+                return stringBuilder.toString();
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "0";
     }
 
     private void startMinecraft(String version){
@@ -150,7 +175,7 @@ public class PlayController extends BaseController {
         if (new File(Main.getClientDir() + File.separator + "client1165.zip").exists())
             Utils.DeleteFile(new File(Main.getClientDir() + File.separator + "client1165.zip"));
     }
-    private boolean hashNorm(String hash, String client){
+    private boolean hashNorm(String hash, String client, String version){
         try {
             ManagerWeb hashManager = new ManagerWeb("hashRequest");
             hashManager.setUrl(URLS.CLIENT_HASH);
@@ -165,7 +190,7 @@ public class PlayController extends BaseController {
                     break;
             }
 
-            hashManager.putAllParams(Arrays.asList("server", "os", "hash"), Arrays.asList(vers, ManagerDirs.getPlatform().toString(),hash));
+            hashManager.putAllParams(Arrays.asList("server", "os", "hash", "version"), Arrays.asList(vers, ManagerDirs.getPlatform().toString(),hash,version));
             System.err.println(hashManager);
             hashManager.request();
 

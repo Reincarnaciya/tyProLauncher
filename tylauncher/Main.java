@@ -34,7 +34,7 @@ import static tylauncher.Utilites.Utils.*;
 
 public class Main extends Application {
     public static List<String> filesToDeleteOnExit = new ArrayList<>();
-    public static final String launcher_version = "0.4.6";
+    public static final String launcher_version = "0.5";
     public static final User user = new User();
     private static final Logger logger = new Logger(Main.class);
     private static final ManagerDirs _launcherDir = new ManagerDirs("TyPro");
