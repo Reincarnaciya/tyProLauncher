@@ -69,7 +69,7 @@ public class ManagerStart {
 
                 Utils.setAllPermissions(Paths.get(pathToVersion));
 
-
+                System.out.println("String Start minecraft = " + start);
                 p1 = runtime.exec(start, null, new File(pathToVersion));
 
                 if (Settings.isHide()) Platform.runLater(() -> {

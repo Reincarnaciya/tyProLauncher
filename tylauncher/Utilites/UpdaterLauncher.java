@@ -24,6 +24,9 @@ public class UpdaterLauncher {
     private static final ManagerWeb updateManagerWeb = new ManagerWeb("checkLauncherUpdate");
     public static UpdaterController updaterController;
 
+    /**
+     * Асинхронно проверяет обновления
+     * */
     public static void checkUpdate() {
         new Thread(() -> {
             try {
@@ -47,6 +50,9 @@ public class UpdaterLauncher {
 
     }
 
+    /**
+     * Асинхронно запускает апдейтер
+    * */
     public static void UpdateLauncher() {
         new Thread(() -> {
             try {
@@ -68,14 +74,14 @@ public class UpdaterLauncher {
                     fw.close();
 
                     if(ManagerDirs.getPlatform().equals(ManagerDirs.OS.windows)) Runtime.getRuntime().exec(new String[]{"cmd", "/c", "start", "cmd", "/k", "java -jar \"" + client.getAbsolutePath() + "\" " + "\"" + UserPC._pathToLauncher + "\"" + " " + "\"" + Main.getLauncherDir().getAbsolutePath() + "\""});
-                    else if (ManagerDirs.getPlatform().equals(ManagerDirs.OS.linux)) {
+                    else if (ManagerDirs.getPlatform().equals(ManagerDirs.OS.linux)) { // если линукс
                         System.err.println("OS = linux");
                         String sudoUser = System.getenv("SUDO_USER");
                         System.err.println("SudoUser = " + sudoUser);
                         String command = "java -jar " + client.getAbsolutePath() + " \"" + File.separator + UserPC._pathToLauncher + "\" \"" + Main.getLauncherDir().getAbsolutePath() + "\"";
                         System.err.println("command = " + command);
                         String[] cmdArray;
-                        if (sudoUser != null) {
+                        if (sudoUser != null) { // если программма запущена с правами админа
                             cmdArray = new String[]{"sudo " + command};
                             System.err.println("SudoUser != null;\n cmdArray = " + Arrays.toString(cmdArray));
                         } else {

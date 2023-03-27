@@ -49,41 +49,36 @@ public class ManagerDownload {
         return fileName;
     }
 
+    /**
+     *
+     * */
     public void download() throws Exception {
         HttpURLConnection updcon = (HttpURLConnection) this.url.openConnection();
-
         this.webLength = updcon.getContentLength();
-
         download = true;
-
         if (webLength > 1) {
-            BufferedInputStream bufferedInputStream = new BufferedInputStream(updcon.getInputStream());
-            FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
-
-            byte[] bytes = new byte[1024];
-            int count;
-            while ((count = bufferedInputStream.read(bytes)) != -1) {
-                fileOutputStream.write(bytes, 0, count);
-                clientLength = (int) outputFile.length();
-                int cll = this.clientLength;
-                if (!type) updateInfo();
-
+            try (BufferedInputStream bufferedInputStream = new BufferedInputStream(updcon.getInputStream());
+                 FileOutputStream fileOutputStream = new FileOutputStream(outputFile)) {
+                byte[] bytes = new byte[1024];
+                int count;
+                while ((count = bufferedInputStream.read(bytes)) != -1) {
+                    fileOutputStream.write(bytes, 0, count);
+                    clientLength = (int) outputFile.length();
+                    if (!type) updateInfo();
+                }
+            } finally {
+                updcon.disconnect();
+                outputFile = null;
             }
-            fileOutputStream.close();
-            bufferedInputStream.close();
-            updcon.disconnect();
-            outputFile = null;
-
         } else {
             download = false;
             throw new Exception("Веб файл хуйня");
         }
-
         download = false;
     }
 
     public void updateInfo() {
-        new Thread(() -> Platform.runLater(() -> {
+        Platform.runLater(() -> {
             try {
                 playController.UdpateProgressBar((double) ((clientLength / 10485) / (webLength / 1048576)) / 100);
                 playController.setInfoText(("Скачано " + (clientLength / 1048576) + "Мбайт из " + (webLength / 1048576) + "Мб"));
@@ -91,8 +86,7 @@ public class ManagerDownload {
                 this.downloadBar.setProgress(((double) ((clientLength / 10485) / (webLength / 1048576)) / 100));
                 this.infoText.setText(("Скачано " + (clientLength / 1048576) + "Мбайт из " + (webLength / 1048576) + "Мб"));
             }
-        })).start();
-
+        });
     }
 
     @Override
